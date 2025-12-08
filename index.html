@@ -431,7 +431,7 @@ We look forward to training with you.
                         <input type="hidden" name="_subject" id="form-subject" value="NEW BLUEPRINT LEAD: ${recommendation.title}">
                         
                         <!-- Redirect the user back to the quiz page after successful submission -->
-                        <input type="hidden" name="_next" value="${window.location.href}?status=success">
+                        <input type="hidden" name="_next" id="redirect-url" value="">
 
                         <div>
                             <label for="name" class="block text-xs font-bold uppercase mb-1">Full Name</label>
@@ -455,18 +455,20 @@ We look forward to training with you.
                         </button>
                     </form>
 
-                    <!-- Message box is now only used for pre-submission checks/notices -->
                     <p id="message-box" class="mt-4 p-3 rounded-lg border-2 border-black text-center font-bold hidden"></p>
                 </div>
             `;
             
+            // Note: We use the 'onsubmit' event to modify the form data before the native submission occurs
             document.getElementById('lead-capture-form').addEventListener('submit', handleFormSubmit);
+
+            // Set the redirect URL dynamically to the current page URL
+            document.getElementById('redirect-url').value = window.location.href;
         }
 
-        // --- EVENT HANDLERS ---
+        // --- EVENT HANDLERS (UPDATED) ---
         function handleNext() {
             if (selectedOption !== null && selectedOptionText !== null) {
-                // Store the full answer object
                 userAnswers.push({
                     question: quizData[currentStep].question,
                     answer: selectedOptionText,
@@ -479,45 +481,47 @@ We look forward to training with you.
         }
 
         function handleFormSubmit(event) {
-            event.preventDefault(); // Stop the default submission first
+            // NOTE: We don't preventDefault() here anymore; we just modify the form and let it submit naturally.
             const form = event.target;
             const submitButton = document.getElementById('submit-button');
             const hiddenFieldsContainer = document.getElementById('hidden-fields-container');
             
+            // Set sending state immediately before the browser starts processing the submission
             submitButton.disabled = true;
-            submitButton.textContent = 'PREPARING DATA...';
+            submitButton.textContent = 'SENDING...';
 
-            const totalScore = calculateTotalScore(userAnswers);
-            const recommendation = getRecommendation(totalScore);
+            // --- 1. Gather Dynamic Data ---
+            const recommendation = getRecommendation(calculateTotalScore(userAnswers));
             const clientEmail = form.elements['email'].value;
-
-            // Clear previous hidden fields
-            hiddenFieldsContainer.innerHTML = '';
-
-            // --- 1. Create the Client Blueprint Text ---
             const blueprintContent = generateBlueprintContent(recommendation);
             
             // --- 2. Add Hidden Fields for FormSubmit ---
             
+            // Clear previous hidden fields
+            hiddenFieldsContainer.innerHTML = '';
+            
             // A. The full personalized Blueprint for the Coach & Client CC
+            // Note: URL encoding ensures the multi-line text is transmitted correctly.
             hiddenFieldsContainer.innerHTML += `<input type="hidden" name="Client_Blueprint" value="${encodeURIComponent(blueprintContent)}">`;
             
             // B. Static recommendation/score data
-            hiddenFieldsContainer.innerHTML += `<input type="hidden" name="Score" value="${totalScore}">`;
+            hiddenFieldsContainer.innerHTML += `<input type="hidden" name="Score" value="${calculateTotalScore(userAnswers)}">`;
             hiddenFieldsContainer.innerHTML += `<input type="hidden" name="Recommendation" value="${recommendation.title}">`;
             
-            // C. All individual quiz answers
+            // C. All individual quiz answers (optional, but good for detailed tracking)
             userAnswers.forEach(answer => {
-                hiddenFieldsContainer.innerHTML += `<input type="hidden" name="${answer.key}" value="${answer.answer}">`;
+                // Ensure field names are clean
+                const fieldName = answer.key.replace(/[^a-zA-Z0-9_]/g, '');
+                hiddenFieldsContainer.innerHTML += `<input type="hidden" name="${fieldName}" value="${answer.answer}">`;
             });
 
-            // D. Set the CC field to send a copy to the client
+            // D. Set the CC field to send a copy to the client (this is the client's 'roadmap' email)
             document.getElementById('cc-email-field').value = clientEmail;
 
-            // --- 3. Manually Submit the Form ---
-            // This sends all fields to FormSubmit, which handles the email delivery.
-            submitButton.textContent = 'SENDING...';
-            form.submit();
+            // E. Update Subject before submission
+            document.getElementById('form-subject').value = `NEW BLUEPRINT LEAD: ${recommendation.title} (${clientEmail})`;
+            
+            // The form will now submit naturally, which is what triggers FormSubmit's activation email.
         }
         
         // --- INITIALIZATION ---
@@ -527,10 +531,20 @@ We look forward to training with you.
             }
             renderQuestion();
 
-            // Check if submission was successful (FormSubmit redirect adds ?status=success)
+            // Check if submission was successful after FormSubmit redirects back
             const urlParams = new URLSearchParams(window.location.search);
+            const messageBox = document.getElementById('message-box');
+
             if (urlParams.get('status') === 'success') {
-                alert('SUCCESS! Your personalized blueprint has been sent. Check your inbox and the coach’s email should be updated shortly.');
+                // Display success message directly without relying on alert()
+                messageBox.textContent = 'SUCCESS! Your personalized blueprint has been sent. Check your inbox (and spam folder) shortly.';
+                messageBox.classList.remove('hidden');
+                messageBox.classList.add('bg-green-100', 'text-green-800');
+            }
+            // Clear the status parameter from the URL to avoid showing the message on refresh
+            if (window.history.replaceState) {
+                const cleanUrl = window.location.href.split('?')[0];
+                window.history.replaceState({}, document.title, cleanUrl);
             }
         });
     </script>
