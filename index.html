@@ -13,6 +13,7 @@
             font-family: 'Inter', sans-serif;
             background-color: #000;
             color: #fff;
+            /* Simple background pattern */
             background-image: radial-gradient(#222 1px, transparent 1px);
             background-size: 40px 40px;
         }
@@ -22,6 +23,7 @@
             background-color: #fff;
             color: #000;
             border: 4px solid #fff;
+            /* Bold shadow for a physical/printed look */
             box-shadow: 10px 10px 0 0 #333; 
             transition: all 0.3s ease-in-out;
         }
@@ -33,9 +35,11 @@
             text-transform: uppercase;
             letter-spacing: -0.02em;
             transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            /* Initial flat shadow */
             box-shadow: 0 0 0 0 #000;
         }
         .option-button:hover:not(.selected) {
+            /* Lift effect */
             transform: translate(-2px, -2px);
             box-shadow: 4px 4px 0 0 #000;
             background-color: #f3f4f6;
@@ -44,16 +48,19 @@
             background-color: #000 !important;
             color: #fff !important;
             border-color: #000 !important;
+            /* Pop out effect for selected option, with green highlight */
             transform: translate(-2px, -2px);
-            box-shadow: 4px 4px 0 0 #22c55e !important;
+            box-shadow: 4px 4px 0 0 #22c55e !important; 
         }
         .action-button {
+            /* Green-500 */
             background-color: #22c55e;
             color: #000;
             border: 2px solid #000;
             font-weight: 900;
             text-transform: uppercase;
-            box-shadow: 4px 4px 0 0 #fff;
+            /* White shadow for contrast */
+            box-shadow: 4px 4px 0 0 #fff; 
             transition: all 0.2s;
         }
         .action-button:hover:not(:disabled) {
@@ -75,6 +82,7 @@
             background-color: #22c55e;
             transition: width 0.3s ease-in-out;
         }
+        /* Entrance animation for quiz questions */
         .animate-in {
             animation: slideUpFade 0.4s ease-out;
         }
@@ -237,10 +245,20 @@
         let selectedOptionText = null;
 
         // --- RECOMMENDATION LOGIC ---
+        /**
+         * Calculates the total score from the accumulated user answers.
+         * @param {Array<Object>} answers - The array of user answers with scores.
+         * @returns {number} The total score.
+         */
         function calculateTotalScore(answers) {
             return answers.reduce((sum, answer) => sum + answer.score, 0);
         }
 
+        /**
+         * Determines the coaching recommendation based on the total score.
+         * @param {number} score - The total quiz score.
+         * @returns {Object} The recommendation details.
+         */
         function getRecommendation(score) {
             if (score >= 140) {
                 return {
@@ -267,7 +285,7 @@
         }
         
         /**
-         * Generates the personalized Blueprint content for the email body.
+         * Generates the personalized Blueprint content for the email body using the collected answers.
          * @param {Object} recommendation - The final service recommendation.
          * @returns {string} The formatted text content of the Blueprint.
          */
@@ -331,9 +349,13 @@ We look forward to training with you.
         const progressTextLabel = document.getElementById('progress-text-label'); 
         const progressPercent = document.getElementById('progress-percent'); 
 
+        /**
+         * Updates the progress bar and text label.
+         */
         function updateProgress() {
             const totalQuestions = quizData.length;
             const displayStep = currentStep === totalQuestions ? totalQuestions : currentStep + 1;
+            // Calculate progress based on completed steps (currentStep)
             const progress = (currentStep / totalQuestions) * 100;
             const percentageDisplay = Math.round(progress);
 
@@ -343,11 +365,15 @@ We look forward to training with you.
             if (currentStep < totalQuestions) {
                 progressTextLabel.textContent = `QUESTION ${displayStep} OF ${totalQuestions}`;
             } else {
+                 // Set to 100% on results screen
                  progressBarFill.style.width = `100%`;
                  progressTextLabel.textContent = `ANALYSIS COMPLETE`;
             }
         }
 
+        /**
+         * Renders the current quiz question and options.
+         */
         function renderQuestion() {
             if (currentStep >= quizData.length) {
                 renderResultsScreen();
@@ -358,6 +384,7 @@ We look forward to training with you.
             selectedOption = null;
             selectedOptionText = null;
             
+            // Clear content and add the new question/options block
             contentArea.innerHTML = ''; 
 
             const questionBlock = document.createElement('div');
@@ -376,18 +403,24 @@ We look forward to training with you.
             const optionsContainer = document.getElementById('options-container');
             const nextButton = document.getElementById('next-button');
 
+            // Create and attach option buttons
             stepData.options.forEach(option => {
                 const button = document.createElement('button');
                 button.textContent = option.text;
                 button.className = 'option-button w-full text-left p-5 rounded-lg text-lg';
+                // Attach score and text data for easy retrieval
                 button.setAttribute('data-score', option.score);
                 button.setAttribute('data-text', option.text);
                 
                 button.addEventListener('click', () => {
+                    // Deselect all other buttons
                     document.querySelectorAll('.option-button').forEach(btn => btn.classList.remove('selected'));
+                    // Select the current button
                     button.classList.add('selected');
+                    // Store the selection
                     selectedOption = option.score;
                     selectedOptionText = option.text;
+                    // Enable the continue button
                     nextButton.disabled = false;
                 });
                 optionsContainer.appendChild(button);
@@ -397,6 +430,9 @@ We look forward to training with you.
             updateProgress();
         }
         
+        /**
+         * Renders the final results and the lead capture form.
+         */
         function renderResultsScreen() {
             currentStep = quizData.length;
             updateProgress();
@@ -406,6 +442,7 @@ We look forward to training with you.
 
             contentArea.innerHTML = `
                 <div class="text-center animate-in">
+                    <!-- Checkmark Icon -->
                     <div class="inline-block p-3 rounded-full border-4 border-black mb-6">
                         <svg class="h-10 w-10 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
@@ -455,20 +492,25 @@ We look forward to training with you.
                         </button>
                     </form>
 
+                    <!-- Message box for success/error (non-alert implementation) -->
                     <p id="message-box" class="mt-4 p-3 rounded-lg border-2 border-black text-center font-bold hidden"></p>
                 </div>
             `;
             
-            // Note: We use the 'onsubmit' event to modify the form data before the native submission occurs
+            // Attach form submission handler
             document.getElementById('lead-capture-form').addEventListener('submit', handleFormSubmit);
 
             // Set the redirect URL dynamically to the current page URL
-            document.getElementById('redirect-url').value = window.location.href;
+            document.getElementById('redirect-url').value = window.location.href + '?status=success';
         }
 
         // --- EVENT HANDLERS (UPDATED) ---
+        /**
+         * Handles moving to the next question and stores the answer.
+         */
         function handleNext() {
             if (selectedOption !== null && selectedOptionText !== null) {
+                // Store the full answer object
                 userAnswers.push({
                     question: quizData[currentStep].question,
                     answer: selectedOptionText,
@@ -480,8 +522,11 @@ We look forward to training with you.
             }
         }
 
+        /**
+         * Prepares the form for submission, including dynamic hidden fields for the blueprint email.
+         * @param {Event} event - The form submission event.
+         */
         function handleFormSubmit(event) {
-            // NOTE: We don't preventDefault() here anymore; we just modify the form and let it submit naturally.
             const form = event.target;
             const submitButton = document.getElementById('submit-button');
             const hiddenFieldsContainer = document.getElementById('hidden-fields-container');
@@ -501,14 +546,14 @@ We look forward to training with you.
             hiddenFieldsContainer.innerHTML = '';
             
             // A. The full personalized Blueprint for the Coach & Client CC
-            // Note: URL encoding ensures the multi-line text is transmitted correctly.
+            // Note: encodeURIComponent ensures the multi-line text is transmitted correctly.
             hiddenFieldsContainer.innerHTML += `<input type="hidden" name="Client_Blueprint" value="${encodeURIComponent(blueprintContent)}">`;
             
             // B. Static recommendation/score data
             hiddenFieldsContainer.innerHTML += `<input type="hidden" name="Score" value="${calculateTotalScore(userAnswers)}">`;
             hiddenFieldsContainer.innerHTML += `<input type="hidden" name="Recommendation" value="${recommendation.title}">`;
             
-            // C. All individual quiz answers (optional, but good for detailed tracking)
+            // C. All individual quiz answers (for detailed tracking in the FormSubmit spreadsheet)
             userAnswers.forEach(answer => {
                 // Ensure field names are clean
                 const fieldName = answer.key.replace(/[^a-zA-Z0-9_]/g, '');
@@ -521,7 +566,7 @@ We look forward to training with you.
             // E. Update Subject before submission
             document.getElementById('form-subject').value = `NEW BLUEPRINT LEAD: ${recommendation.title} (${clientEmail})`;
             
-            // The form will now submit naturally, which is what triggers FormSubmit's activation email.
+            // The form will now submit naturally, redirecting to the URL set in _next, where the success message will be shown.
         }
         
         // --- INITIALIZATION ---
@@ -536,15 +581,35 @@ We look forward to training with you.
             const messageBox = document.getElementById('message-box');
 
             if (urlParams.get('status') === 'success') {
-                // Display success message directly without relying on alert()
-                messageBox.textContent = 'SUCCESS! Your personalized blueprint has been sent. Check your inbox (and spam folder) shortly.';
-                messageBox.classList.remove('hidden');
-                messageBox.classList.add('bg-green-100', 'text-green-800');
-            }
-            // Clear the status parameter from the URL to avoid showing the message on refresh
-            if (window.history.replaceState) {
-                const cleanUrl = window.location.href.split('?')[0];
-                window.history.replaceState({}, document.title, cleanUrl);
+                // Remove the quiz UI elements to show only the success state
+                contentArea.innerHTML = '';
+                
+                // Construct a custom success message display
+                const successDiv = document.createElement('div');
+                successDiv.className = 'text-center animate-in p-8 bg-green-50 border-2 border-green-600 rounded-xl';
+                successDiv.innerHTML = `
+                    <div class="inline-block p-3 rounded-full border-4 border-green-600 bg-green-200 mb-4">
+                        <svg class="h-10 w-10 text-green-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
+                        </svg>
+                    </div>
+                    <h2 class="text-3xl font-black uppercase leading-tight text-green-700 mb-3">BLUEPRINT SENT!</h2>
+                    <p class="text-lg font-medium text-gray-700 leading-relaxed">
+                        Your personalized blueprint is on its way. Check your inbox (and spam folder) for your customized strategy roadmap.
+                    </p>
+                    <button onclick="window.location.href=window.location.href.split('?')[0]" class="action-button mt-6 p-3 text-base rounded-lg shadow-green-500/50">
+                        RESTART QUIZ
+                    </button>
+                `;
+                contentArea.appendChild(successDiv);
+                
+                updateProgress();
+
+                // Clear the status parameter from the URL to avoid showing the message on refresh
+                if (window.history.replaceState) {
+                    const cleanUrl = window.location.href.split('?')[0];
+                    window.history.replaceState({}, document.title, cleanUrl);
+                }
             }
         });
     </script>
