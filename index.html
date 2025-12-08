@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get Your Personal Blueprint | COACH CHRIS</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #000; /* Black Background */
+            color: #fff;
+            /* Subtle background pattern */
+            background-image: radial-gradient(#222 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        /* --- BRANDING COMPONENTS --- */
+        
+        /* The Main White Card */
+        .quiz-container {
+            max-width: 650px;
+            min-height: 550px;
+            background-color: #fff;
+            color: #000;
+            border: 4px solid #fff;
+            /* Hard white shadow to pop off the black background */
+            box-shadow: 10px 10px 0 0 #333; 
+            transition: all 0.3s ease-in-out;
+        }
+
+        /* Option Buttons: High Contrast, Hard Edges */
+        .option-button {
+            border: 2px solid #000;
+            background-color: #fff;
+            color: #000;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: -0.02em;
+            transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: 0 0 0 0 #000;
+        }
+
+        .option-button:hover:not(.selected) {
+            transform: translate(-2px, -2px);
+            box-shadow: 4px 4px 0 0 #000; /* Hard Shadow Hover */
+            background-color: #f3f4f6;
+        }
+
+        /* Selected State: Black Background, Green Border Accent */
+        .selected {
+            background-color: #000 !important;
+            color: #fff !important;
+            border-color: #000 !important;
+            transform: translate(-2px, -2px);
+            box-shadow: 4px 4px 0 0 #22c55e !important; /* Green Shadow */
+        }
+
+        /* Next Button: The "Green" Accent */
+        .action-button {
+            background-color: #22c55e; /* Green 500 */
+            color: #000;
+            border: 2px solid #000;
+            font-weight: 900;
+            text-transform: uppercase;
+            box-shadow: 4px 4px 0 0 #fff; /* White Shadow on Green btn */
+            transition: all 0.2s;
+        }
+        
+        .action-button:hover:not(:disabled) {
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0 0 #fff;
+        }
+        
+        .action-button:disabled {
+            background-color: #e5e7eb;
+            color: #9ca3af;
+            border-color: #d1d5db;
+            box-shadow: none;
+            cursor: not-allowed;
+        }
+
+        /* Progress Bar: Black container, Green fill */
+        .progress-container {
+            background-color: #000; 
+            height: 12px;
+        }
+        .progress-bar-fill {
+            background-color: #22c55e; /* Green 500 */
+            transition: width 0.3s ease-in-out;
+        }
+
+        /* Animations */
+        .animate-in {
+            animation: slideUpFade 0.4s ease-out;
+        }
+
+        @keyframes slideUpFade {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Custom Input Styling */
+        .custom-input {
+            border: 2px solid #000;
+            border-radius: 0.5rem;
+            transition: all 0.2s;
+        }
+        .custom-input:focus {
+            outline: none;
+            box-shadow: 4px 4px 0 0 #22c55e;
+            border-color: #000;
+        }
+    </style>
+</head>
+<body class="flex flex-col items-center justify-center min-h-screen p-4 sm:p-6">
+
+    <!-- External Branding Block Removed to consolidate branding inside the quiz container -->
+
+    <!-- Main Quiz Container -->
+    <div id="quiz-app" class="quiz-container w-full rounded-2xl p-6 md:p-10 relative overflow-hidden">
+        
+        <!-- Decoration: Green accent line top -->
+        <div class="absolute top-0 left-0 w-full h-2 bg-green-500"></div>
+
+        <!-- NEW BRANDING BLOCK (Matching Image) -->
+        <div class="mb-6 leading-tight animate-in">
+            <h1 class="text-4xl sm:text-5xl font-black text-black uppercase tracking-tighter">
+                COACH CHRIS
+            </h1>
+            <p class="text-lg font-extrabold uppercase text-neutral-600">
+                CIRCULAR ROOTS COACHING
+            </p>
+            <p class="text-base font-extrabold uppercase text-neutral-700">
+                TRAIN UNCNVNTNL
+            </p>
+        </div>
+
+        <!-- Main Quiz Title -->
+        <h2 class="text-3xl sm:text-4xl font-black text-black mb-4 uppercase italic tracking-tighter">
+            YOUR PERSONAL BLUEPRINT
+        </h2>
+        
+        <!-- Progress Bar (Matching Image Layout: Label | Bar | Percentage) -->
+        <div class="mb-8">
+            <div class="flex items-center space-x-3">
+                <!-- Progress Label -->
+                <p id="progress-text-label" class="text-sm font-black uppercase tracking-widest text-black whitespace-nowrap">
+                    QUESTION 1 OF 6
+                </p>
+                <!-- Progress Bar Container -->
+                <div class="progress-container h-3 flex-grow rounded-full overflow-hidden">
+                    <div id="progress-bar-fill" class="progress-bar-fill h-full" style="width: 0%;"></div>
+                </div>
+                <!-- Percentage -->
+                <p id="progress-percent" class="text-sm font-black text-black whitespace-nowrap">
+                    0%
+                </p>
+            </div>
+        </div>
+
+        <!-- Dynamic Content Area -->
+        <div id="content-area">
+            <!-- Quiz steps will be rendered here -->
+            <div class="text-center font-bold animate-pulse">LOADING...</div>
+        </div>
+
+    </div>
+    
+    <!-- Footer Tag -->
+    <div class="mt-8 text-neutral-500 text-xs font-bold uppercase tracking-widest">
+        TRAIN UNCNVNTNL
+    </div>
+
+    <script>
+        // --- QUIZ DATA ---
+        const quizData = [
+            {
+                id: 1,
+                question: "What is your #1 primary fitness goal right now?",
+                options: [
+                    { text: "Fat Loss / Body Transformation", score: 30 },
+                    { text: "Build Muscle & Increase Strength", score: 20 },
+                    { text: "Improve Endurance & Stamina", score: 10 },
+                    { text: "General Health & Consistency", score: 5 },
+                ]
+            },
+            {
+                id: 2,
+                question: "How many days per week can you realistically commit?",
+                options: [
+                    { text: "5 or more days", score: 30 },
+                    { text: "3 - 4 days", score: 20 },
+                    { text: "1 - 2 days", score: 10 },
+                    { text: "Not sure / Just starting", score: 5 },
+                ]
+            },
+            {
+                id: 3,
+                question: "What is your biggest barrier to success?",
+                options: [
+                    { text: "Lack of a Specific Program", score: 5 },
+                    { text: "Consistency & Accountability", score: 20 },
+                    { text: "Nutrition & Diet Strategy", score: 30 },
+                    { text: "Motivation & Time", score: 10 },
+                ]
+            },
+            {
+                id: 4,
+                question: "What level of support do you need?",
+                options: [
+                    { text: "Self-paced Program Template", score: 5 },
+                    { text: "Weekly Check-ins & Messaging", score: 20 },
+                    { text: "Full 1:1 Coaching (High Accountability)", score: 30 },
+                    { text: "Group / Community Environment", score: 10 },
+                ]
+            },
+            {
+                id: 5,
+                question: "Do you have any injuries or medical considerations?",
+                options: [
+                    { text: "Yes, I need tailored modifications.", score: 30 },
+                    { text: "Minor aches, nothing serious.", score: 20 },
+                    { text: "No, generally injury-free.", score: 10 },
+                    { text: "I'm not sure.", score: 5 },
+                ]
+            },
+            {
+                id: 6,
+                question: "What is your budget for coaching?",
+                options: [
+                    { text: "High (Ready for Premium 1:1)", score: 30 },
+                    { text: "Medium (Solid Subscription Model)", score: 20 },
+                    { text: "Low (Budget-Friendly Option)", score: 10 },
+                    { text: "Results are the priority", score: 25 },
+                ]
+            }
+        ];
+
+        let currentStep = 0;
+        let totalScore = 0;
+        let selectedOption = null;
+
+        // --- RECOMMENDATION LOGIC ---
+        function getRecommendation(score) {
+            if (score >= 140) {
+                return {
+                    title: "1-1 ONLINE COACHING",
+                    description: "Your goals require maximum accountability and highly specific programming. This is the premium, fully-tailored blueprint designed to adapt to your life.",
+                    service: "1-1 Online Coaching",
+                    accentColor: "text-green-600"
+                };
+            } else if (score >= 85) {
+                return {
+                    title: "FITTER STRONGER BETTER SUBSCRIPTION",
+                    description: "You have clear goals and moderate commitment. This model provides structure, personalized check-ins, and the perfect blend of accountability and flexibility.",
+                    service: "Fitter Stronger Better Subscription",
+                     accentColor: "text-blue-600"
+                };
+            } else {
+                return {
+                    title: "ONLINE PROGRAM LIBRARY",
+                    description: "You are seeking foundational guidance. Get instant access to professionally designed, self-paced training plans you can execute on your own schedule.",
+                    service: "Online Program Library",
+                     accentColor: "text-gray-800"
+                };
+            }
+        }
+
+        // --- UI RENDER FUNCTIONS ---
+        const contentArea = document.getElementById('content-area');
+        const progressBarFill = document.getElementById('progress-bar-fill');
+        // New elements for the progress bar structure
+        const progressTextLabel = document.getElementById('progress-text-label'); 
+        const progressPercent = document.getElementById('progress-percent'); 
+
+        function updateProgress() {
+            const totalQuestions = quizData.length;
+            const displayStep = currentStep === totalQuestions ? totalQuestions : currentStep + 1;
+            const progress = (currentStep / totalQuestions) * 100;
+            const percentageDisplay = Math.round(progress);
+
+            progressBarFill.style.width = `${progress}%`;
+            progressPercent.textContent = `${percentageDisplay}%`;
+
+            if (currentStep < totalQuestions) {
+                progressTextLabel.textContent = `QUESTION ${displayStep} OF ${totalQuestions}`;
+            } else {
+                 progressBarFill.style.width = `100%`;
+                 progressTextLabel.textContent = `ANALYSIS COMPLETE`;
+            }
+        }
+
+        function renderQuestion() {
+            if (currentStep >= quizData.length) {
+                renderResultsScreen();
+                return;
+            }
+
+            const stepData = quizData[currentStep];
+            selectedOption = null;
+            
+            contentArea.innerHTML = ''; 
+
+            const questionBlock = document.createElement('div');
+            questionBlock.className = 'animate-in';
+            questionBlock.innerHTML = `
+                <h2 class="text-2xl font-black uppercase leading-tight mb-8">${stepData.question}</h2>
+                <div id="options-container" class="space-y-4">
+                    <!-- Options appended here -->
+                </div>
+                <button id="next-button" disabled class="action-button mt-10 w-full p-4 text-xl rounded-lg">
+                    CONTINUE
+                </button>
+            `;
+            contentArea.appendChild(questionBlock);
+
+            const optionsContainer = document.getElementById('options-container');
+            const nextButton = document.getElementById('next-button');
+
+            stepData.options.forEach(option => {
+                const button = document.createElement('button');
+                button.textContent = option.text;
+                button.className = 'option-button w-full text-left p-5 rounded-lg text-lg';
+                button.setAttribute('data-score', option.score);
+                
+                button.addEventListener('click', () => {
+                    document.querySelectorAll('.option-button').forEach(btn => btn.classList.remove('selected'));
+                    button.classList.add('selected');
+                    selectedOption = option.score;
+                    nextButton.disabled = false;
+                });
+                optionsContainer.appendChild(button);
+            });
+            
+            nextButton.addEventListener('click', handleNext);
+            updateProgress();
+        }
+        
+        function renderResultsScreen() {
+            currentStep = quizData.length;
+            updateProgress();
+
+            const recommendation = getRecommendation(totalScore);
+
+            contentArea.innerHTML = `
+                <div class="text-center animate-in">
+                    <div class="inline-block p-3 rounded-full border-4 border-black mb-6">
+                        <svg class="h-10 w-10 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
+                        </svg>
+                    </div>
+                    <h2 class="text-lg font-bold text-gray-500 uppercase tracking-widest mb-2">Based on your answers:</h2>
+                    <p class="text-3xl sm:text-4xl font-black uppercase italic mb-6 leading-none ${recommendation.accentColor}">${recommendation.title}</p>
+                    <p class="text-lg font-medium text-gray-700 mb-10 leading-relaxed">${recommendation.description}</p>
+                </div>
+                
+                <!-- Lead Capture Form -->
+                <div id="lead-form-container" class="animate-in bg-gray-50 border-2 border-black p-6 rounded-xl relative">
+                    <!-- Decorative Green Square -->
+                    <div class="absolute -top-3 -right-3 w-8 h-8 bg-green-500 border-2 border-black"></div>
+                    
+                    <h4 class="text-xl font-black uppercase mb-2">Get Your Roadmap</h4>
+                    <p class="text-sm font-medium text-gray-600 mb-6">Enter your details to receive your customized strategy.</p>
+                    
+                    <form id="lead-capture-form" class="space-y-4">
+                        <input type="hidden" name="service" value="${recommendation.service}">
+                        <input type="hidden" name="score" value="${totalScore}">
+                        
+                        <div>
+                            <label for="name" class="block text-xs font-bold uppercase mb-1">Full Name</label>
+                            <input type="text" id="name" name="name" required class="custom-input block w-full p-3 bg-white" placeholder="JANE DOE">
+                        </div>
+                        
+                        <div>
+                            <label for="email" class="block text-xs font-bold uppercase mb-1">Email Address</label>
+                            <input type="email" id="email" name="email" required class="custom-input block w-full p-3 bg-white" placeholder="HELLO@EXAMPLE.COM">
+                        </div>
+                        
+                        <button type="submit" id="submit-button" class="action-button w-full py-4 mt-2 rounded-lg text-lg">
+                            SEND MY ROADMAP
+                        </button>
+                    </form>
+                    <p id="message-box" class="mt-4 p-3 rounded-lg border-2 border-black text-center font-bold hidden"></p>
+                </div>
+            `;
+            
+            document.getElementById('lead-capture-form').addEventListener('submit', handleFormSubmit);
+        }
+
+        // --- EVENT HANDLERS ---
+        function handleNext() {
+            if (selectedOption !== null) {
+                totalScore += selectedOption;
+                currentStep++;
+                renderQuestion();
+            }
+        }
+
+        async function handleFormSubmit(event) {
+            event.preventDefault();
+            const form = event.target;
+            const submitButton = document.getElementById('submit-button');
+            const messageBox = document.getElementById('message-box');
+
+            submitButton.disabled = true;
+            submitButton.textContent = 'SENDING...';
+            messageBox.classList.add('hidden');
+
+            const formData = new FormData(form);
+            const data = {
+                name: formData.get('name'),
+                email: formData.get('email'),
+                recommendation: formData.get('service'),
+                totalScore: formData.get('score') 
+            };
+
+            // MOCK API CALL
+            console.log("Lead captured:", data);
+            await new Promise(resolve => setTimeout(resolve, 1500)); 
+
+            // SUCCESS STATE
+            submitButton.textContent = 'SENT SUCCESSFULLY';
+            submitButton.style.backgroundColor = '#000';
+            submitButton.style.color = '#fff';
+            submitButton.style.borderColor = '#000';
+
+            messageBox.textContent = 'SUCCESS! CHECK YOUR INBOX SHORTLY.';
+            messageBox.classList.remove('hidden');
+            messageBox.classList.add('bg-green-100', 'text-green-800');
+        }
+        
+        // --- INITIALIZATION ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Need to initialize progress text elements before rendering the first question
+            if (progressTextLabel && progressPercent) {
+                updateProgress(); // Initial update to show Q1 of 6 and 0%
+            }
+            renderQuestion();
+        });
+    </script>
+</body>
+</html>
+
