@@ -181,7 +181,7 @@
 
     <script>
         // --- CONFIGURATION CONSTANTS ---
-        // 1. Lead Recipient Email (Coach Chris)
+        // 1. Lead Recipient Email (Coach Chris) - CRITICAL: This is where the leads go.
         const FORM_SUBMIT_RECIPIENT_EMAIL = 'circularrootscoaching@gmail.com'; 
 
         // --- QUIZ DATA ---
@@ -293,6 +293,7 @@
             const linkText = `>> SECURE YOUR ${title} ROADMAP HERE <<`;
 
             // This is the HTML that Formsubmit sends back to the client's email
+            // Note: Inline CSS is required for email clients.
             return `
                 <div style="font-family: 'Inter', sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: auto; padding: 20px; border: 4px solid #000; box-shadow: 6px 6px 0 0 #22c55e;">
                     <h1 style="color: #000; font-size: 28px; font-weight: 900; text-transform: uppercase; margin-bottom: 5px;">COACH CHRIS</h1>
@@ -404,6 +405,11 @@
 
             const recommendation = getRecommendation(totalScore);
 
+            // We store the recommendation data on the content area element for easy retrieval
+            contentArea.setAttribute('data-rec-title', recommendation.title);
+            contentArea.setAttribute('data-rec-score', totalScore);
+
+
             contentArea.innerHTML = `
                 <div class="text-center animate-in">
                     <div class="inline-block p-3 rounded-full border-4 border-black mb-6">
@@ -424,20 +430,8 @@
                     <h4 class="text-xl font-black uppercase mb-2">Get Your Roadmap</h4>
                     <p class="text-sm font-medium text-gray-600 mb-6">Enter your details to receive your customized strategy immediately.</p>
                     
-                    <!-- 
-                        NOTE: The hidden fields below now only store data for the coach's lead email. 
-                        The auto-response logic has been moved to the JavaScript payload for robustness.
-                    -->
                     <form id="lead-capture-form" class="space-y-4">
-                        <!-- Hidden fields to pass quiz data for the coach's lead email -->
-                        <input type="hidden" name="Recommendation_Title" id="rec-title" value="${recommendation.title}">
-                        <input type="hidden" name="Recommendation_Description" id="rec-desc" value="${recommendation.description}">
-                        <input type="hidden" name="Total_Score" id="rec-score" value="${totalScore}">
                         
-                        <!-- These fields are no longer dynamically updated/used for the autoresponse payload -->
-                        <!-- <input type="hidden" name="_autoresponse" ...> -->
-                        <!-- <input type="hidden" name="_cc" ...> -->
-
                         <div>
                             <label for="name" class="block text-xs font-bold uppercase mb-1">Full Name</label>
                             <input type="text" id="name" name="name" required class="custom-input block w-full p-3 bg-white" placeholder="JANE DOE">
@@ -474,13 +468,13 @@
             const submitButton = document.getElementById('submit-button');
             const messageBox = document.getElementById('message-box');
             
-            // Get client name and email for personalization and payload construction
-            const clientName = document.getElementById('name').value.trim().split(' ')[0] || 'Warrior';
+            // Get data from input fields and data attributes
+            const clientFullName = document.getElementById('name').value.trim();
+            const clientName = clientFullName.split(' ')[0] || 'Warrior';
             const clientEmail = document.getElementById('email').value.trim();
-
-            // Get quiz result data
-            const recTitle = document.getElementById('rec-title').value;
-            const totalScoreVal = document.getElementById('rec-score').value;
+            
+            const recTitle = contentArea.getAttribute('data-rec-title');
+            const totalScoreVal = contentArea.getAttribute('data-rec-score');
 
             // --- 1. GENERATE PERSONALIZED AUTO-RESPONSE HTML ---
             const personalizedRecommendation = getRecommendation(parseInt(totalScoreVal, 10));
@@ -495,20 +489,26 @@
             
             // --- 3. CONFIGURE AJAX PAYLOAD DIRECTLY (MOST ROBUST METHOD) ---
             const payload = {
-                // Client Data
-                name: document.getElementById('name').value,
-                email: clientEmail,
-
-                // Quiz Data for Coach's Lead Email
+                // Client Data (For the Coach's Lead Email)
+                name: clientFullName,
+                email: clientEmail, // The client's email address
+                
+                // Formsubmit Metadata & Delivery Headers
+                // _subject: Subject for the Coach's email (the lead)
+                _subject: `NEW BLUEPRINT LEAD (${recTitle}) from ${clientName}`,
+                
+                // _from: Defines the sender name for the Auto-response email
+                _from: `Coach Chris - Circular Roots Coaching <${FORM_SUBMIT_RECIPIENT_EMAIL}>`,
+                
+                // _replyto: Sets the reply-to header for the Coach's email 
+                _replyto: clientEmail, 
+                
+                // Quiz Data for Coach's Lead Email Body
                 Recommendation_Title: recTitle,
-                Recommendation_Description: personalizedRecommendation.description, // Use the real description
+                Recommendation_Description: personalizedRecommendation.description, 
                 Total_Score: totalScoreVal,
                 
-                // Formsubmit Metadata
-                _subject: `NEW BLUEPRINT LEAD (${recTitle}) from ${clientName}`,
-                _cc: FORM_SUBMIT_RECIPIENT_EMAIL,
-                
-                // CRITICAL FIELD: Autoresponse (Sent to the 'email' field above)
+                // CRITICAL FIELD: _autoresponse (Sent back to the 'email' field)
                 _autoresponse: personalizedAutoResponse 
             };
 
@@ -540,7 +540,7 @@
                         throw new Error(`Server returned status: ${response.status}`);
                     }
                 } catch (error) {
-                    // console.error('Form submission failed, retrying:', error);
+                    // console.error('Form submission failed, retrying:', error); // Silent retry log
                     currentRetry++;
                     // Exponential backoff delay
                     await new Promise(resolve => setTimeout(resolve, 1000 * (2 ** currentRetry)));
@@ -551,7 +551,7 @@
             // --- 5. HANDLE SUCCESS/FAILURE STATE ---
             if (success) {
                 submitButton.textContent = 'ROADMAP SENT!';
-                submitButton.disabled = true; // Keep disabled on success
+                submitButton.disabled = true; 
                 submitButton.style.backgroundColor = '#000';
                 submitButton.style.color = '#fff';
                 submitButton.style.borderColor = '#000';
