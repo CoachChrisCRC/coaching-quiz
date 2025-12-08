@@ -11,28 +11,20 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #000; /* Black Background */
+            background-color: #000;
             color: #fff;
-            /* Subtle background pattern */
             background-image: radial-gradient(#222 1px, transparent 1px);
             background-size: 40px 40px;
         }
-
-        /* --- BRANDING COMPONENTS --- */
-        
-        /* The Main White Card */
         .quiz-container {
             max-width: 650px;
             min-height: 550px;
             background-color: #fff;
             color: #000;
             border: 4px solid #fff;
-            /* Hard white shadow to pop off the black background */
             box-shadow: 10px 10px 0 0 #333; 
             transition: all 0.3s ease-in-out;
         }
-
-        /* Option Buttons: High Contrast, Hard Edges */
         .option-button {
             border: 2px solid #000;
             background-color: #fff;
@@ -43,38 +35,31 @@
             transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             box-shadow: 0 0 0 0 #000;
         }
-
         .option-button:hover:not(.selected) {
             transform: translate(-2px, -2px);
-            box-shadow: 4px 4px 0 0 #000; /* Hard Shadow Hover */
+            box-shadow: 4px 4px 0 0 #000;
             background-color: #f3f4f6;
         }
-
-        /* Selected State: Black Background, Green Border Accent */
         .selected {
             background-color: #000 !important;
             color: #fff !important;
             border-color: #000 !important;
             transform: translate(-2px, -2px);
-            box-shadow: 4px 4px 0 0 #22c55e !important; /* Green Shadow */
+            box-shadow: 4px 4px 0 0 #22c55e !important;
         }
-
-        /* Next Button: The "Green" Accent */
         .action-button {
-            background-color: #22c55e; /* Green 500 */
+            background-color: #22c55e;
             color: #000;
             border: 2px solid #000;
             font-weight: 900;
             text-transform: uppercase;
-            box-shadow: 4px 4px 0 0 #fff; /* White Shadow on Green btn */
+            box-shadow: 4px 4px 0 0 #fff;
             transition: all 0.2s;
         }
-        
         .action-button:hover:not(:disabled) {
             transform: translate(-2px, -2px);
             box-shadow: 6px 6px 0 0 #fff;
         }
-        
         .action-button:disabled {
             background-color: #e5e7eb;
             color: #9ca3af;
@@ -82,22 +67,17 @@
             box-shadow: none;
             cursor: not-allowed;
         }
-
-        /* Progress Bar: Black container, Green fill */
         .progress-container {
             background-color: #000; 
             height: 12px;
         }
         .progress-bar-fill {
-            background-color: #22c55e; /* Green 500 */
+            background-color: #22c55e;
             transition: width 0.3s ease-in-out;
         }
-
-        /* Animations */
         .animate-in {
             animation: slideUpFade 0.4s ease-out;
         }
-
         @keyframes slideUpFade {
             from {
                 opacity: 0;
@@ -108,8 +88,6 @@
                 transform: translateY(0);
             }
         }
-        
-        /* Custom Input Styling */
         .custom-input {
             border: 2px solid #000;
             border-radius: 0.5rem;
@@ -124,15 +102,13 @@
 </head>
 <body class="flex flex-col items-center justify-center min-h-screen p-4 sm:p-6">
 
-    <!-- External Branding Block Removed to consolidate branding inside the quiz container -->
-
     <!-- Main Quiz Container -->
     <div id="quiz-app" class="quiz-container w-full rounded-2xl p-6 md:p-10 relative overflow-hidden">
         
         <!-- Decoration: Green accent line top -->
         <div class="absolute top-0 left-0 w-full h-2 bg-green-500"></div>
 
-        <!-- NEW BRANDING BLOCK (Matching Image) -->
+        <!-- BRANDING BLOCK -->
         <div class="mb-6 leading-tight animate-in">
             <h1 class="text-4xl sm:text-5xl font-black text-black uppercase tracking-tighter">
                 COACH CHRIS
@@ -150,7 +126,7 @@
             YOUR PERSONAL BLUEPRINT
         </h2>
         
-        <!-- Progress Bar (Matching Image Layout: Label | Bar | Percentage) -->
+        <!-- Progress Bar -->
         <div class="mb-8">
             <div class="flex items-center space-x-3">
                 <!-- Progress Label -->
@@ -182,11 +158,15 @@
     </div>
 
     <script>
+        // --- FORM SUBMIT CONFIGURATION ---
+        const COACH_EMAIL = "circularrootscoaching@gmail.com"; 
+
         // --- QUIZ DATA ---
         const quizData = [
             {
                 id: 1,
                 question: "What is your #1 primary fitness goal right now?",
+                key: "1_Goal",
                 options: [
                     { text: "Fat Loss / Body Transformation", score: 30 },
                     { text: "Build Muscle & Increase Strength", score: 20 },
@@ -197,6 +177,7 @@
             {
                 id: 2,
                 question: "How many days per week can you realistically commit?",
+                key: "2_Commitment",
                 options: [
                     { text: "5 or more days", score: 30 },
                     { text: "3 - 4 days", score: 20 },
@@ -207,6 +188,7 @@
             {
                 id: 3,
                 question: "What is your biggest barrier to success?",
+                key: "3_Barrier",
                 options: [
                     { text: "Lack of a Specific Program", score: 5 },
                     { text: "Consistency & Accountability", score: 20 },
@@ -217,6 +199,7 @@
             {
                 id: 4,
                 question: "What level of support do you need?",
+                key: "4_Support",
                 options: [
                     { text: "Self-paced Program Template", score: 5 },
                     { text: "Weekly Check-ins & Messaging", score: 20 },
@@ -227,6 +210,7 @@
             {
                 id: 5,
                 question: "Do you have any injuries or medical considerations?",
+                key: "5_Injuries",
                 options: [
                     { text: "Yes, I need tailored modifications.", score: 30 },
                     { text: "Minor aches, nothing serious.", score: 20 },
@@ -237,6 +221,7 @@
             {
                 id: 6,
                 question: "What is your budget for coaching?",
+                key: "6_Budget",
                 options: [
                     { text: "High (Ready for Premium 1:1)", score: 30 },
                     { text: "Medium (Solid Subscription Model)", score: 20 },
@@ -247,10 +232,15 @@
         ];
 
         let currentStep = 0;
-        let totalScore = 0;
+        let userAnswers = []; 
         let selectedOption = null;
+        let selectedOptionText = null;
 
         // --- RECOMMENDATION LOGIC ---
+        function calculateTotalScore(answers) {
+            return answers.reduce((sum, answer) => sum + answer.score, 0);
+        }
+
         function getRecommendation(score) {
             if (score >= 140) {
                 return {
@@ -275,11 +265,69 @@
                 };
             }
         }
+        
+        /**
+         * Generates the personalized Blueprint content for the email body.
+         * @param {Object} recommendation - The final service recommendation.
+         * @returns {string} The formatted text content of the Blueprint.
+         */
+        function generateBlueprintContent(recommendation) {
+            const totalScore = calculateTotalScore(userAnswers);
+            
+            // Convert answers array to a key-value object for easy lookup
+            const answersMap = userAnswers.reduce((map, answer) => {
+                map[answer.key] = answer.answer;
+                return map;
+            }, {});
+
+            // Use string interpolation to build the detailed Blueprint text
+            const blueprintContent = `
+=============================================
+YOUR PERSONAL BLUEPRINT: THE COACH CHRIS ROADMAP
+=============================================
+
+Blueprint Score: ${totalScore}
+Best Match: ${recommendation.title}
+
+---
+
+SECTION 1: YOUR ANALYSIS SUMMARY
+----------------------------------
+This analysis confirms that your current fitness journey requires a specialized approach tailored to your profile:
+
+* Primary Goal (#1): ${answersMap['1_Goal']}
+* Time Commitment (#2): You can realistically commit ${answersMap['2_Commitment']}.
+* Biggest Barrier (#3): ${answersMap['3_Barrier']}
+* Support Need (#4): You indicated a need for ${answersMap['4_Support']}.
+* Injury Status (#5): ${answersMap['5_Injuries']}
+* Budget (#6): ${answersMap['6_Budget']}
+
+---
+
+SECTION 2: YOUR RECOMMENDED PATH
+----------------------------------
+-> SERVICE: ${recommendation.title}
+-> WHY: ${recommendation.description}
+
+This service is uniquely positioned to solve your primary hurdle, ${answersMap['3_Barrier']}, by providing a system designed for maximum results.
+
+---
+
+SECTION 3: NEXT STEPS
+----------------------------------
+Click here to schedule your first 15-minute onboarding call with Coach Chris and lock in your new training path:
+[INSERT YOUR CALENDLY/BOOKING LINK HERE]
+
+We look forward to training with you.
+- The Circular Roots Coaching Team
+            `;
+
+            return blueprintContent.trim();
+        }
 
         // --- UI RENDER FUNCTIONS ---
         const contentArea = document.getElementById('content-area');
         const progressBarFill = document.getElementById('progress-bar-fill');
-        // New elements for the progress bar structure
         const progressTextLabel = document.getElementById('progress-text-label'); 
         const progressPercent = document.getElementById('progress-percent'); 
 
@@ -308,6 +356,7 @@
 
             const stepData = quizData[currentStep];
             selectedOption = null;
+            selectedOptionText = null;
             
             contentArea.innerHTML = ''; 
 
@@ -332,11 +381,13 @@
                 button.textContent = option.text;
                 button.className = 'option-button w-full text-left p-5 rounded-lg text-lg';
                 button.setAttribute('data-score', option.score);
+                button.setAttribute('data-text', option.text);
                 
                 button.addEventListener('click', () => {
                     document.querySelectorAll('.option-button').forEach(btn => btn.classList.remove('selected'));
                     button.classList.add('selected');
                     selectedOption = option.score;
+                    selectedOptionText = option.text;
                     nextButton.disabled = false;
                 });
                 optionsContainer.appendChild(button);
@@ -349,7 +400,8 @@
         function renderResultsScreen() {
             currentStep = quizData.length;
             updateProgress();
-
+            
+            const totalScore = calculateTotalScore(userAnswers);
             const recommendation = getRecommendation(totalScore);
 
             contentArea.innerHTML = `
@@ -372,10 +424,15 @@
                     <h4 class="text-xl font-black uppercase mb-2">Get Your Roadmap</h4>
                     <p class="text-sm font-medium text-gray-600 mb-6">Enter your details to receive your customized strategy.</p>
                     
-                    <form id="lead-capture-form" class="space-y-4">
-                        <input type="hidden" name="service" value="${recommendation.service}">
-                        <input type="hidden" name="score" value="${totalScore}">
+                    <form id="lead-capture-form" action="https://formsubmit.co/${COACH_EMAIL}" method="POST" class="space-y-4">
                         
+                        <!-- FormSubmit Required Fields -->
+                        <input type="hidden" name="_captcha" value="false">
+                        <input type="hidden" name="_subject" id="form-subject" value="NEW BLUEPRINT LEAD: ${recommendation.title}">
+                        
+                        <!-- Redirect the user back to the quiz page after successful submission -->
+                        <input type="hidden" name="_next" value="${window.location.href}?status=success">
+
                         <div>
                             <label for="name" class="block text-xs font-bold uppercase mb-1">Full Name</label>
                             <input type="text" id="name" name="name" required class="custom-input block w-full p-3 bg-white" placeholder="JANE DOE">
@@ -383,13 +440,22 @@
                         
                         <div>
                             <label for="email" class="block text-xs font-bold uppercase mb-1">Email Address</label>
+                            <!-- IMPORTANT: FormSubmit uses the 'email' field to set the Reply-To address. -->
                             <input type="email" id="email" name="email" required class="custom-input block w-full p-3 bg-white" placeholder="HELLO@EXAMPLE.COM">
+                            
+                            <!-- Hidden field to send a CC copy to the client's email -->
+                            <input type="hidden" name="_cc" id="cc-email-field" value="">
                         </div>
+                        
+                        <!-- Hidden fields for quiz answers will be added dynamically in JS -->
+                        <div id="hidden-fields-container"></div>
                         
                         <button type="submit" id="submit-button" class="action-button w-full py-4 mt-2 rounded-lg text-lg">
                             SEND MY ROADMAP
                         </button>
                     </form>
+
+                    <!-- Message box is now only used for pre-submission checks/notices -->
                     <p id="message-box" class="mt-4 p-3 rounded-lg border-2 border-black text-center font-bold hidden"></p>
                 </div>
             `;
@@ -399,53 +465,73 @@
 
         // --- EVENT HANDLERS ---
         function handleNext() {
-            if (selectedOption !== null) {
-                totalScore += selectedOption;
+            if (selectedOption !== null && selectedOptionText !== null) {
+                // Store the full answer object
+                userAnswers.push({
+                    question: quizData[currentStep].question,
+                    answer: selectedOptionText,
+                    score: selectedOption,
+                    key: quizData[currentStep].key
+                });
                 currentStep++;
                 renderQuestion();
             }
         }
 
-        async function handleFormSubmit(event) {
-            event.preventDefault();
+        function handleFormSubmit(event) {
+            event.preventDefault(); // Stop the default submission first
             const form = event.target;
             const submitButton = document.getElementById('submit-button');
-            const messageBox = document.getElementById('message-box');
-
+            const hiddenFieldsContainer = document.getElementById('hidden-fields-container');
+            
             submitButton.disabled = true;
+            submitButton.textContent = 'PREPARING DATA...';
+
+            const totalScore = calculateTotalScore(userAnswers);
+            const recommendation = getRecommendation(totalScore);
+            const clientEmail = form.elements['email'].value;
+
+            // Clear previous hidden fields
+            hiddenFieldsContainer.innerHTML = '';
+
+            // --- 1. Create the Client Blueprint Text ---
+            const blueprintContent = generateBlueprintContent(recommendation);
+            
+            // --- 2. Add Hidden Fields for FormSubmit ---
+            
+            // A. The full personalized Blueprint for the Coach & Client CC
+            hiddenFieldsContainer.innerHTML += `<input type="hidden" name="Client_Blueprint" value="${encodeURIComponent(blueprintContent)}">`;
+            
+            // B. Static recommendation/score data
+            hiddenFieldsContainer.innerHTML += `<input type="hidden" name="Score" value="${totalScore}">`;
+            hiddenFieldsContainer.innerHTML += `<input type="hidden" name="Recommendation" value="${recommendation.title}">`;
+            
+            // C. All individual quiz answers
+            userAnswers.forEach(answer => {
+                hiddenFieldsContainer.innerHTML += `<input type="hidden" name="${answer.key}" value="${answer.answer}">`;
+            });
+
+            // D. Set the CC field to send a copy to the client
+            document.getElementById('cc-email-field').value = clientEmail;
+
+            // --- 3. Manually Submit the Form ---
+            // This sends all fields to FormSubmit, which handles the email delivery.
             submitButton.textContent = 'SENDING...';
-            messageBox.classList.add('hidden');
-
-            const formData = new FormData(form);
-            const data = {
-                name: formData.get('name'),
-                email: formData.get('email'),
-                recommendation: formData.get('service'),
-                totalScore: formData.get('score') 
-            };
-
-            // MOCK API CALL
-            console.log("Lead captured:", data);
-            await new Promise(resolve => setTimeout(resolve, 1500)); 
-
-            // SUCCESS STATE
-            submitButton.textContent = 'SENT SUCCESSFULLY';
-            submitButton.style.backgroundColor = '#000';
-            submitButton.style.color = '#fff';
-            submitButton.style.borderColor = '#000';
-
-            messageBox.textContent = 'SUCCESS! CHECK YOUR INBOX SHORTLY.';
-            messageBox.classList.remove('hidden');
-            messageBox.classList.add('bg-green-100', 'text-green-800');
+            form.submit();
         }
         
         // --- INITIALIZATION ---
         document.addEventListener('DOMContentLoaded', () => {
-            // Need to initialize progress text elements before rendering the first question
             if (progressTextLabel && progressPercent) {
-                updateProgress(); // Initial update to show Q1 of 6 and 0%
+                updateProgress(); 
             }
             renderQuestion();
+
+            // Check if submission was successful (FormSubmit redirect adds ?status=success)
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('status') === 'success') {
+                alert('SUCCESS! Your personalized blueprint has been sent. Check your inbox and the coach’s email should be updated shortly.');
+            }
         });
     </script>
 </body>
