@@ -192,10 +192,24 @@
 
     </div>
     
-    <!-- Footer Tag -->
-    <div class="mt-8 text-neutral-500 text-xs font-bold uppercase tracking-widest">
-        TRAIN UNCNVNTNL
+    <!-- NEW Footer Block: Disclaimer, Copyright, and Tagline -->
+    <div class="mt-12 w-full max-w-2xl text-center px-4">
+        <!-- Disclaimer (Slightly lighter text) -->
+        <p class="text-neutral-400 text-sm mb-6 leading-relaxed">
+            General Fitness Disclaimer: Always consult your medical professional or doctor before you begin any new fitness regime or make changes to your diet. This site provides general information for educational purposes only and is not intended to diagnose or treat any medical condition. You engage in physical activity at your own risk.
+        </p>
+
+        <!-- Copyright (Bold, White text) -->
+        <p class="text-white font-black text-sm uppercase tracking-wider leading-snug">
+            © 2025 COACH CHRIS | CIRCULAR ROOTS COACHING | TRAIN UNCNVNTNL. All rights reserved.
+        </p>
+        
+        <!-- New Tagline (Fitter. Stronger. Better.) -->
+        <p class="text-neutral-500 text-base italic font-medium mt-3">
+            Fitter. Stronger. Better.
+        </p>
     </div>
+
 
     <script>
         // --- QUIZ DATA ---
@@ -284,7 +298,6 @@
                     description: "Your goals require maximum accountability and highly specific programming. This is the premium, fully-tailored solution designed to adapt to your life and ensure consistent, rapid progress.",
                     accentColor: "text-green-600",
                     ctaLink: "https://coachchriscrc.github.io/oc-lp",
-                    ctaText: "VIEW FULL 1-1 COACHING STRATEGY",
                 };
             } else if (s >= 85) {
                 return {
@@ -292,7 +305,6 @@
                     description: "You have clear goals and moderate commitment. This service provides structured programming, personalized check-ins, and the perfect blend of accountability and flexibility.",
                      accentColor: "text-blue-600",
                      ctaLink: "https://coachchriscrc.github.io/fsb-lp",
-                     ctaText: "VIEW FULL FSB SUBSCRIPTION STRATEGY",
                 };
             } else {
                 return {
@@ -300,28 +312,31 @@
                     description: "You are seeking expert-designed, foundational guidance. Get instant access to professionally built, self-paced training plans you can execute on your own schedule.",
                      accentColor: "text-gray-800",
                      ctaLink: "https://coachchriscrc.github.io/programs-lp",
-                     ctaText: "VIEW FULL PROGRAM LIBRARY",
                 };
             }
         }
         
-        // --- DYNAMIC RATIONALE GENERATION ---
+        // --- DYNAMIC RATIONALE GENERATION (IMPROVED) ---
         function generatePersonalizedRationale(answers, recommendationTitle) {
             const goal = answers.find(a => a.key === 'primaryGoal')?.answer || 'an ambitious fitness goal';
             const barrier = answers.find(a => a.key === 'barrier')?.answer || 'an unknown block';
-            const support = answers.find(a => a.key === 'support')?.answer || 'a dedicated plan';
             
-            const supportMap = {
-                "Self-paced Program Template": "getting a structured, flexible template",
-                "Weekly Check-ins & Messaging": "weekly check-ins and consistent coaching support",
-                "Full 1:1 Coaching (High Accountability)": "the highest level of one-on-one accountability",
-                "Group / Community Environment": "a motivating team environment and community"
-            };
+            // Determine the consistent support feature based on the FINAL recommendation tier
+            let keySupportFeature = '';
 
-            const supportPhrase = supportMap[support] || support;
+            if (recommendationTitle.includes('1-1 ONLINE COACHING')) {
+                // High Score Rationale
+                keySupportFeature = 'maximum 1-on-1 accountability and fully customized plan design';
+            } else if (recommendationTitle.includes('FITTER STRONGER BETTER SUBSCRIPTION')) {
+                // Medium Score Rationale
+                keySupportFeature = 'structured programming with weekly coach check-ins and consistent support';
+            } else { 
+                // Low Score (Program Library) Rationale
+                keySupportFeature = 'immediate access to a vast library of expert-designed, self-paced training plans';
+            }
 
-            // Updated to use <strong> tags instead of **
-            return `This recommendation is tailor-made because your core focus is <strong>${goal}</strong>, but the quiz highlights that your progress is being held back by <strong>${barrier}</strong>. The <strong>${recommendationTitle}</strong> program provides the perfect foundation, delivering <strong>${supportPhrase}</strong> to break that barrier and guarantee you hit your targets.`;
+            // Construct the rationale using the determined feature
+            return `This recommendation is tailor-made because your core focus is <strong>${goal}</strong>, but the quiz highlights that your progress is being held back by <strong>${barrier}</strong>. The <strong>${recommendationTitle}</strong> program provides the perfect foundation, delivering <strong>${keySupportFeature}</strong> to break that barrier and guarantee you hit your targets.`;
         }
 
 
@@ -461,6 +476,11 @@
             const personalizedRationale = generatePersonalizedRationale(userAnswers, recommendation.title);
             const clientDisplay = clientName.toUpperCase();
             
+            // --- UNIFORM CTA LOGIC (Updated to be motivational) ---
+            // Set a consistent, motivational CTA for all recommendations
+            const ctaText = `TAKE THE NEXT STEP: LEARN MORE ABOUT ${recommendation.title}`;
+            // --- END UNIFORM CTA LOGIC ---
+            
             // Render the full motivational program summary
             contentArea.innerHTML = `
                 <div class="animate-in bg-gray-100 border-2 border-black p-6 rounded-xl relative space-y-5">
@@ -478,7 +498,7 @@
                     <div class="text-gray-800 space-y-4 text-base leading-relaxed">
                         <p>Hey ${clientDisplay},</p>
                         
-                        <p>We've analyzed your data and cut through the confusion. It's time to commit to a defined program that guarantees <strong class="text-green-500">UNCNVNTNL</strong> results.</p>
+                        <p>We've analyzed your data and cut through the confusion. It's time to commit to a defined program that guarantees <strong class="text-green-500">incredible</strong> results.</p>
                         
                         <p class="text-center font-black text-xl border-y-2 border-black py-3 bg-gray-200">
                             Your Recommended Program:
@@ -488,15 +508,14 @@
                         <!-- Rationale -->
                         <div class="p-4 bg-white border border-gray-300 rounded-lg">
                             <p class="font-extrabold text-black mb-2">Why this program is the perfect fit:</p>
-                            <!-- Note: The description text uses <em> for italics, which is correct HTML for emphasis -->
                             <p class="italic text-gray-700">${recommendation.description}</p>
                             <p class="mt-3 font-medium text-sm">
                                 <span class="font-extrabold text-black">PERSONAL FIT:</span> ${personalizedRationale}
                             </p>
                         </div>
                         
-                        <!-- General Advice Section -->
-                        <h3 class="text-xl font-black uppercase pt-4 border-t border-gray-300">ACTIONABLE GENERAL ADVICE</h3>
+                        <!-- Actionable Advice Section -->
+                        <h3 class="text-xl font-black uppercase pt-4 border-t border-gray-300">ACTIONABLE ADVICE</h3>
                         <p class="font-bold text-black">Success is simple, but it's not easy. Keep these three principles in mind as you start any new program:</p>
                         <ul class="list-disc list-outside ml-5 space-y-2">
                             <li><strong class="font-extrabold text-black">COMMIT to Consistency, Not Perfection:</strong> A mediocre workout done 5 times a week beats a perfect workout done once. Show up, put in the work, and the results will follow.</li>
@@ -516,7 +535,7 @@
                             </li>
                             <li>
                                 <span class="font-extrabold text-black">Step 2: Book Your Strategy Call</span>
-                                <span class="block text-gray-700">If this Program resonates with your commitment level and goals, the final step is a quick, zero-pressure strategy call with me (Coach Chris) to confirm the fit and officially kick off your UNCNVNTNL training journey.</span>
+                                <span class="block text-gray-700">If this Program resonates with your commitment level and goals, the final step is a quick, zero-pressure strategy call with me (Coach Chris) to confirm the fit and officially kick off your customized training journey.</span>
                             </li>
                         </ol>
 
@@ -525,12 +544,12 @@
                         </p>
                     </div>
 
-                    <!-- CTA Button (using the provided link) -->
+                    <!-- CTA Button (using the provided link and new dynamic text) -->
                     <a href="${recommendation.ctaLink}" 
                        target="_blank" 
                        class="action-button w-full flex items-center justify-center py-5 mt-6 rounded-lg text-lg text-center no-underline !box-shadow-4x4x0x0-000"
                        style="box-shadow: 4px 4px 0 0 #000;">
-                        ${recommendation.ctaText}
+                        ${ctaText}
                     </a>
                     
                     <!-- Restart Button -->
@@ -538,10 +557,10 @@
                         RESTART QUIZ & ANALYZE AGAIN
                     </button>
                     
-                    <!-- Footer Signature -->
+                    <!-- Footer Signature: Removed UNCNVNTNL mention -->
                     <p class="text-sm font-bold pt-4 text-right">
                         — Coach Chris
-                        <span class="block font-medium text-xs text-gray-500">CIRCULAR ROOTS COACHING | TRAIN UNCNVNTNL</span>
+                        <span class="block font-medium text-xs text-gray-500">CIRCULAR ROOTS COACHING</span>
                     </p>
                 </div>
             `;
