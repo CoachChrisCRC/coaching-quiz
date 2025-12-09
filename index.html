@@ -171,7 +171,7 @@
             <div class="flex items-center space-x-3">
                 <!-- Progress Label -->
                 <p id="progress-text-label" class="text-sm font-black uppercase tracking-widest text-black whitespace-nowrap">
-                    QUESTION 1 OF 6
+                    QUESTION 1 OF 10
                 </p>
                 <!-- Progress Bar Container -->
                 <div class="progress-container h-3 flex-grow rounded-full overflow-hidden">
@@ -212,7 +212,7 @@
 
 
     <script>
-        // --- QUIZ DATA ---
+        // --- QUIZ DATA (EXPANDED TO 10 QUESTIONS) ---
         const quizData = [
             {
                 id: 1,
@@ -274,10 +274,54 @@
                 question: "What is your budget for coaching?",
                 key: "budget",
                 options: [
-                    { text: "High (Ready for Premium 1:1)", score: 30 },
-                    { text: "Medium (Solid Subscription Model)", score: 20 },
-                    { text: "Low (Budget-Friendly Option)", score: 10 },
-                    { text: "Results are the priority", score: 25 },
+                    { text: "£150+ per month", score: 30 },
+                    { text: "Up to £100 per month", score: 20 },
+                    { text: "Up to £50 per month", score: 10 },
+                    { text: "Budget is flexible (Results are the priority)", score: 25 },
+                ]
+            },
+            {
+                id: 7,
+                question: "Where do you primarily workout?",
+                key: "location",
+                options: [
+                    { text: "Gym / Fitness Center (Full equipment)", score: 30 },
+                    { text: "Home / Minimal Equipment", score: 10 },
+                    { text: "Outdoors / Functional Training", score: 20 },
+                    { text: "Varies / Travel often", score: 5 },
+                ]
+            },
+            {
+                id: 8,
+                question: "How would you describe your nutritional discipline?",
+                key: "nutrition",
+                options: [
+                    { text: "Highly structured / Track macros", score: 30 },
+                    { text: "Generally healthy / Need guidance", score: 20 },
+                    { text: "Inconsistent / Need full overhaul", score: 10 },
+                    { text: "Not focused on it yet", score: 5 },
+                ]
+            },
+            {
+                id: 9, // THIS QUESTION HAS BEEN UPDATED
+                question: "How crucial is guidance on daily habits, sleep, and stress management?",
+                key: "lifestyle",
+                options: [
+                    { text: "Essential (Daily monitoring & adaptation)", score: 30 },
+                    { text: "Important (Covered in weekly check-ins)", score: 20 },
+                    { text: "Not crucial (I only need the workout plan)", score: 10 },
+                    { text: "I'm already highly disciplined in these areas", score: 5 },
+                ]
+            },
+            {
+                id: 10,
+                question: "What is your long-term energy and health objective?",
+                key: "longTerm",
+                options: [
+                    { text: "Maximize longevity & daily energy", score: 25 },
+                    { text: "Look and feel great (Aesthetics)", score: 20 },
+                    { text: "Perform at an elite level (Sport/Job)", score: 30 },
+                    { text: "Maintain current health level", score: 5 },
                 ]
             }
         ];
@@ -288,24 +332,27 @@
         let userAnswers = []; // Array to store detailed answers
         let clientName = "Warrior"; // Default client name
 
-        // --- RECOMMENDATION LOGIC ---
+        // --- RECOMMENDATION LOGIC (UPDATED THRESHOLDS for Max Score 300) ---
         function getRecommendation(score) {
             const s = parseInt(score, 10); 
             
-            if (s >= 140) {
+            // New High Threshold: Score >= 230 (approx. 77% of max 300)
+            if (s >= 230) {
                 return {
                     title: "1-1 ONLINE COACHING",
                     description: "Your goals require maximum accountability and highly specific programming. This is the premium, fully-tailored solution designed to adapt to your life and ensure consistent, rapid progress.",
                     accentColor: "text-green-600",
                     ctaLink: "https://coachchriscrc.github.io/oc-lp",
                 };
-            } else if (s >= 85) {
+            // New Medium Threshold: Score >= 145 (approx. 48% of max 300)
+            } else if (s >= 145) {
                 return {
                     title: "FITTER STRONGER BETTER SUBSCRIPTION",
                     description: "You have clear goals and moderate commitment. This service provides structured programming, personalized check-ins, and the perfect blend of accountability and flexibility.",
                      accentColor: "text-blue-600",
                      ctaLink: "https://coachchriscrc.github.io/fsb-lp",
                 };
+            // Low Threshold: Score < 145
             } else {
                 return {
                     title: "ONLINE PROGRAM LIBRARY",
