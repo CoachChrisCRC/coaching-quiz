@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Get Your Personal Blueprint | COACH CHRIS</title>
+    <title>Get Your Program Summary | COACH CHRIS</title>
     <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -82,6 +82,21 @@
             box-shadow: none;
             cursor: not-allowed;
         }
+        
+        /* Secondary/Back Button */
+        .secondary-button {
+            background-color: #fff; 
+            color: #000;
+            border: 2px solid #000;
+            font-weight: 700;
+            text-transform: uppercase;
+            box-shadow: 2px 2px 0 0 #000;
+            transition: all 0.2s;
+        }
+        .secondary-button:hover {
+            transform: translate(-1px, -1px);
+            box-shadow: 3px 3px 0 0 #000;
+        }
 
         /* Progress Bar: Black container, Green fill */
         .progress-container {
@@ -130,7 +145,7 @@
         <!-- Decoration: Green accent line top -->
         <div class="absolute top-0 left-0 w-full h-2 bg-green-500"></div>
 
-        <!-- NEW BRANDING BLOCK -->
+        <!-- BRANDING BLOCK -->
         <div class="mb-6 leading-tight animate-in">
             <h1 class="text-4xl sm:text-5xl font-black text-black uppercase tracking-tighter">
                 COACH CHRIS
@@ -143,9 +158,12 @@
             </p>
         </div>
 
-        <!-- Main Quiz Title -->
+        <!-- Main Quiz Title - UPDATED TEXT AND COLOR -->
         <h2 class="text-3xl sm:text-4xl font-black text-black mb-4 uppercase italic tracking-tighter">
-            YOUR PERSONAL BLUEPRINT
+            FIND YOUR PATH TO BECOMING 
+            <span class="text-green-500">#FITTER</span> 
+            <span class="text-green-500">#STRONGER</span> 
+            <span class="text-green-500">#BETTER</span>
         </h2>
         
         <!-- Progress Bar -->
@@ -180,15 +198,12 @@
     </div>
 
     <script>
-        // --- CONFIGURATION CONSTANTS ---
-        // 1. Lead Recipient Email (Coach Chris) - CRITICAL: This is where the leads go.
-        const FORM_SUBMIT_RECIPIENT_EMAIL = 'circularrootscoaching@gmail.com'; 
-
         // --- QUIZ DATA ---
         const quizData = [
             {
                 id: 1,
                 question: "What is your #1 primary fitness goal right now?",
+                key: "primaryGoal",
                 options: [
                     { text: "Fat Loss / Body Transformation", score: 30 },
                     { text: "Build Muscle & Increase Strength", score: 20 },
@@ -199,6 +214,7 @@
             {
                 id: 2,
                 question: "How many days per week can you realistically commit?",
+                key: "commitment",
                 options: [
                     { text: "5 or more days", score: 30 },
                     { text: "3 - 4 days", score: 20 },
@@ -209,6 +225,7 @@
             {
                 id: 3,
                 question: "What is your biggest barrier to success?",
+                key: "barrier",
                 options: [
                     { text: "Lack of a Specific Program", score: 5 },
                     { text: "Consistency & Accountability", score: 20 },
@@ -219,6 +236,7 @@
             {
                 id: 4,
                 question: "What level of support do you need?",
+                key: "support",
                 options: [
                     { text: "Self-paced Program Template", score: 5 },
                     { text: "Weekly Check-ins & Messaging", score: 20 },
@@ -229,6 +247,7 @@
             {
                 id: 5,
                 question: "Do you have any injuries or medical considerations?",
+                key: "medical",
                 options: [
                     { text: "Yes, I need tailored modifications.", score: 30 },
                     { text: "Minor aches, nothing serious.", score: 20 },
@@ -239,6 +258,7 @@
             {
                 id: 6,
                 question: "What is your budget for coaching?",
+                key: "budget",
                 options: [
                     { text: "High (Ready for Premium 1:1)", score: 30 },
                     { text: "Medium (Solid Subscription Model)", score: 20 },
@@ -251,82 +271,57 @@
         let currentStep = 0;
         let totalScore = 0;
         let selectedOption = null;
+        let userAnswers = []; // Array to store detailed answers
+        let clientName = "Warrior"; // Default client name
 
-        // --- RECOMMENDATION LOGIC (WITH DYNAMIC LINKS) ---
+        // --- RECOMMENDATION LOGIC ---
         function getRecommendation(score) {
-            // Ensure score is a number, in case it's read from the DOM as a string
             const s = parseInt(score, 10); 
             
             if (s >= 140) {
                 return {
                     title: "1-1 ONLINE COACHING",
-                    description: "Your goals require maximum accountability and highly specific programming. This is the premium, fully-tailored blueprint designed to adapt to your life.",
-                    service: "1-1 Online Coaching",
+                    description: "Your goals require maximum accountability and highly specific programming. This is the premium, fully-tailored solution designed to adapt to your life and ensure consistent, rapid progress.",
                     accentColor: "text-green-600",
-                    // 1-1 Coaching Link (High Score)
-                    ctaLink: "https://coachchriscrc.github.io/oc-lp" 
+                    ctaLink: "https://coachchriscrc.github.io/oc-lp",
+                    ctaText: "VIEW FULL 1-1 COACHING STRATEGY",
                 };
             } else if (s >= 85) {
                 return {
                     title: "FITTER STRONGER BETTER SUBSCRIPTION",
-                    description: "You have clear goals and moderate commitment. This model provides structure, personalized check-ins, and the perfect blend of accountability and flexibility.",
-                    service: "Fitter Stronger Better Subscription",
+                    description: "You have clear goals and moderate commitment. This service provides structured programming, personalized check-ins, and the perfect blend of accountability and flexibility.",
                      accentColor: "text-blue-600",
-                     // Subscription Link (Medium Score)
-                     ctaLink: "https://coachchriscrc.github.io/fsb-lp"
+                     ctaLink: "https://coachchriscrc.github.io/fsb-lp",
+                     ctaText: "VIEW FULL FSB SUBSCRIPTION STRATEGY",
                 };
             } else {
                 return {
                     title: "ONLINE PROGRAM LIBRARY",
-                    description: "You are seeking foundational guidance. Get instant access to professionally designed, self-paced training plans you can execute on your own schedule.",
-                    service: "Online Program Library",
+                    description: "You are seeking expert-designed, foundational guidance. Get instant access to professionally built, self-paced training plans you can execute on your own schedule.",
                      accentColor: "text-gray-800",
-                     // Program Library Link (Low Score)
-                     ctaLink: "https://coachchriscrc.github.io/programs-lp"
+                     ctaLink: "https://coachchriscrc.github.io/programs-lp",
+                     ctaText: "VIEW FULL PROGRAM LIBRARY",
                 };
             }
         }
+        
+        // --- DYNAMIC RATIONALE GENERATION ---
+        function generatePersonalizedRationale(answers, recommendationTitle) {
+            const goal = answers.find(a => a.key === 'primaryGoal')?.answer || 'an ambitious fitness goal';
+            const barrier = answers.find(a => a.key === 'barrier')?.answer || 'an unknown block';
+            const support = answers.find(a => a.key === 'support')?.answer || 'a dedicated plan';
+            
+            const supportMap = {
+                "Self-paced Program Template": "getting a structured, flexible template",
+                "Weekly Check-ins & Messaging": "weekly check-ins and consistent coaching support",
+                "Full 1:1 Coaching (High Accountability)": "the highest level of one-on-one accountability",
+                "Group / Community Environment": "a motivating team environment and community"
+            };
 
-        // --- EMAIL GENERATION (Generates the client's automated email) ---
-        function generateAutoResponseHtml(clientName, recommendation) {
-            const { title, description, ctaLink } = recommendation;
-            const linkText = `>> SECURE YOUR ${title} ROADMAP HERE <<`;
+            const supportPhrase = supportMap[support] || support;
 
-            // This is the HTML that Formsubmit sends back to the client's email
-            // Note: Inline CSS is required for email clients.
-            return `
-                <div style="font-family: 'Inter', sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: auto; padding: 20px; border: 4px solid #000; box-shadow: 6px 6px 0 0 #22c55e;">
-                    <h1 style="color: #000; font-size: 28px; font-weight: 900; text-transform: uppercase; margin-bottom: 5px;">COACH CHRIS</h1>
-                    <p style="color: #4b5563; font-weight: 700; margin-bottom: 20px;">CIRCULAR ROOTS COACHING | TRAIN UNCNVNTNL</p>
-                    
-                    <h2 style="font-size: 22px; color: #000; margin-top: 30px; margin-bottom: 20px;">Hey ${clientName.toUpperCase()},</h2>
-                    
-                    <p style="font-weight: 700; font-size: 18px; margin-bottom: 25px;">STOP GUESSING. START WINNING.</p>
-
-                    <p style="margin-bottom: 30px;">You just finished the Personal Blueprint Quiz, and the data doesn't lie. We know exactly what you need to cut the wasted time and start getting <strong style="color: #22c55e;">UNCNVNTNL</strong> results.</p>
-                    
-                    <div style="border-left: 5px solid #22c55e; background-color: #f3f4f6; padding: 20px; margin-bottom: 30px;">
-                        <h3 style="color: #000; font-size: 24px; font-weight: 900; text-transform: uppercase; margin: 0 0 10px 0;">YOUR TRAINING BLUEPRINT IS:</h3>
-                        <p style="font-size: 20px; font-weight: 900; color: #000; margin: 0 0 10px 0;">${title}</p>
-                        <p style="font-size: 16px; color: #4b5563; margin: 0;">${description}</p>
-                    </div>
-
-                    <h3 style="font-size: 18px; color: #000; font-weight: 800; text-transform: uppercase; margin-bottom: 15px;">WHAT HAPPENS NOW?</h3>
-                    
-                    <p style="margin-bottom: 10px;">You have two choices: go back to the drawing board, or <strong style="color: #000;">COMMIT TO THE PLAN.</strong></p>
-
-                    <p style="margin-bottom: 30px;">Click below to get the full strategy details and book your strategy call with me (Coach Chris) to start turning this blueprint into reality.</p>
-
-                    <a href="${ctaLink}" 
-                       target="_blank" 
-                       style="display: block; text-align: center; background-color: #22c55e; color: #000; padding: 15px 10px; font-size: 18px; font-weight: 900; text-decoration: none; text-transform: uppercase; border: 2px solid #000; box-shadow: 4px 4px 0 0 #000;">
-                        ${linkText}
-                    </a>
-                    
-                    <p style="margin-top: 40px; margin-bottom: 5px; font-weight: 700;">— Coach Chris</p>
-                    <p style="font-size: 12px; color: #9ca3af;">If you have any issues, reply to this email.</p>
-                </div>
-            `;
+            // Updated to use <strong> tags instead of **
+            return `This recommendation is tailor-made because your core focus is <strong>${goal}</strong>, but the quiz highlights that your progress is being held back by <strong>${barrier}</strong>. The <strong>${recommendationTitle}</strong> program provides the perfect foundation, delivering <strong>${supportPhrase}</strong> to break that barrier and guarantee you hit your targets.`;
         }
 
 
@@ -355,12 +350,14 @@
 
         function renderQuestion() {
             if (currentStep >= quizData.length) {
-                renderResultsScreen();
+                renderNameInputScreen();
                 return;
             }
 
             const stepData = quizData[currentStep];
-            selectedOption = null;
+            // Find previously selected option for this step to pre-select it
+            const previousAnswer = userAnswers.find(a => a.key === stepData.key);
+            selectedOption = previousAnswer ? stepData.options.find(opt => opt.text === previousAnswer.answer) : null;
             
             contentArea.innerHTML = ''; 
 
@@ -371,25 +368,45 @@
                 <div id="options-container" class="space-y-4">
                     <!-- Options appended here -->
                 </div>
-                <button id="next-button" disabled class="action-button mt-10 w-full p-4 text-xl rounded-lg">
-                    CONTINUE
-                </button>
+                <div class="flex space-x-4 mt-10">
+                    <button id="back-button" class="secondary-button w-1/3 p-4 text-xl rounded-lg">
+                        <span class="hidden sm:inline">GO </span>BACK
+                    </button>
+                    <button id="next-button" ${selectedOption ? '' : 'disabled'} class="action-button flex-grow p-4 text-xl rounded-lg">
+                        CONTINUE
+                    </button>
+                </div>
             `;
             contentArea.appendChild(questionBlock);
 
             const optionsContainer = document.getElementById('options-container');
             const nextButton = document.getElementById('next-button');
+            const backButton = document.getElementById('back-button');
+
+            // Show/hide back button
+            if (currentStep === 0) {
+                backButton.classList.add('invisible');
+            } else {
+                 backButton.addEventListener('click', handleBack);
+            }
+
 
             stepData.options.forEach(option => {
                 const button = document.createElement('button');
                 button.textContent = option.text;
                 button.className = 'option-button w-full text-left p-5 rounded-lg text-lg';
                 button.setAttribute('data-score', option.score);
+                button.setAttribute('data-key', stepData.key);
                 
+                // Pre-select the button if it matches the previous answer
+                if (selectedOption && option.text === selectedOption.text) {
+                     button.classList.add('selected');
+                }
+
                 button.addEventListener('click', () => {
                     document.querySelectorAll('.option-button').forEach(btn => btn.classList.remove('selected'));
                     button.classList.add('selected');
-                    selectedOption = option.score;
+                    selectedOption = option; // Store the whole option object for rich data capture
                     nextButton.disabled = false;
                 });
                 optionsContainer.appendChild(button);
@@ -399,179 +416,193 @@
             updateProgress();
         }
         
-        function renderResultsScreen() {
-            currentStep = quizData.length;
-            updateProgress();
+        function renderNameInputScreen() {
+             currentStep = quizData.length;
+             updateProgress();
 
+             contentArea.innerHTML = `
+                 <div class="text-center animate-in">
+                     <div class="inline-block p-3 rounded-full border-4 border-black mb-6">
+                         <svg class="h-10 w-10 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
+                         </svg>
+                     </div>
+                     <h2 class="text-lg font-bold text-gray-500 uppercase tracking-widest mb-2">Quiz Complete!</h2>
+                     <p class="text-3xl sm:text-4xl font-black uppercase italic mb-6 leading-none text-black">GENERATING PROGRAM SUMMARY...</p>
+                 </div>
+                 
+                 <!-- Name Capture for Personalization -->
+                 <div class="animate-in bg-gray-50 border-2 border-black p-6 rounded-xl relative">
+                     <!-- Decorative Green Square -->
+                     <div class="absolute -top-3 -right-3 w-8 h-8 bg-green-500 border-2 border-black"></div>
+                     
+                     <h4 class="text-xl font-black uppercase mb-2">Finalize Summary</h4>
+                     <p class="text-sm font-medium text-gray-600 mb-6">Enter your first name to personalize your action plan below.</p>
+                     
+                     <form id="personalization-form" class="space-y-4">
+                         
+                         <div>
+                             <label for="name" class="block text-xs font-bold uppercase mb-1">First Name (Required)</label>
+                             <input type="text" id="client-name-input" name="name" required class="custom-input block w-full p-3 bg-white" placeholder="JANE" value="${clientName === 'Warrior' ? '' : clientName}">
+                         </div>
+                         
+                         <button type="submit" id="display-button" class="action-button w-full py-4 mt-2 rounded-lg text-lg">
+                             VIEW MY PROGRAM SUMMARY
+                         </button>
+                     </form>
+                 </div>
+             `;
+             
+             document.getElementById('personalization-form').addEventListener('submit', handlePersonalize);
+        }
+
+        function renderFinalProgramSummary() {
             const recommendation = getRecommendation(totalScore);
-
-            // We store the recommendation data on the content area element for easy retrieval
-            contentArea.setAttribute('data-rec-title', recommendation.title);
-            contentArea.setAttribute('data-rec-score', totalScore);
-
-
+            const personalizedRationale = generatePersonalizedRationale(userAnswers, recommendation.title);
+            const clientDisplay = clientName.toUpperCase();
+            
+            // Render the full motivational program summary
             contentArea.innerHTML = `
-                <div class="text-center animate-in">
-                    <div class="inline-block p-3 rounded-full border-4 border-black mb-6">
-                        <svg class="h-10 w-10 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
-                        </svg>
+                <div class="animate-in bg-gray-100 border-2 border-black p-6 rounded-xl relative space-y-5">
+                    <!-- Subject/Header -->
+                    <div class="text-center">
+                        <p class="text-lg font-extrabold uppercase text-green-600 tracking-widest mb-1">
+                            🚀 YOUR RECOMMENDED PROGRAM IS READY, ${clientDisplay}!
+                        </p>
+                        <h1 class="text-4xl font-black uppercase text-black italic">
+                            STOP GUESSING. START WINNING.
+                        </h1>
                     </div>
-                    <h2 class="text-lg font-bold text-gray-500 uppercase tracking-widest mb-2">Based on your answers:</h2>
-                    <p class="text-3xl sm:text-4xl font-black uppercase italic mb-6 leading-none ${recommendation.accentColor}">${recommendation.title}</p>
-                    <p class="text-lg font-medium text-gray-700 mb-10 leading-relaxed">${recommendation.description}</p>
-                </div>
-                
-                <!-- Lead Capture Form -->
-                <div id="lead-form-container" class="animate-in bg-gray-50 border-2 border-black p-6 rounded-xl relative">
-                    <!-- Decorative Green Square -->
-                    <div class="absolute -top-3 -right-3 w-8 h-8 bg-green-500 border-2 border-black"></div>
-                    
-                    <h4 class="text-xl font-black uppercase mb-2">Get Your Roadmap</h4>
-                    <p class="text-sm font-medium text-gray-600 mb-6">Enter your details to receive your customized strategy immediately.</p>
-                    
-                    <form id="lead-capture-form" class="space-y-4">
+
+                    <!-- Body Content -->
+                    <div class="text-gray-800 space-y-4 text-base leading-relaxed">
+                        <p>Hey ${clientDisplay},</p>
                         
-                        <div>
-                            <label for="name" class="block text-xs font-bold uppercase mb-1">Full Name</label>
-                            <input type="text" id="name" name="name" required class="custom-input block w-full p-3 bg-white" placeholder="JANE DOE">
+                        <p>We've analyzed your data and cut through the confusion. It's time to commit to a defined program that guarantees <strong class="text-green-500">UNCNVNTNL</strong> results.</p>
+                        
+                        <p class="text-center font-black text-xl border-y-2 border-black py-3 bg-gray-200">
+                            Your Recommended Program:
+                            <span class="block text-2xl mt-1 ${recommendation.accentColor}">${recommendation.title}</span>
+                        </p>
+                        
+                        <!-- Rationale -->
+                        <div class="p-4 bg-white border border-gray-300 rounded-lg">
+                            <p class="font-extrabold text-black mb-2">Why this program is the perfect fit:</p>
+                            <!-- Note: The description text uses <em> for italics, which is correct HTML for emphasis -->
+                            <p class="italic text-gray-700">${recommendation.description}</p>
+                            <p class="mt-3 font-medium text-sm">
+                                <span class="font-extrabold text-black">PERSONAL FIT:</span> ${personalizedRationale}
+                            </p>
                         </div>
                         
-                        <div>
-                            <label for="email" class="block text-xs font-bold uppercase mb-1">Email Address (The Roadmap will be sent here)</label>
-                            <input type="email" id="email" name="email" required class="custom-input block w-full p-3 bg-white" placeholder="HELLO@EXAMPLE.COM">
-                        </div>
+                        <!-- General Advice Section -->
+                        <h3 class="text-xl font-black uppercase pt-4 border-t border-gray-300">ACTIONABLE GENERAL ADVICE</h3>
+                        <p class="font-bold text-black">Success is simple, but it's not easy. Keep these three principles in mind as you start any new program:</p>
+                        <ul class="list-disc list-outside ml-5 space-y-2">
+                            <li><strong class="font-extrabold text-black">COMMIT to Consistency, Not Perfection:</strong> A mediocre workout done 5 times a week beats a perfect workout done once. Show up, put in the work, and the results will follow.</li>
+                            <li><strong class="font-extrabold text-black">Master the Basics:</strong> Don't chase novelty. Focus on mastering the fundamental movements. This is where 90% of your gains will come from, regardless of the program.</li>
+                            <li><strong class="font-extrabold text-black">Prioritize Sleep & Fueling:</strong> Your body doesn't build muscle or burn fat in the gym; it does it while recovering. Treat your sleep and nutrition like they are the most important lifts of the day.</li>
+                        </ul>
                         
-                        <button type="submit" id="submit-button" class="action-button w-full py-4 mt-2 rounded-lg text-lg">
-                            SEND MY ROADMAP NOW
-                        </button>
-                    </form>
-                    <p id="message-box" class="mt-4 p-3 rounded-lg border-2 border-black text-center font-bold hidden"></p>
+                        
+                        <h3 class="text-xl font-black uppercase pt-4 border-t border-gray-300">YOUR NEXT STEPS</h3>
+                        
+                        <p>It's time to stop guessing and <strong class="text-black">COMMIT TO THE PLAN</strong>.</p>
+                        
+                        <ol class="list-decimal list-inside space-y-3 font-medium">
+                            <li>
+                                <span class="font-extrabold text-black">Step 1: Get the Full Program Details</span>
+                                <span class="block text-gray-700">Click the link below. It will take you to a private page detailing everything about the <span class="font-bold">${recommendation.title}</span> service, including clear pricing, what’s included, and the expected timeline to achieve your specific goals.</span>
+                            </li>
+                            <li>
+                                <span class="font-extrabold text-black">Step 2: Book Your Strategy Call</span>
+                                <span class="block text-gray-700">If this Program resonates with your commitment level and goals, the final step is a quick, zero-pressure strategy call with me (Coach Chris) to confirm the fit and officially kick off your UNCNVNTNL training journey.</span>
+                            </li>
+                        </ol>
+
+                        <p class="text-center text-lg font-black pt-4">
+                            ACTION IS THE ONLY WAY FORWARD.
+                        </p>
+                    </div>
+
+                    <!-- CTA Button (using the provided link) -->
+                    <a href="${recommendation.ctaLink}" 
+                       target="_blank" 
+                       class="action-button w-full flex items-center justify-center py-5 mt-6 rounded-lg text-lg text-center no-underline !box-shadow-4x4x0x0-000"
+                       style="box-shadow: 4px 4px 0 0 #000;">
+                        ${recommendation.ctaText}
+                    </a>
+                    
+                    <!-- Restart Button -->
+                    <button id="restart-button" class="secondary-button w-full py-3 mt-4 rounded-lg text-sm">
+                        RESTART QUIZ & ANALYZE AGAIN
+                    </button>
+                    
+                    <!-- Footer Signature -->
+                    <p class="text-sm font-bold pt-4 text-right">
+                        — Coach Chris
+                        <span class="block font-medium text-xs text-gray-500">CIRCULAR ROOTS COACHING | TRAIN UNCNVNTNL</span>
+                    </p>
                 </div>
             `;
             
-            document.getElementById('lead-capture-form').addEventListener('submit', handleFormSubmit);
+            document.getElementById('restart-button').addEventListener('click', restartQuiz);
         }
 
         // --- EVENT HANDLERS ---
         function handleNext() {
             if (selectedOption !== null) {
-                totalScore += selectedOption;
+                // Check if this question was previously answered (i.e., user went back)
+                const currentKey = quizData[currentStep].key;
+                const existingIndex = userAnswers.findIndex(a => a.key === currentKey);
+
+                if (existingIndex !== -1) {
+                    // If moving forward from a previous step, update the score and the answer
+                    totalScore -= userAnswers[existingIndex].score; // Subtract old score
+                    userAnswers.splice(existingIndex, 1); // Remove old answer
+                } 
+                
+                // Add the new answer
+                userAnswers.push({
+                    key: currentKey,
+                    question: quizData[currentStep].question,
+                    answer: selectedOption.text,
+                    score: selectedOption.score
+                });
+                
+                totalScore += selectedOption.score;
                 currentStep++;
                 renderQuestion();
             }
         }
-
-        async function handleFormSubmit(event) {
-            event.preventDefault();
-            const form = event.target;
-            const submitButton = document.getElementById('submit-button');
-            const messageBox = document.getElementById('message-box');
-            
-            // Get data from input fields and data attributes
-            const clientFullName = document.getElementById('name').value.trim();
-            const clientName = clientFullName.split(' ')[0] || 'Warrior';
-            const clientEmail = document.getElementById('email').value.trim();
-            
-            const recTitle = contentArea.getAttribute('data-rec-title');
-            const totalScoreVal = contentArea.getAttribute('data-rec-score');
-
-            // --- 1. GENERATE PERSONALIZED AUTO-RESPONSE HTML ---
-            const personalizedRecommendation = getRecommendation(parseInt(totalScoreVal, 10));
-            const personalizedAutoResponse = generateAutoResponseHtml(clientName, personalizedRecommendation);
-            
-
-            // --- 2. SET LOADING STATE ---
-            submitButton.disabled = true;
-            submitButton.textContent = 'ANALYZING & SENDING...';
-            messageBox.classList.add('hidden');
-
-            
-            // --- 3. CONFIGURE AJAX PAYLOAD DIRECTLY (MOST ROBUST METHOD) ---
-            const payload = {
-                // Client Data (For the Coach's Lead Email)
-                name: clientFullName,
-                email: clientEmail, // The client's email address
-                
-                // Formsubmit Metadata & Delivery Headers
-                // _subject: Subject for the Coach's email (the lead)
-                _subject: `NEW BLUEPRINT LEAD (${recTitle}) from ${clientName}`,
-                
-                // _from: Defines the sender name for the Auto-response email
-                _from: `Coach Chris - Circular Roots Coaching <${FORM_SUBMIT_RECIPIENT_EMAIL}>`,
-                
-                // _replyto: Sets the reply-to header for the Coach's email 
-                _replyto: clientEmail, 
-                
-                // Quiz Data for Coach's Lead Email Body
-                Recommendation_Title: recTitle,
-                Recommendation_Description: personalizedRecommendation.description, 
-                Total_Score: totalScoreVal,
-                
-                // CRITICAL FIELD: _autoresponse (Sent back to the 'email' field)
-                _autoresponse: personalizedAutoResponse 
-            };
-
-
-            // --- 4. EXECUTE FORM SUBMISSION WITH RETRIES ---
-            const apiUrl = `https://formsubmit.co/ajax/${FORM_SUBMIT_RECIPIENT_EMAIL}`;
-            const maxRetries = 3;
-            let currentRetry = 0;
-            let success = false;
-            
-            while (currentRetry < maxRetries && !success) {
-                try {
-                    const response = await fetch(apiUrl, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Accept': 'application/json'
-                        },
-                        body: JSON.stringify(payload)
-                    });
-
-                    if (response.ok) {
-                        success = true;
-                        break;
-                    } else {
-                        // Log error response
-                        const errorData = await response.json();
-                        console.error('Form submit non-OK response:', response.status, errorData);
-                        throw new Error(`Server returned status: ${response.status}`);
-                    }
-                } catch (error) {
-                    // console.error('Form submission failed, retrying:', error); // Silent retry log
-                    currentRetry++;
-                    // Exponential backoff delay
-                    await new Promise(resolve => setTimeout(resolve, 1000 * (2 ** currentRetry)));
-                }
-            }
-
-
-            // --- 5. HANDLE SUCCESS/FAILURE STATE ---
-            if (success) {
-                submitButton.textContent = 'ROADMAP SENT!';
-                submitButton.disabled = true; 
-                submitButton.style.backgroundColor = '#000';
-                submitButton.style.color = '#fff';
-                submitButton.style.borderColor = '#000';
-    
-                messageBox.textContent = 'SUCCESS! Your personalized roadmap has been sent. Check your inbox (and spam folder) shortly.';
-                messageBox.classList.remove('hidden', 'bg-red-100', 'text-red-800');
-                messageBox.classList.add('bg-green-100', 'text-green-800');
-            } else {
-                // If max retries hit
-                submitButton.textContent = 'TRY AGAIN';
-                submitButton.disabled = false;
-                submitButton.style.backgroundColor = '#22c55e';
-                submitButton.style.color = '#000';
-                
-                messageBox.textContent = 'ERROR: Submission failed. Please try again later.';
-                messageBox.classList.remove('hidden', 'bg-green-100', 'text-green-800');
-                messageBox.classList.add('bg-red-100', 'text-red-800');
-            }
+        
+        function handleBack() {
+             // 1. Decrement step
+             currentStep = Math.max(0, currentStep - 1);
+             
+             // The next renderQuestion call will correctly pre-select the answer based on the (now current) userAnswers array.
+             renderQuestion();
         }
         
+        function handlePersonalize(event) {
+            event.preventDefault();
+            const nameInput = document.getElementById('client-name-input').value.trim();
+            if (nameInput) {
+                // Update the global clientName variable for personalization
+                clientName = nameInput.split(' ')[0]; 
+            }
+            renderFinalProgramSummary();
+        }
+        
+        function restartQuiz() {
+            currentStep = 0;
+            totalScore = 0;
+            selectedOption = null;
+            userAnswers = [];
+            clientName = "Warrior"; // Reset to default name
+            renderQuestion();
+        }
+
         // --- INITIALIZATION ---
         document.addEventListener('DOMContentLoaded', () => {
             if (progressTextLabel && progressPercent) {
