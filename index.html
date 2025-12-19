@@ -28,6 +28,42 @@
             background-size: 40px 40px;
         }
 
+        /* --- LOADING SCREEN CSS --- */
+        #initial-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.5s ease-out;
+        }
+
+        .loader-content {
+            text-align: center;
+            animation: pulse-slow 2s infinite ease-in-out;
+        }
+
+        @keyframes pulse-slow {
+            0%, 100% { opacity: 0.8; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.02); }
+        }
+
+        .cycling-text {
+            font-family: monospace;
+            color: #22c55e;
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-top: 1rem;
+            min-height: 1.2em;
+        }
+
         /* --- BRANDING COMPONENTS --- */
         .quiz-container {
             max-width: 650px;
@@ -161,17 +197,6 @@
             background-repeat: no-repeat;
         }
         
-        .or-separator {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.125rem;
-            font-weight: 900;
-            text-transform: uppercase;
-            color: #000;
-            margin: 1rem 0;
-        }
-        
         .clean-spinner {
             width: 60px;
             height: 60px;
@@ -186,94 +211,22 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-
-        /* --- UPDATED APP LOADING SCREEN CSS --- */
-        #app-loader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #000;
-            z-index: 9999;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            transition: opacity 0.5s ease-out;
-        }
-
-        .loader-card {
-            background: #fff;
-            padding: 2.5rem;
-            border-radius: 1.5rem;
-            width: 90%;
-            max-width: 450px;
-            text-align: center;
-            border: 4px solid #fff;
-            box-shadow: 8px 8px 0 0 #22c55e;
-            color: #000;
-        }
-
-        .loader-dots {
-            display: flex;
-            gap: 8px;
-            justify-content: center;
-            margin: 20px 0;
-        }
-
-        .loader-dot {
-            width: 10px;
-            height: 10px;
-            background: #000;
-            border-radius: 50%;
-            animation: dot-pulse 1.5s infinite ease-in-out;
-        }
-
-        .loader-dot:nth-child(2) { animation-delay: 0.2s; }
-        .loader-dot:nth-child(3) { animation-delay: 0.4s; }
-
-        @keyframes dot-pulse {
-            0%, 100% { opacity: 0.2; transform: scale(0.8); }
-            50% { opacity: 1; transform: scale(1.2); background: #22c55e; }
-        }
-
-        .loading-text-glitch {
-            font-family: monospace;
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-size: 0.75rem;
-            color: #666;
-        }
     </style>
 </head>
 <body class="flex flex-col items-center justify-center min-h-screen p-4 sm:p-6">
 
-    <!-- UPDATED INITIAL LOADING SCREEN -->
-    <div id="app-loader">
-        <div class="loader-card animate-in">
-            <h1 class="text-3xl font-black text-black uppercase tracking-tighter mb-1">
-                COACH CHRIS
+    <!-- INITIAL ANIMATED LOADING SCREEN -->
+    <div id="initial-loader">
+        <div class="loader-content">
+            <h1 class="text-4xl font-black text-white uppercase tracking-tighter italic">
+                COACHING QUIZ
             </h1>
-            <p class="text-[10px] font-bold text-neutral-500 uppercase tracking-[0.3em] mb-6">
-                PROGRAM SELECTOR v2.5
-            </p>
-            
-            <div class="py-6 border-y-2 border-neutral-100">
-                <p id="loader-status" class="loading-text-glitch">
-                    INITIALIZING ASSESSMENT...
-                </p>
-                <div class="loader-dots">
-                    <div class="loader-dot"></div>
-                    <div class="loader-dot"></div>
-                    <div class="loader-dot"></div>
-                </div>
+            <div id="loader-pulse-text" class="text-green-500 font-bold text-xl uppercase tracking-widest mt-2">
+                Loading...
             </div>
-
-            <p class="text-[11px] font-black uppercase text-neutral-400 mt-6 tracking-widest">
-                PREPARING YOUR CUSTOM PATHWAY
-            </p>
+            <div id="loader-sub-text" class="cycling-text">
+                Initializing assessment...
+            </div>
         </div>
     </div>
 
@@ -343,6 +296,35 @@
 
 
     <script>
+        // Loading Screen Animation Logic
+        window.addEventListener('load', () => {
+            const loader = document.getElementById('initial-loader');
+            const subText = document.getElementById('loader-sub-text');
+            const cycleMessages = [
+                "Loading quiz questions...",
+                "Configuring assessment logic...",
+                "Ready to transform.",
+                "System calibrated."
+            ];
+            
+            let i = 0;
+            const cycleInterval = setInterval(() => {
+                if (i < cycleMessages.length) {
+                    subText.textContent = cycleMessages[i];
+                    i++;
+                } else {
+                    clearInterval(cycleInterval);
+                }
+            }, 400);
+
+            setTimeout(() => {
+                loader.style.opacity = '0';
+                setTimeout(() => {
+                    loader.style.display = 'none';
+                }, 500);
+            }, 1500);
+        });
+
         function markdownToHtml(text) {
             if (!text) return "";
             let result = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
@@ -613,20 +595,6 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            const loader = document.getElementById('app-loader');
-            const statusText = document.getElementById('loader-status');
-            const statuses = ["Syncing Protocols...", "Analyzing Fitness Nodes...", "Calibrating Pathways...", "System Online"];
-            let statusIndex = 0;
-            const statusInterval = setInterval(() => {
-                if (statusIndex < statuses.length) { statusText.textContent = statuses[statusIndex]; statusIndex++; }
-                else clearInterval(statusInterval);
-            }, 400);
-
-            setTimeout(() => {
-                loader.style.opacity = '0';
-                setTimeout(() => { loader.style.display = 'none'; }, 500);
-            }, 2000);
-
             renderQuestion();
         });
     </script>
