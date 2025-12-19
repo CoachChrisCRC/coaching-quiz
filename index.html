@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Find your path to #Fitter #Stronger #Better | COACH CHRIS</title>
     
-    <!-- --- SOCIAL SHARING METADATA --- -->
     <meta property="og:title" content="Find your path to #Fitter #Stronger #Better">
     <meta property="og:description" content="Take our short quiz to determine which service is best suited to help you achieve your goals">
     <meta property="og:image" content="https://placehold.co/1200x630/22c55e/000?text=COACH+CHRIS+Fitness+Assessment">
@@ -15,7 +14,6 @@
     <meta name="twitter:description" content="Take our short quiz to determine which service is best suited to help you achieve your goals">
     <meta name="twitter:image" content="https://placehold.co/1200x630/22c55e/000?text=COACH+CHRIS+Fitness+Assessment">
 
-    <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
@@ -28,7 +26,7 @@
             background-size: 40px 40px;
         }
 
-        /* --- LOADING SCREEN CSS --- */
+        /* --- INITIAL LOADER CSS --- */
         #initial-loader {
             position: fixed;
             top: 0;
@@ -138,13 +136,17 @@
         }
         
         .summary-secondary-button {
-            background-color: #fff; 
+             background-color: #fff; 
             color: #000;
             border: 2px solid #000;
             font-weight: 900;
             text-transform: uppercase;
             box-shadow: 4px 4px 0 0 #ccc;
             transition: all 0.2s;
+        }
+        .summary-secondary-button:hover {
+            transform: translate(-1px, -1px);
+            box-shadow: 5px 5px 0 0 #999;
         }
 
         .progress-container {
@@ -181,11 +183,14 @@
             -moz-appearance: none;
             appearance: none;
             border-radius: 0.25rem;
-            transition: all 0.25s;
+            transition: all 0.2s;
             cursor: pointer;
             border: 2px solid #000;
             background-color: #fff;
             outline: none;
+        }
+        input[type="checkbox"]:focus {
+             box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.5);
         }
         
         input[type="checkbox"]:checked {
@@ -195,6 +200,17 @@
             background-size: 100% 100%;
             background-position: center;
             background-repeat: no-repeat;
+        }
+        
+        .or-separator {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.125rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            color: #000;
+            margin: 1rem 0;
         }
         
         .clean-spinner {
@@ -215,7 +231,6 @@
 </head>
 <body class="flex flex-col items-center justify-center min-h-screen p-4 sm:p-6">
 
-    <!-- INITIAL ANIMATED LOADING SCREEN -->
     <div id="initial-loader">
         <div class="loader-content">
             <h1 class="text-4xl font-black text-white uppercase tracking-tighter italic">
@@ -230,13 +245,10 @@
         </div>
     </div>
 
-    <!-- Main Quiz Container -->
     <div id="quiz-app" class="quiz-container w-full rounded-2xl p-6 md:p-10 relative overflow-hidden">
         
-        <!-- Decoration: Green accent line top -->
         <div class="absolute top-0 left-0 w-full h-2 bg-green-500"></div>
 
-        <!-- BRANDING BLOCK -->
         <div class="mb-6 leading-tight animate-in">
             <h1 class="text-4xl sm:text-5xl font-black text-black uppercase tracking-tighter">
                 COACH CHRIS
@@ -249,7 +261,6 @@
             </p>
         </div>
 
-        <!-- Main Quiz Title -->
         <h2 class="text-3xl sm:text-4xl font-black text-black mb-4 uppercase italic tracking-tighter">
             FIND YOUR PATH TO BECOMING 
             <span class="text-green-500">#FITTER</span> 
@@ -257,7 +268,6 @@
             <span class="text-green-500">#BETTER</span>
         </h2>
         
-        <!-- Progress Bar -->
         <div class="mb-8">
             <div class="flex items-center space-x-3">
                 <p id="progress-text-label" class="text-sm font-black uppercase tracking-widest text-black whitespace-nowrap">
@@ -272,14 +282,12 @@
             </div>
         </div>
 
-        <!-- Dynamic Content Area -->
         <div id="content-area">
             <div class="text-center font-bold animate-pulse">LOADING...</div>
         </div>
 
     </div>
     
-    <!-- Footer Block -->
     <div class="mt-12 w-full max-w-2xl text-center px-4">
         <p id="disclaimer" class="text-neutral-400 text-sm mb-6 leading-relaxed">
             General Fitness Disclaimer: Always consult your medical professional or doctor before you begin any new fitness regime or make changes to your diet. This site provides general information for educational purposes only and is not intended to diagnose or treat any medical condition. You engage in physical activity at your own risk.
@@ -294,9 +302,8 @@
         </p>
     </div>
 
-
     <script>
-        // Loading Screen Animation Logic
+        // --- STARTUP LOADING LOGIC ---
         window.addEventListener('load', () => {
             const loader = document.getElementById('initial-loader');
             const subText = document.getElementById('loader-sub-text');
@@ -324,17 +331,18 @@
             }, 1800);
         });
 
+        // --- APP LOGIC ---
         function markdownToHtml(text) {
             if (!text) return "";
             let result = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-            result = result.replace(/\*(.*?)\*\*/g, '<em>$1</em>');
+            result = result.replace(/\*(.*?)\*/g, '<em>$1</em>');
             return result;
         }
 
         const quizData = [
             { id: 1, question: "What is your #1 primary fitness goal right now?", key: "primaryGoal", options: [ { text: "Shedding fat and transforming my physique", score: 30 }, { text: "Getting strong and building solid muscle", score: 20 }, { text: "Boosting energy and improving my fitness/stamina", score: 10 }, { text: "Feeling generally healthier and more consistent", score: 5 } ] },
             { id: 2, question: "How many days per week can you realistically commit?", key: "commitment", options: [ { text: "I'm ready for 5+ sessions per week (high commitment)", score: 30 }, { text: "I can commit 3-4 days a week easily", score: 20 }, { text: "1-2 days a week is realistic for me right now", score: 10 }, { text: "I need help finding consistency/just starting", score: 5 } ] },
-            { id: 3, question: "What is your biggest barrier to success?", key: "barrier", options: [ { text: "I don't have a plan that fits my goals", score: 5 }, { text: "I struggle with follow-through and need someone to check in", score: 20 }, { text: "My diet is my biggest weakness (need a strategy)", score: 30 }, { text: "Staying motivated and finding the time to training", score: 10 } ] },
+            { id: 3, question: "What is your biggest barrier to success?", key: "barrier", options: [ { text: "I don't have a plan that fits my goals", score: 5 }, { text: "I struggle with follow-through and need someone to check in", score: 20 }, { text: "My diet is my biggest weakness (need a strategy)", score: 30 }, { text: "Staying motivated and finding the time to train", score: 10 } ] },
             { id: 4, question: "What level of support do you need?", key: "support", options: [ { text: "I need a great plan and I'll handle the rest.", score: 5 }, { text: "I need weekly guidance and access to a coach for questions.", score: 20 }, { text: "Maximum accountability, check-ins, and a fully custom plan.", score: 30 }, { text: "I learn best in a supportive group environment.", score: 10 } ] },
             { id: 5, question: "Do you have any injuries or medical considerations?", key: "medical", options: [ { text: "Yes, I have current injuries that require specialized training", score: 30 }, { text: "I have minor aches but nothing that stops me from training", score: 20 }, { text: "No, I am generally fit and injury-free", score: 10 }, { text: "I'm not sure about my body's limitations yet", score: 5 } ] },
             { id: 6, question: "What is your budget for coaching?", key: "budget", options: [ { text: "£150+ per month", score: 30 }, { text: "Up to £100 per month", score: 20 }, { text: "Up to £50 per month", score: 10 }, { text: "My budget is flexible", score: 25 } ] },
@@ -348,7 +356,7 @@
         let totalScore = 0;
         let selectedOption = null;
         let userAnswers = []; 
-        let clientName = "Warrior";
+        let clientName = "Warrior"; 
 
         const TIER_1_TITLE = "1-1 ONLINE COACHING";
         const TIER_2_TITLE = "FITTER STRONGER BETTER SUBSCRIPTION";
