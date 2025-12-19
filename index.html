@@ -303,8 +303,7 @@
             const cycleMessages = [
                 "Loading quiz questions...",
                 "Configuring assessment logic...",
-                "Ready to transform.",
-                "System calibrated."
+                "Ready."
             ];
             
             let i = 0;
@@ -315,14 +314,14 @@
                 } else {
                     clearInterval(cycleInterval);
                 }
-            }, 400);
+            }, 500);
 
             setTimeout(() => {
                 loader.style.opacity = '0';
                 setTimeout(() => {
                     loader.style.display = 'none';
                 }, 500);
-            }, 1500);
+            }, 1800);
         });
 
         function markdownToHtml(text) {
