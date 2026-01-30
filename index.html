@@ -916,6 +916,7 @@
                          </svg>
                      </div>
                      <h2 class="text-2xl sm:text-3xl font-black uppercase italic tracking-tighter text-white">Review Your Profile</h2>
+                     <p class="text-xs text-neutral-400 mt-2 uppercase tracking-widest">Provide your details to see your customized vision</p>
                  </div>
                  
                  <div class="animate-in">
@@ -925,10 +926,13 @@
                  <div class="animate-in">
                      <form id="personalization-form" class="space-y-5">
                          <div>
-                             <input type="text" id="client-name-input" name="name" required class="custom-input block w-full p-4 rounded-xl" placeholder="FIRST NAME" value="${clientName === 'Warrior' ? '' : clientName}">
+                             <label class="block text-[10px] font-black uppercase text-neutral-500 tracking-widest mb-2">First Name</label>
+                             <input type="text" id="client-name-input" name="name" required class="custom-input block w-full p-4 rounded-xl" placeholder="E.G. JANE" value="${clientName === 'Warrior' ? '' : clientName}">
                          </div>
                          <div>
-                             <input type="email" id="client-email-input" name="email" required class="custom-input block w-full p-4 rounded-xl" placeholder="EMAIL ADDRESS" value="${clientEmail}">
+                             <label class="block text-[10px] font-black uppercase text-neutral-500 tracking-widest mb-2">Email Address</label>
+                             <input type="email" id="client-email-input" name="email" required class="custom-input block w-full p-4 rounded-xl" placeholder="EMAIL@DOMAIN.COM" value="${clientEmail}">
+                             <p class="text-[9px] text-neutral-500 mt-2 uppercase tracking-widest">Your results will be reviewed by Coach Chris.</p>
                          </div>
                          <div class="flex items-start py-2">
                             <input type="checkbox" id="disclaimer-check" required class="mt-1">
@@ -936,7 +940,7 @@
                                 I agree to the <a href="#disclaimer" class="font-bold underline text-white">fitness disclaimer</a> and wish to receive my analysis.
                             </label>
                         </div>
-                         <button type="submit" id="display-button" disabled class="action-button w-full py-5 rounded-2xl text-sm tracking-widest">VIEW YOUR RECOMMENDED PATH</button>
+                         <button type="submit" id="display-button" disabled class="action-button w-full py-5 rounded-2xl text-sm tracking-widest">VIEW ANALYSIS</button>
                      </form>
                  </div>
              `;
@@ -956,64 +960,33 @@
              upd(); 
         }
 
-        async function triggerCoachNotification(primary, alt, rationale, vision) {
+        async function triggerAssessmentSubmission(primary, rationale, vision) {
             const coachEmailAddress = COACH_EMAIL;
-            const altProgramTitle = alt ? alt.title : "N/A";
 
-            // Helper to get answers by key
-            const getAns = (key) => userAnswers.find(a => a.key === key)?.answer || "N/A";
-
-            const coachMessage = `
-Coach Chris,
-A new digital consultation has been completed. Below is the profile breakdown for the lead.
-
-USER IDENTITY
-Name: ${clientName}
-Email: ${clientEmail}
-Score: ${totalScore}
-
-SERVICE RECOMMENDATION
-Recommended Path: ${primary.title} or ${altProgramTitle}
-
-FULL ASSESSMENT DATA
-Question | Answer
-Experience: ${getAns('experience')}
-Main Barrier: ${getAns('barrier')}
-Primary Goal: ${getAns('primaryGoal')}
-Commitment: ${getAns('commitment')}
-Support Needed: ${getAns('support')}
-Medical/Injuries: ${getAns('medical')}
-Nutrition: ${getAns('nutrition')}
-Past Experience: ${getAns('pastExp')}
-Location: ${getAns('location')}
-Partnership Level: ${getAns('budget')}
-The "Why": ${getAns('theWhy')}
-Lifestyle: ${getAns('lifestyle')}
-
-COACHING INSIGHTS
-Rationale provided to client: ${rationale}
-
-Vision shared with client: ${vision}
-
-Action Required: If the client has not reached out via WhatsApp within 24 hours, follow up via email to discuss the ${primary.title} or ${altProgramTitle} pathways.
-            `;
-
+            // Single dispatch to Coach via FormSubmit
             const coachData = {
-                _subject: `NEW CONSULTATION: ${clientName} (${primary.title})`,
+                _subject: `🔥 NEW ASSESSMENT: ${clientName} (${primary.title})`,
                 _template: "table",
-                message: coachMessage
+                _replyto: clientEmail, // Allows coach to reply directly to user
+                Name: clientName,
+                Email: clientEmail,
+                Recommended_Path: primary.title,
+                Coach_Rationale: rationale,
+                Three_Month_Vision: vision,
+                Total_Score: totalScore,
+                // Append raw question data for review
+                ...Object.fromEntries(userAnswers.map(a => [a.question.replace(/\s+/g, '_'), a.answer]))
             };
 
             try {
-                // Dispatch to Coach (FormSubmit)
                 await fetch(`https://formsubmit.co/ajax/${coachEmailAddress}`, {
                     method: "POST",
                     headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
                     body: JSON.stringify(coachData)
                 });
-                console.log("Coach notification sent.");
+                console.log("Assessment data synced successfully.");
             } catch (error) {
-                console.error("Coach notification failed", error);
+                console.error("Submission failed", error);
             }
         }
 
@@ -1027,11 +1000,10 @@ Action Required: If the client has not reached out via WhatsApp within 24 hours,
              `;
              
              const primary = getRecommendation(totalScore, userAnswers);
-             const alt = getAlternativeRecommendation(primary, totalScore, userAnswers);
              const cleanRationale = generatePersonalizedRationale(userAnswers, primary.title, true);
              const vision = generateThreeMonthVision(userAnswers);
              
-             triggerCoachNotification(primary, alt, cleanRationale, vision);
+             triggerAssessmentSubmission(primary, cleanRationale, vision);
 
              setTimeout(() => { 
                 renderFinalProgramSummary(); 
@@ -1049,7 +1021,6 @@ Action Required: If the client has not reached out via WhatsApp within 24 hours,
             const medical = userAnswers.find(a => a.key === 'medical')?.answer || '';
             const isInjuryAlert = medical.includes("specialized training");
             const client = clientName.toUpperCase();
-            const altTag = alt.type === 'UPGRADE' ? 'Step Up For Better Results' : 'A More Affordable Alternative';
             
             const whatsappNumber = "447925116794"; 
             const whatsappMsg = encodeURIComponent(`Hi Chris, it's ${clientName}! I just finished the digital consultation and my result was ${primary.title}. I'd like to chat about getting started.`);
@@ -1063,10 +1034,10 @@ Action Required: If the client has not reached out via WhatsApp within 24 hours,
             if (primary.title.includes(FOUNDATIONS_TITLE)) primaryBtnText = "START 14-DAY FUNDAMENTALS";
 
             let step2;
-            if (primary.title.includes(TIER_1_TITLE)) step2 = `<div><span class="text-white font-bold">Apply & Consult</span><span class="block text-neutral-400 text-sm mt-1">${markdownToHtml("Submit an application and **chat with Coach Chris on WhatsApp**.")}</span></div>`;
-            else if (primary.title.includes(FOUNDATIONS_TITLE)) step2 = `<div><span class="text-white font-bold">Secure Your Intake</span><span class="block text-neutral-400 text-sm mt-1">${markdownToHtml("Complete the free fundamentals and **secure your spot** in the next group intake.")}</span></div>`;
-            else if (primary.title.includes(TIER_2_TITLE)) step2 = `<div><span class="text-white font-bold">Gain Access</span><span class="block text-neutral-400 text-sm mt-1">${markdownToHtml("Submit a short application then **follow the steps** to gain app access.")}</span></div>`;
-            else step2 = `<div><span class="text-white font-bold">Start Training</span><span class="block text-neutral-400 text-sm mt-1">${markdownToHtml(`Gain immediate access to the training app.`)}</span></div>`;
+            if (primary.title.includes(TIER_1_TITLE)) step2 = `<div><span class="text-white font-bold uppercase text-xs tracking-tight">Apply & Consult</span><span class="block text-neutral-400 text-sm mt-1">${markdownToHtml("Submit an application and **chat with Coach Chris on WhatsApp**.")}</span></div>`;
+            else if (primary.title.includes(FOUNDATIONS_TITLE)) step2 = `<div><span class="text-white font-bold uppercase text-xs tracking-tight">Secure Your Intake</span><span class="block text-neutral-400 text-sm mt-1">${markdownToHtml("Complete the free fundamentals and **secure your spot** in the next group intake.")}</span></div>`;
+            else if (primary.title.includes(TIER_2_TITLE)) step2 = `<div><span class="text-white font-bold uppercase text-xs tracking-tight">Gain Access</span><span class="block text-neutral-400 text-sm mt-1">${markdownToHtml("Submit a short application then **follow the steps** to gain app access.")}</span></div>`;
+            else step2 = `<div><span class="text-white font-bold uppercase text-xs tracking-tight">Start Training</span><span class="block text-neutral-400 text-sm mt-1">${markdownToHtml(`Gain immediate access to the training app.`)}</span></div>`;
 
             contentArea.innerHTML = `
                 <div class="animate-in space-y-10">
@@ -1123,7 +1094,7 @@ Action Required: If the client has not reached out via WhatsApp within 24 hours,
 
                     ${alt ? `
                     <div class="pt-4 border-t border-white/5">
-                        <h3 class="text-[10px] font-black uppercase text-neutral-500 mb-4 tracking-widest">${altTag}</h3>
+                        <h3 class="text-[10px] font-black uppercase text-neutral-500 mb-4 tracking-widest">${alt.type === 'UPGRADE' ? 'Step Up For Better Results' : 'A More Affordable Alternative'}</h3>
                         <div class="flex flex-col gap-4">
                             <div>
                                 <span class="block text-xl font-black uppercase tracking-tight ${alt.accentColor} leading-tight">${alt.title}</span>
@@ -1139,7 +1110,10 @@ Action Required: If the client has not reached out via WhatsApp within 24 hours,
                         <ol class="space-y-8">
                             <li class="flex gap-4">
                                 <span class="w-6 h-6 flex items-center justify-center rounded-full text-[10px] font-black text-green-500 border border-green-500/30 bg-green-500/10 shrink-0">1</span>
-                                <div><span class="text-white font-bold uppercase text-xs tracking-tight">Review Your Analysis</span><span class="block text-neutral-400 text-sm mt-1">Take a moment to digest your rationale and 3-month vision above.</span></div>
+                                <div>
+                                    <span class="text-white font-bold uppercase text-xs tracking-tight">Review your Recommendations</span>
+                                    <span class="block text-neutral-400 text-sm mt-1">Use the buttons above to learn more about your Recommended Path & reach out to Coach Chris if you have any questions.</span>
+                                </div>
                             </li>
                             <li class="flex gap-4">
                                 <span class="w-6 h-6 flex items-center justify-center rounded-full text-[10px] font-black text-green-500 border border-green-500/30 bg-green-500/10 shrink-0">2</span>
