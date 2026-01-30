@@ -234,6 +234,7 @@
 
         @keyframes spin { 100% { transform: rotate(360deg); } }
 
+        /* REFINED RESULTS STYLING */
         .result-content-wrap {
             border-top: 1px solid rgba(255,255,255,0.08);
             margin-top: 1.5rem;
@@ -260,6 +261,7 @@
 </head>
 <body class="flex flex-col items-center justify-center p-4 sm:p-6">
 
+    <!-- SPLASH SCREEN LOADER -->
     <div id="initial-loader">
         <div class="loader-content flex flex-col items-center text-center">
             <h1 class="text-4xl font-black text-white uppercase tracking-tighter italic">DIGITAL CONSULTATION</h1>
@@ -268,10 +270,12 @@
         </div>
     </div>
 
+    <!-- Main Quiz Container -->
     <div id="quiz-app" class="quiz-container glass-panel w-full rounded-3xl p-6 md:p-10 relative overflow-hidden">
         
         <div class="absolute top-0 left-0 w-full h-1.5 bg-green-500 shadow-[0_0_15px_rgba(34,197,94,0.8)]"></div>
 
+        <!-- BRANDING BLOCK -->
         <div id="branding-block" class="mb-8 animate-in">
             <h1 class="text-3xl sm:text-4xl font-black text-white uppercase tracking-tighter leading-none">
                 COACH CHRIS
@@ -289,6 +293,7 @@
             <span class="text-green-500">#BETTER</span>
         </h2>
         
+        <!-- Progress Bar -->
         <div id="progress-anchor" class="mb-10">
             <div class="flex items-center justify-between mb-2">
                 <p id="progress-text-label" class="text-[10px] font-black uppercase tracking-[0.2em] text-neutral-400">
@@ -303,11 +308,13 @@
             </div>
         </div>
 
+        <!-- Dynamic Content Area -->
         <div id="content-area">
             <div class="text-center font-bold animate-pulse text-neutral-500">LOADING...</div>
         </div>
     </div>
     
+    <!-- Footer Block -->
     <div class="mt-12 w-full max-w-2xl text-center px-4">
         <p id="disclaimer" class="text-neutral-500 text-xs mb-6 leading-relaxed max-w-xl mx-auto">
             General Fitness Disclaimer: Always consult your medical professional or doctor before beginning any new fitness regime. This site provides general information for educational purposes only. You engage in physical activity at your own risk.
@@ -320,11 +327,8 @@
         </p>
     </div>
 
-    <script src="https://web3forms.com/client/script.js" async defer></script>
-
     <script>
-        const WEB3FORMS_ACCESS_KEY = "d24713b2-01ff-4c31-ae52-e49edd41e2c1";
-        const COACH_EMAIL = "circularrootscoaching@gmail.com";
+        const COACH_EMAIL = "circularrootscoaching@gmail.com"; 
 
         document.getElementById('current-year').textContent = new Date().getFullYear();
 
@@ -403,7 +407,6 @@
                 id: 5, 
                 question: "What level of support do you need to stay on track?", 
                 key: "support", 
-                summaryLabel: "Support Needed",
                 options: [
                     { text: "I need a great plan and I'll handle the rest", score: 5 }, 
                     { text: "I need weekly guidance and access to a coach", score: 20 }, 
@@ -428,7 +431,6 @@
                 section: "Part 3: Lifestyle Strategy", 
                 question: "How would you describe your nutritional discipline?", 
                 key: "nutrition", 
-                summaryLabel: "Nutrition Habits",
                 options: [
                     { text: "I track macros/calories and just need refinement", altText: "I am focused on high-level performance fuel", score: 30 }, 
                     { text: "I eat generally healthy but focus on consistency", altText: "I aim for balanced meals but want more structure", score: 20 }, 
@@ -440,7 +442,6 @@
                 id: 8, 
                 question: "What has been your experience with following a structured plan in the past?", 
                 key: "pastExp", 
-                summaryLabel: "Past Experience",
                 options: [
                     { text: "I’ve never followed a structured plan before.", score: 5, category: 'NEW' },
                     { text: "I’ve tried apps/PDFs but struggled to stay consistent.", score: 15, category: 'FRICTION' },
@@ -452,7 +453,6 @@
                 id: 9, 
                 question: "Where do you primarily workout?", 
                 key: "location", 
-                summaryLabel: "Location",
                 options: [
                     { text: "A fully equipped gym/fitness center", score: 30 }, 
                     { text: "At home with minimal equipment", score: 10 }, 
@@ -477,7 +477,7 @@
                 id: 11, 
                 question: "If you hit your goal 3 months from now, what changes most for you?", 
                 key: "theWhy", 
-                summaryLabel: "The 'Why'", 
+                summaryLabel: "Your 'Why'", 
                 options: [
                     { text: "My self-confidence and how I feel in my own skin", short: "Self-Confidence", score: 25, whyId: 'CONFIDENCE' }, 
                     { text: "My energy levels for my kids and family", short: "Family Energy", score: 20, whyId: 'FAMILY' }, 
@@ -489,7 +489,6 @@
                 id: 12, 
                 question: "How crucial is guidance on daily habits and stress management?", 
                 key: "lifestyle", 
-                summaryLabel: "Lifestyle",
                 options: [
                     { text: "Essential (sleep and stress management are priorities)", score: 30 }, 
                     { text: "Important (I want it included in check-ins)", score: 20 }, 
@@ -917,7 +916,6 @@
                          </svg>
                      </div>
                      <h2 class="text-2xl sm:text-3xl font-black uppercase italic tracking-tighter text-white">Review Your Profile</h2>
-                     <p class="text-xs text-neutral-400 mt-2 uppercase tracking-widest">Where should we send your results?</p>
                  </div>
                  
                  <div class="animate-in">
@@ -927,13 +925,10 @@
                  <div class="animate-in">
                      <form id="personalization-form" class="space-y-5">
                          <div>
-                             <label class="block text-[10px] font-black uppercase text-neutral-500 tracking-widest mb-2">First Name</label>
-                             <input type="text" id="client-name-input" name="name" required class="custom-input block w-full p-4 rounded-xl" placeholder="E.G. JANE" value="${clientName === 'Warrior' ? '' : clientName}">
+                             <input type="text" id="client-name-input" name="name" required class="custom-input block w-full p-4 rounded-xl" placeholder="FIRST NAME" value="${clientName === 'Warrior' ? '' : clientName}">
                          </div>
                          <div>
-                             <label class="block text-[10px] font-black uppercase text-neutral-500 tracking-widest mb-2">Email Address</label>
-                             <input type="email" id="client-email-input" name="email" required class="custom-input block w-full p-4 rounded-xl" placeholder="EMAIL@DOMAIN.COM" value="${clientEmail}">
-                             <p class="text-[9px] text-neutral-500 mt-2 uppercase tracking-widest">We'll email your result & 3-month vision for your records.</p>
+                             <input type="email" id="client-email-input" name="email" required class="custom-input block w-full p-4 rounded-xl" placeholder="EMAIL ADDRESS" value="${clientEmail}">
                          </div>
                          <div class="flex items-start py-2">
                             <input type="checkbox" id="disclaimer-check" required class="mt-1">
@@ -941,7 +936,7 @@
                                 I agree to the <a href="#disclaimer" class="font-bold underline text-white">fitness disclaimer</a> and wish to receive my analysis.
                             </label>
                         </div>
-                         <button type="submit" id="display-button" disabled class="action-button w-full py-5 rounded-2xl text-sm tracking-widest">VIEW ANALYSIS & EMAIL ME</button>
+                         <button type="submit" id="display-button" disabled class="action-button w-full py-5 rounded-2xl text-sm tracking-widest">VIEW YOUR RECOMMENDED PATH</button>
                      </form>
                  </div>
              `;
@@ -962,15 +957,14 @@
         }
 
         async function triggerCoachNotification(primary, alt, rationale, vision) {
-            const formData = new FormData();
-            formData.append("access_key", WEB3FORMS_ACCESS_KEY);
-            formData.append("subject", `NEW CONSULTATION: ${clientName} (${primary.title})`);
-            formData.append("from_name", "Assessment Bot");
-            
-            // Map answers for the table
-            const getAnswer = (key) => userAnswers.find(a => a.key === key)?.answer || "Not provided";
+            const coachEmailAddress = COACH_EMAIL;
+            const altProgramTitle = alt ? alt.title : "N/A";
 
-            const emailBody = `Coach Chris,
+            // Helper to get answers by key
+            const getAns = (key) => userAnswers.find(a => a.key === key)?.answer || "N/A";
+
+            const coachMessage = `
+Coach Chris,
 A new digital consultation has been completed. Below is the profile breakdown for the lead.
 
 USER IDENTITY
@@ -979,37 +973,45 @@ Email: ${clientEmail}
 Score: ${totalScore}
 
 SERVICE RECOMMENDATION
-Recommended Path: ${primary.title} or ${alt?.title || "[Alternative Program Title]"}
+Recommended Path: ${primary.title} or ${altProgramTitle}
 
 FULL ASSESSMENT DATA
 Question | Answer
-Experience | ${getAnswer('experience')}
-Main Barrier | ${getAnswer('barrier')}
-Primary Goal | ${getAnswer('primaryGoal')}
-Commitment | ${getAnswer('commitment')}
-Support Needed | ${getAnswer('support')}
-Medical/Injuries | ${getAnswer('medical')}
-Nutrition | ${getAnswer('nutrition')}
-Past Experience | ${getAnswer('pastExp')}
-Location | ${getAnswer('location')}
-Partnership Level | ${getAnswer('budget')}
-The "Why" | ${getAnswer('theWhy')}
-Lifestyle | ${getAnswer('lifestyle')}
+Experience: ${getAns('experience')}
+Main Barrier: ${getAns('barrier')}
+Primary Goal: ${getAns('primaryGoal')}
+Commitment: ${getAns('commitment')}
+Support Needed: ${getAns('support')}
+Medical/Injuries: ${getAns('medical')}
+Nutrition: ${getAns('nutrition')}
+Past Experience: ${getAns('pastExp')}
+Location: ${getAns('location')}
+Partnership Level: ${getAns('budget')}
+The "Why": ${getAns('theWhy')}
+Lifestyle: ${getAns('lifestyle')}
 
 COACHING INSIGHTS
 Rationale provided to client: ${rationale}
 
 Vision shared with client: ${vision}
 
-Action Required: If the client has not reached out via WhatsApp within 24 hours, follow up via email to discuss the ${primary.title} or ${alt?.title || "[Alternative Program]"} pathways.`;
+Action Required: If the client has not reached out via WhatsApp within 24 hours, follow up via email to discuss the ${primary.title} or ${altProgramTitle} pathways.
+            `;
 
-            formData.append("message", emailBody);
+            const coachData = {
+                _subject: `NEW CONSULTATION: ${clientName} (${primary.title})`,
+                _template: "table",
+                message: coachMessage
+            };
 
             try {
-                await fetch("https://api.web3forms.com/submit", {
+                // Dispatch to Coach (FormSubmit)
+                await fetch(`https://formsubmit.co/ajax/${coachEmailAddress}`, {
                     method: "POST",
-                    body: formData
+                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                    body: JSON.stringify(coachData)
                 });
+                console.log("Coach notification sent.");
             } catch (error) {
                 console.error("Coach notification failed", error);
             }
@@ -1137,7 +1139,7 @@ Action Required: If the client has not reached out via WhatsApp within 24 hours,
                         <ol class="space-y-8">
                             <li class="flex gap-4">
                                 <span class="w-6 h-6 flex items-center justify-center rounded-full text-[10px] font-black text-green-500 border border-green-500/30 bg-green-500/10 shrink-0">1</span>
-                                <div><span class="text-white font-bold uppercase text-xs tracking-tight">Check Your Inbox</span><span class="block text-neutral-400 text-sm mt-1">Results confirmed. If you haven't booked your start date, follow the primary link above.</span></div>
+                                <div><span class="text-white font-bold uppercase text-xs tracking-tight">Review Your Analysis</span><span class="block text-neutral-400 text-sm mt-1">Take a moment to digest your rationale and 3-month vision above.</span></div>
                             </li>
                             <li class="flex gap-4">
                                 <span class="w-6 h-6 flex items-center justify-center rounded-full text-[10px] font-black text-green-500 border border-green-500/30 bg-green-500/10 shrink-0">2</span>
