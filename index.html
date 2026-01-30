@@ -354,6 +354,7 @@
         }
 
         const quizData = [
+            // PHASE 1: Baseline & Logistics
             { 
                 id: 1, 
                 section: "Part 1: Your Baseline", 
@@ -392,7 +393,20 @@
             },
             { 
                 id: 4, 
-                section: "Part 2: Commitment", 
+                question: "Where do you primarily workout?", 
+                key: "location", 
+                options: [
+                    { text: "A fully equipped gym/fitness center", score: 30 }, 
+                    { text: "At home with minimal equipment", score: 10 }, 
+                    { text: "Outdoors or using functional bodyweight training", score: 20 }, 
+                    { text: "It varies (I travel or shift locations often)", score: 5 }
+                ] 
+            },
+
+            // PHASE 2: The Strategy (Commitment & Habits)
+            { 
+                id: 5, 
+                section: "Part 2: The Strategy", 
                 question: "How many days per week can you realistically commit?", 
                 key: "commitment", 
                 summaryLabel: "Commitment", 
@@ -404,7 +418,7 @@
                 ] 
             },
             { 
-                id: 5, 
+                id: 6, 
                 question: "What level of support do you need to stay on track?", 
                 key: "support", 
                 options: [
@@ -415,20 +429,7 @@
                 ] 
             },
             { 
-                id: 6, 
-                question: "Do you have any injuries or medical considerations?", 
-                key: "medical", 
-                summaryLabel: "Medical/Injuries", 
-                options: [
-                    { text: "Yes, I have current injuries requiring specialized training", short: "Specialized Care", score: 100 }, 
-                    { text: "I have minor aches but nothing that stops me from training", short: "Minor Aches", score: 20 }, 
-                    { text: "No, I am generally fit and injury-free", short: "Injury Free", score: 10 }, 
-                    { text: "I'm not sure about my physical limitations yet", short: "Uncertain", score: 5 }
-                ] 
-            },
-            { 
                 id: 7, 
-                section: "Part 3: Lifestyle Strategy", 
                 question: "How would you describe your nutritional discipline?", 
                 key: "nutrition", 
                 options: [
@@ -449,20 +450,23 @@
                     { text: "I’m currently training but feel I’ve hit a plateau.", score: 20, category: 'PLATEAU' }
                 ] 
             },
+
+            // PHASE 3: Safety & The Why
             { 
                 id: 9, 
-                question: "Where do you primarily workout?", 
-                key: "location", 
+                section: "Part 3: Readiness & Impact",
+                question: "Do you have any injuries or medical considerations?", 
+                key: "medical", 
+                summaryLabel: "Medical/Injuries", 
                 options: [
-                    { text: "A fully equipped gym/fitness center", score: 30 }, 
-                    { text: "At home with minimal equipment", score: 10 }, 
-                    { text: "Outdoors or using functional bodyweight training", score: 20 }, 
-                    { text: "It varies (I travel or shift locations often)", score: 5 }
+                    { text: "Yes, I have current injuries requiring specialized training", short: "Specialized Care", score: 100 }, 
+                    { text: "I have minor aches but nothing that stops me from training", short: "Minor Aches", score: 20 }, 
+                    { text: "No, I am generally fit and injury-free", short: "Injury Free", score: 10 }, 
+                    { text: "I'm not sure about my physical limitations yet", short: "Uncertain", score: 5 }
                 ] 
             },
             { 
                 id: 10, 
-                section: "Part 4: Final Profiling", 
                 question: "What level of partnership are you seeking for your investment?", 
                 key: "budget", 
                 summaryLabel: "Partnership Level", 
@@ -499,9 +503,9 @@
         ];
 
         const phaseTransitions = [
-            { triggerIndex: 3, title: "Vision & Goals", message: "Thanks for that context. Now, let’s define exactly what we are aiming for over the next 12 weeks." },
-            { triggerIndex: 6, title: "History & Habits", message: "Understood. Now, let's look at your training history and physical readiness to ensure we build a safe path." },
-            { triggerIndex: 9, title: "The Finish Line", message: "Almost there. I just need to understand your investment level and your 'Why' to tailor the final recommendation." }
+            { triggerIndex: 4, title: "Vision & Goals", message: "Thanks for that context. Now, let’s define exactly what we are aiming for over the next 12 weeks." },
+            { triggerIndex: 8, title: "Physical Readiness", message: "Understood. Now, let's look at your physical readiness and history to ensure we build a safe path." },
+            { triggerIndex: 11, title: "The Finish Line", message: "Almost there. I just need to understand your investment level and your 'Why' to tailor the final recommendation." }
         ];
 
         const TIER_1_TITLE = "1-1 ONLINE COACHING";
