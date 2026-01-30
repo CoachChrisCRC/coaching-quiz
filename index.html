@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Find your path to #Fitter #Stronger #Better | COACH CHRIS</title>
     
+    <!-- --- SOCIAL SHARING METADATA --- -->
     <meta property="og:title" content="Find your path to #Fitter #Stronger #Better">
     <meta property="og:description" content="Take our short quiz to determine which service is best suited to help you achieve your goals">
     <meta property="og:image" content="https://placehold.co/1200x630/22c55e/000?text=COACH+CHRIS+Fitness+Assessment">
@@ -233,7 +234,6 @@
 
         @keyframes spin { 100% { transform: rotate(360deg); } }
 
-        /* REFINED RESULTS STYLING */
         .result-content-wrap {
             border-top: 1px solid rgba(255,255,255,0.08);
             margin-top: 1.5rem;
@@ -324,7 +324,7 @@
 
     <script>
         const WEB3FORMS_ACCESS_KEY = "d24713b2-01ff-4c31-ae52-e49edd41e2c1";
-        const COACH_EMAIL = "circularrootscoaching@gmail.com"; 
+        const COACH_EMAIL = "circularrootscoaching@gmail.com";
 
         document.getElementById('current-year').textContent = new Date().getFullYear();
 
@@ -403,6 +403,7 @@
                 id: 5, 
                 question: "What level of support do you need to stay on track?", 
                 key: "support", 
+                summaryLabel: "Support Needed",
                 options: [
                     { text: "I need a great plan and I'll handle the rest", score: 5 }, 
                     { text: "I need weekly guidance and access to a coach", score: 20 }, 
@@ -427,6 +428,7 @@
                 section: "Part 3: Lifestyle Strategy", 
                 question: "How would you describe your nutritional discipline?", 
                 key: "nutrition", 
+                summaryLabel: "Nutrition Habits",
                 options: [
                     { text: "I track macros/calories and just need refinement", altText: "I am focused on high-level performance fuel", score: 30 }, 
                     { text: "I eat generally healthy but focus on consistency", altText: "I aim for balanced meals but want more structure", score: 20 }, 
@@ -438,6 +440,7 @@
                 id: 8, 
                 question: "What has been your experience with following a structured plan in the past?", 
                 key: "pastExp", 
+                summaryLabel: "Past Experience",
                 options: [
                     { text: "I’ve never followed a structured plan before.", score: 5, category: 'NEW' },
                     { text: "I’ve tried apps/PDFs but struggled to stay consistent.", score: 15, category: 'FRICTION' },
@@ -449,6 +452,7 @@
                 id: 9, 
                 question: "Where do you primarily workout?", 
                 key: "location", 
+                summaryLabel: "Location",
                 options: [
                     { text: "A fully equipped gym/fitness center", score: 30 }, 
                     { text: "At home with minimal equipment", score: 10 }, 
@@ -473,7 +477,7 @@
                 id: 11, 
                 question: "If you hit your goal 3 months from now, what changes most for you?", 
                 key: "theWhy", 
-                summaryLabel: "Your 'Why'", 
+                summaryLabel: "The 'Why'", 
                 options: [
                     { text: "My self-confidence and how I feel in my own skin", short: "Self-Confidence", score: 25, whyId: 'CONFIDENCE' }, 
                     { text: "My energy levels for my kids and family", short: "Family Energy", score: 20, whyId: 'FAMILY' }, 
@@ -485,6 +489,7 @@
                 id: 12, 
                 question: "How crucial is guidance on daily habits and stress management?", 
                 key: "lifestyle", 
+                summaryLabel: "Lifestyle",
                 options: [
                     { text: "Essential (sleep and stress management are priorities)", score: 30 }, 
                     { text: "Important (I want it included in check-ins)", score: 20 }, 
@@ -956,76 +961,57 @@
              upd(); 
         }
 
-        async function triggerDualServiceSubmission(primary, rationale, vision) {
-            const coachEmailAddress = COACH_EMAIL;
+        async function triggerCoachNotification(primary, alt, rationale, vision) {
+            const formData = new FormData();
+            formData.append("access_key", WEB3FORMS_ACCESS_KEY);
+            formData.append("subject", `NEW CONSULTATION: ${clientName} (${primary.title})`);
+            formData.append("from_name", "Assessment Bot");
             
-            // GENERATE WHATSAPP LINK
-            const whatsappNumber = "447925116794"; 
-            const whatsappMsg = encodeURIComponent(`Hi Chris, it's ${clientName}! I just finished the digital consultation and my result was ${primary.title}. I'd like to chat about getting started.`);
-            const whatsappLink = `https://wa.me/${whatsappNumber}?text=${whatsappMsg}`;
+            // Map answers for the table
+            const getAnswer = (key) => userAnswers.find(a => a.key === key)?.answer || "Not provided";
 
-            // GET DYNAMIC VARIABLES FOR EMAIL TEMPLATE
-            const expLevel = userAnswers.find(a => a.key === 'experience')?.answer || 'your current level';
-            const primaryGoal = userAnswers.find(a => a.key === 'primaryGoal')?.answer || 'your fitness goals';
-            const alt = getAlternativeRecommendation(primary, totalScore, userAnswers);
+            const emailBody = `Coach Chris,
+A new digital consultation has been completed. Below is the profile breakdown for the lead.
 
-            // 1. WEB3FORMS (TO CLIENT - THE USER)
-            const clientData = new FormData();
-            clientData.append("access_key", WEB3FORMS_ACCESS_KEY);
-            clientData.append("from_name", "Coach Chris");
-            clientData.append("email", clientEmail); 
-            clientData.append("subject", `Your Path to #Fitter #Stronger #Better | Results for ${clientName}`);
-            clientData.append("message", `
-Hi ${clientName},
-Thank you for completing your digital consultation with Coach Chris.
+USER IDENTITY
+Name: ${clientName}
+Email: ${clientEmail}
+Score: ${totalScore}
 
-Based on your current baseline of ${expLevel} and your primary goal of ${primaryGoal}, I have analyzed your profile to find the most effective path forward so you can stop guessing & start training with intent.
+SERVICE RECOMMENDATION
+Recommended Path: ${primary.title} or ${alt?.title || "[Alternative Program Title]"}
 
-YOUR RECOMMENDED PATH:
-${primary.title}
-Or
-${alt ? alt.title : 'The Program Library'}
+FULL ASSESSMENT DATA
+Question | Answer
+Experience | ${getAnswer('experience')}
+Main Barrier | ${getAnswer('barrier')}
+Primary Goal | ${getAnswer('primaryGoal')}
+Commitment | ${getAnswer('commitment')}
+Support Needed | ${getAnswer('support')}
+Medical/Injuries | ${getAnswer('medical')}
+Nutrition | ${getAnswer('nutrition')}
+Past Experience | ${getAnswer('pastExp')}
+Location | ${getAnswer('location')}
+Partnership Level | ${getAnswer('budget')}
+The "Why" | ${getAnswer('theWhy')}
+Lifestyle | ${getAnswer('lifestyle')}
 
-The Rationale: ${rationale}
+COACHING INSIGHTS
+Rationale provided to client: ${rationale}
 
-Your 3-Month Vision: "${vision}"
+Vision shared with client: ${vision}
 
-NEXT STEPS TO GET STARTED:
-Review the recommend Program Details: [Click here to view your full program breakdown](${primary.ctaLink})
-Or view the (Alternative)[${alt ? alt.ctaLink : 'https://coachchriscrc.github.io/programs-lp'}]
+Action Required: If the client has not reached out via WhatsApp within 24 hours, follow up via email to discuss the ${primary.title} or ${alt?.title || "[Alternative Program]"} pathways.`;
 
-Consult with Coach Chris: If you have questions before diving in, message me directly on (WhatsApp)[${whatsappLink}]
-
-App Setup: Once you choose your path, you'll receive your login to the training app where you'll complete your Par-Q, set up your account and start the process. 
-
-I’m looking forward to helping you reach your goals.
-
-— Coach Chris 
-Circular Roots Coaching 
-Fitter. Stronger. Better.
-            `);
-
-            // 2. FORMSUBMIT (TO COACH - THE OWNER)
-            const coachData = {
-                _subject: `🔥 NEW LEAD: ${clientName} (${primary.title})`,
-                _template: "table",
-                Name: clientName,
-                Email: clientEmail,
-                Path: primary.title,
-                Score: totalScore,
-                WhatsApp_Link: whatsappLink,
-                ...Object.fromEntries(userAnswers.map(a => [a.question, a.answer]))
-            };
+            formData.append("message", emailBody);
 
             try {
-                await fetch("https://api.web3forms.com/submit", { method: "POST", body: clientData });
-                await fetch(`https://formsubmit.co/ajax/${coachEmailAddress}`, {
+                await fetch("https://api.web3forms.com/submit", {
                     method: "POST",
-                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-                    body: JSON.stringify(coachData)
+                    body: formData
                 });
             } catch (error) {
-                console.error("Submission failed", error);
+                console.error("Coach notification failed", error);
             }
         }
 
@@ -1039,10 +1025,11 @@ Fitter. Stronger. Better.
              `;
              
              const primary = getRecommendation(totalScore, userAnswers);
+             const alt = getAlternativeRecommendation(primary, totalScore, userAnswers);
              const cleanRationale = generatePersonalizedRationale(userAnswers, primary.title, true);
              const vision = generateThreeMonthVision(userAnswers);
              
-             triggerDualServiceSubmission(primary, cleanRationale, vision);
+             triggerCoachNotification(primary, alt, cleanRationale, vision);
 
              setTimeout(() => { 
                 renderFinalProgramSummary(); 
@@ -1150,7 +1137,7 @@ Fitter. Stronger. Better.
                         <ol class="space-y-8">
                             <li class="flex gap-4">
                                 <span class="w-6 h-6 flex items-center justify-center rounded-full text-[10px] font-black text-green-500 border border-green-500/30 bg-green-500/10 shrink-0">1</span>
-                                <div><span class="text-white font-bold uppercase text-xs tracking-tight">Check Your Inbox</span><span class="block text-neutral-400 text-sm mt-1">We've sent a copy of this rationale and your 3-month vision to <strong class="text-neutral-300 underline">${clientEmail}</strong>.</span></div>
+                                <div><span class="text-white font-bold uppercase text-xs tracking-tight">Check Your Inbox</span><span class="block text-neutral-400 text-sm mt-1">Results confirmed. If you haven't booked your start date, follow the primary link above.</span></div>
                             </li>
                             <li class="flex gap-4">
                                 <span class="w-6 h-6 flex items-center justify-center rounded-full text-[10px] font-black text-green-500 border border-green-500/30 bg-green-500/10 shrink-0">2</span>
@@ -1229,3 +1216,4 @@ Fitter. Stronger. Better.
     </script>
 </body>
 </html>
+
