@@ -362,10 +362,10 @@
                 key: "primaryGoal", 
                 summaryLabel: "Primary Goal", 
                 options: [
-                    { text: "I've shed the body fat and my clothes finally fit the way they should.", short: "Fat Loss & Physique", score: 30 }, 
-                    { text: "I've built visible muscle and feel genuinely strong for the first time.", short: "Strength & Muscle", score: 20 }, 
-                    { text: "I have high energy all day and don't feel 'burnt out' by 3 PM.", short: "Energy & Stamina", score: 10 }, 
-                    { text: "I've finally found a routine that I actually stick to.", short: "Health & Consistency", score: 5 }
+                    { text: "I've shed the body fat and my clothes finally fit the way they should.", short: "Fat Loss & Physique", score: 30, goalId: 'FAT_LOSS' }, 
+                    { text: "I've built visible muscle and feel genuinely strong for the first time.", short: "Strength & Muscle", score: 20, goalId: 'STRENGTH' }, 
+                    { text: "I have high energy all day and don't feel 'burnt out' by 3 PM.", short: "Energy & Stamina", score: 10, goalId: 'ENERGY' }, 
+                    { text: "I've finally found a routine that I actually stick to.", short: "Health & Consistency", score: 5, goalId: 'HEALTH' }
                 ] 
             },
             { 
@@ -379,6 +379,17 @@
                     { text: "Relieved that I'm finally taking my health longevity seriously.", short: "Health Longevity", score: 30, whyId: 'HEALTH' }, 
                     { text: "Elite. I want to see what my body is actually capable of.", short: "Peak Performance", score: 5, whyId: 'PERFORMANCE' }
                 ] 
+            },
+            {
+                id: 2.5,
+                question: "On a scale of 1-10, how frustrated are you with your current physical state?",
+                key: "painScale",
+                options: [
+                    { text: "1-3: I'm okay, just looking for some optimization.", score: 5, pain: 2 },
+                    { text: "4-6: I'm uncomfortable and ready for a change.", score: 15, pain: 5 },
+                    { text: "7-8: This is a major priority for me right now.", score: 25, pain: 8 },
+                    { text: "9-10: I can't stay where I am. I need a solution immediately.", score: 40, pain: 10 }
+                ]
             },
             { 
                 id: 3, 
@@ -474,10 +485,10 @@
                 key: "commitment", 
                 summaryLabel: "Commitment", 
                 options: [
-                    { text: "3-4 days (The sweet spot for our methods).", short: "3-4 Days / Week", score: 20 }, 
-                    { text: "5+ days (I'm ready for a high-volume phase).", short: "5+ Days / Week", score: 30 }, 
-                    { text: "1-2 days (I need a very minimalist start).", short: "1-2 Days / Week", score: 10 }, 
-                    { text: "I need you to tell me what's necessary.", short: "Seeking Guidance", score: 5 }
+                    { text: "3-4 days (The sweet spot for our methods).", short: "3-4 Days / Week", score: 20, multiplier: 1.0, commitmentId: 'IDEAL' }, 
+                    { text: "5+ days (I'm ready for a high-volume phase).", short: "5+ Days / Week", score: 30, multiplier: 1.2, commitmentId: 'HIGH' }, 
+                    { text: "1-2 days (I need a very minimalist start).", short: "1-2 Days / Week", score: 10, multiplier: 0.6, commitmentId: 'LOW' }, 
+                    { text: "I need you to tell me what's necessary.", short: "Seeking Guidance", score: 5, multiplier: 1.0, commitmentId: 'SEEKING' }
                 ] 
             },
             { 
@@ -497,17 +508,17 @@
                 question: "Are you ready to commit to being #Fitter #Stronger #Better?", 
                 key: "readiness", 
                 options: [
-                    { text: "Yes. I'm ready to stop making excuses.", score: 30 }, 
-                    { text: "I'm ready to start, but I need a clear first step.", score: 20 }, 
-                    { text: "I'm looking for information before I jump in.", score: 10 }
+                    { text: "Yes. I'm ready to stop making excuses.", score: 30, readiness: 3 }, 
+                    { text: "I'm ready to start, but I need a clear first step.", score: 20, readiness: 2 }, 
+                    { text: "I'm looking for information before I jump in.", score: 10, readiness: 1 }
                 ] 
             }
         ];
 
         const phaseTransitions = [
-            { triggerIndex: 3, title: "The Vision Set", message: "Great. We've got the 'Why' locked in. Now, let's look at the 'Friction' currently standing in your way." },
-            { triggerIndex: 6, title: "Reality Acknowledged", message: "Understood. Now, let's see if your philosophy on training aligns with our unconventional approach." },
-            { triggerIndex: 8, title: "Baseline Established", message: "Almost there. Final step: Let's look at the logistics to make sure this path is actually sustainable for you." }
+            { triggerIndex: 4, title: "The Vision Set", message: "Great. We've got the 'Why' locked in. Now, let's look at the 'Friction' currently standing in your way." },
+            { triggerIndex: 7, title: "Reality Acknowledged", message: "Understood. Now, let's see if your philosophy on training aligns with our unconventional approach." },
+            { triggerIndex: 9, title: "Baseline Established", message: "Almost there. Final step: Let's look at the logistics to make sure this path is actually sustainable for you." }
         ];
 
         const TIER_1_TITLE = "1-1 ONLINE COACHING";
@@ -564,10 +575,12 @@
             const expId = answers.find(a => a.key === 'experience')?.expId || 'BEGINNER';
             const medical = answers.find(a => a.key === 'medical')?.answer || '';
             const pastExp = answers.find(a => a.key === 'pastExp')?.category || 'NEW';
+            const pain = answers.find(a => a.key === 'painScale')?.pain || 0;
             
+            // Logic Improvement 3: Pain Scale Gating for 1-1
             if (medical.includes("specialized training")) return getProgramDetailsByTitle(TIER_1_TITLE);
-            if (pastExp === 'COACHED' && (budgetId === 'PREMIUM' || budgetId === 'FLEX')) return getProgramDetailsByTitle(TIER_1_TITLE);
-            if (budgetId === 'PREMIUM') return getProgramDetailsByTitle(TIER_1_TITLE); 
+            if (pastExp === 'COACHED' && (budgetId === 'PREMIUM' || budgetId === 'FLEX') && pain >= 7) return getProgramDetailsByTitle(TIER_1_TITLE);
+            if (budgetId === 'PREMIUM' && pain >= 7) return getProgramDetailsByTitle(TIER_1_TITLE); 
             
             if (expId === 'BEGINNER' || expId === 'RETURNING' || pastExp === 'NEW' || pastExp === 'FRICTION') {
                 if (budgetId === 'ENTRY' && pastExp !== 'FRICTION') return getProgramDetailsByTitle(TIER_3_TITLE);
@@ -577,7 +590,8 @@
             const primaryGoal = answers.find(a => a.key === 'primaryGoal')?.answer || '';
             const isHybridIntent = (primaryGoal.includes("built visible muscle") || primaryGoal.includes("high energy"));
 
-            const fsbThreshold = isHybridIntent ? 150 : 170;
+            // Adjusted thresholds for multiplier logic
+            const fsbThreshold = isHybridIntent ? 130 : 150;
             if (score >= fsbThreshold && budgetId !== 'ENTRY') return getProgramDetailsByTitle(TIER_2_TITLE);
             return getProgramDetailsByTitle(TIER_3_TITLE);
         }
@@ -604,7 +618,7 @@
             }
 
             if (primary.priceId === 'MID') {
-                if (score >= 230 || budgetId === 'FLEX') return { ...getProgramDetailsByTitle(TIER_1_TITLE), type: 'UPGRADE' };
+                if (score >= 200 || budgetId === 'FLEX') return { ...getProgramDetailsByTitle(TIER_1_TITLE), type: 'UPGRADE' };
                 return { ...getProgramDetailsByTitle(TIER_3_TITLE), type: 'DOWNGRADE' };
             } 
             return { ...getProgramDetailsByTitle(TIER_2_TITLE), type: 'UPGRADE' };
@@ -700,9 +714,9 @@
             progressBarFill.style.width = `${progress}%`;
             progressPercent.textContent = `${Math.round(progress)}%`;
             
-            if (currentStep < 3) progressTextLabel.textContent = `PHASE 1: THE VISION`;
-            else if (currentStep < 6) progressTextLabel.textContent = `PHASE 2: THE REALITY CHECK`;
-            else if (currentStep < 8) progressTextLabel.textContent = `PHASE 3: PHILOSOPHY ALIGNMENT`;
+            if (currentStep < 4) progressTextLabel.textContent = `PHASE 1: THE VISION`;
+            else if (currentStep < 7) progressTextLabel.textContent = `PHASE 2: THE REALITY CHECK`;
+            else if (currentStep < 9) progressTextLabel.textContent = `PHASE 3: PHILOSOPHY ALIGNMENT`;
             else if (currentStep < total) progressTextLabel.textContent = `PHASE 4: LOGISTICS`;
             else progressTextLabel.textContent = `CONSULTATION COMPLETE`;
         }
@@ -830,6 +844,35 @@
             updateProgress();
         }
 
+        // Logic Improvement 1: Reality Check for Incompatible Goals
+        function renderIncompatibleGoalBridge() {
+            isTransitioning = true;
+            contentArea.innerHTML = `
+                <div class="text-center animate-in min-h-[400px] flex flex-col items-center justify-center space-y-8">
+                    <div class="inline-block p-4 rounded-full border border-orange-500/30 bg-orange-500/10 mb-2">
+                        <svg class="h-10 w-10 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h2 class="text-3xl font-black uppercase text-white italic tracking-tighter mb-4">Reality Check</h2>
+                        <p class="text-neutral-400 text-base max-w-sm mx-auto leading-relaxed">
+                            You've selected <strong class="text-white">Elite Performance</strong> as your goal, but listed <strong class="text-white">1-2 days</strong> for commitment. 
+                        </p>
+                        <p class="text-neutral-500 text-sm max-w-sm mx-auto mt-4 leading-relaxed">
+                            To achieve peak results, we believe in radical honesty. We will need to prioritize a highly efficient minimalist approach, or you may need to adjust your expectations of the timeline.
+                        </p>
+                    </div>
+                    <button id="acknowledge-bridge" class="action-button px-10 py-4 rounded-2xl text-xs tracking-widest">I UNDERSTAND</button>
+                </div>
+            `;
+            document.getElementById('acknowledge-bridge').addEventListener('click', () => {
+                isTransitioning = false;
+                renderQuestion();
+                scrollToTarget();
+            });
+        }
+
         function renderTransitionScreen(transition) {
             isTransitioning = true;
             contentArea.innerHTML = `
@@ -898,17 +941,30 @@
              upd(); 
         }
 
+        // Logic Improvement 5: Lead Scoring Function
+        function calculateLeadScore(totalScore, answers) {
+            const budgetId = answers.find(a => a.key === 'budget')?.budgetId || 'FLEX';
+            const readiness = answers.find(a => a.key === 'readiness')?.readiness || 0;
+            const pain = answers.find(a => a.key === 'painScale')?.pain || 0;
+
+            if (budgetId === 'PREMIUM' && readiness >= 3 && pain >= 7) return "🔥 HOT LEAD";
+            if (budgetId === 'PREMIUM' || (readiness >= 2 && pain >= 5)) return "⚡ WARM LEAD";
+            return "🧊 COLD LEAD / FOLLOW-UP";
+        }
+
         async function triggerAssessmentSubmission(primary, rationale, vision) {
+            const leadTag = calculateLeadScore(totalScore, userAnswers);
             const coachData = {
-                _subject: `🔥 NEW CONSULTATION: ${clientName}`,
+                _subject: `${leadTag}: ${clientName}`,
                 _template: "table",
                 _replyto: clientEmail,
+                Lead_Status: leadTag,
                 Name: clientName,
                 Email: clientEmail,
                 Recommended_Path: primary.title,
                 Coach_Rationale: rationale,
                 Three_Month_Vision: vision,
-                Total_Score: totalScore,
+                Total_Score: totalScore.toFixed(1),
                 ...Object.fromEntries(userAnswers.map(a => [a.question.replace(/\s+/g, '_'), a.answer]))
             };
 
@@ -1009,8 +1065,7 @@
         function handleNext() {
             if (selectedOption !== null && !isTransitioning) {
                 const key = quizData[currentStep].key;
-                const idx = userAnswers.findIndex(a => a.key === key);
-                if (idx !== -1) { totalScore -= userAnswers[idx].score; userAnswers.splice(idx, 1); } 
+                
                 const answerObj = { 
                     key, 
                     question: quizData[currentStep].question, 
@@ -1021,11 +1076,34 @@
                 if (selectedOption.budgetId) answerObj.budgetId = selectedOption.budgetId;
                 if (selectedOption.expId) answerObj.expId = selectedOption.expId;
                 if (selectedOption.whyId) answerObj.whyId = selectedOption.whyId;
+                if (selectedOption.goalId) answerObj.goalId = selectedOption.goalId;
                 if (selectedOption.category) answerObj.category = selectedOption.category;
+                if (selectedOption.multiplier) answerObj.multiplier = selectedOption.multiplier;
+                if (selectedOption.pain) answerObj.pain = selectedOption.pain;
+                if (selectedOption.readiness) answerObj.readiness = selectedOption.readiness;
+                
+                // Overwrite previous answer if exists
+                const idx = userAnswers.findIndex(a => a.key === key);
+                if (idx !== -1) { userAnswers.splice(idx, 1); } 
                 userAnswers.push(answerObj);
-                totalScore += selectedOption.score; 
+
+                // Logic Improvement 2: Dynamic Weighting (Multiplier Logic)
+                const runningTotal = userAnswers.reduce((sum, current) => sum + current.score, 0);
+                const commitmentMultiplier = userAnswers.find(a => a.key === 'commitment')?.multiplier || 1.0;
+                totalScore = runningTotal * commitmentMultiplier;
                 
                 currentStep++;
+
+                // Logic Improvement 1: Check for Incompatible Goal
+                const whyId = userAnswers.find(a => a.key === 'theWhy')?.whyId;
+                const commitId = userAnswers.find(a => a.key === 'commitment')?.commitmentId;
+                if (key === 'commitment' && whyId === 'PERFORMANCE' && commitId === 'LOW') {
+                    renderIncompatibleGoalBridge();
+                    updateProgress();
+                    scrollToTarget();
+                    return;
+                }
+
                 const transition = phaseTransitions.find(t => t.triggerIndex === currentStep);
                 if (transition) { renderTransitionScreen(transition); updateProgress(); scrollToTarget(); } 
                 else { renderQuestion(); scrollToTarget(); }
