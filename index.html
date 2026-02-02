@@ -3,17 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Find your path to #Fitter #Stronger #Better | COACH CHRIS</title>
-    
-    <meta property="og:title" content="Find your path to #Fitter #Stronger #Better">
-    <meta property="og:description" content="Take our short quiz to determine which service is best suited to help you achieve your goals">
-    <meta property="og:image" content="https://placehold.co/1200x630/22c55e/000?text=COACH+CHRIS+Fitness+Assessment">
-
+    <title>Digital Consultation | COACH CHRIS</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
-
-        /* --- THE ORIGINAL DESIGN DNA --- */
         body {
             font-family: 'Inter', sans-serif;
             background: radial-gradient(circle at 20% 20%, #1a1a1a 0%, #000 100%);
@@ -22,303 +15,221 @@
             overflow-x: hidden;
             position: relative;
         }
-
         body::before, body::after {
-            content: "";
-            position: fixed;
-            width: 40vw;
-            height: 40vw;
-            border-radius: 50%;
-            background: rgba(34, 197, 94, 0.15);
-            filter: blur(100px);
-            z-index: -1;
+            content: ""; position: fixed; width: 40vw; height: 40vw; border-radius: 50%;
+            background: rgba(34, 197, 94, 0.15); filter: blur(100px); z-index: -1;
             animation: move 20s infinite alternate;
         }
-        @keyframes move {
-            from { transform: translate(-10%, -10%); }
-            to { transform: translate(10%, 10%); }
-        }
-
+        @keyframes move { from { transform: translate(-10%, -10%); } to { transform: translate(10%, 10%); } }
         .glass-panel {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
         }
-
         #initial-loader {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-color: #000;
-            z-index: 9999;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000;
+            z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center;
             transition: opacity 0.5s ease-out;
         }
-
-        .cycling-text {
-            font-family: monospace;
-            color: #22c55e;
-            font-size: 0.75rem;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            margin-top: 1rem;
-            min-height: 1.2em;
-        }
-
-        .quiz-container {
-            max-width: 650px;
-            min-height: 550px;
-        }
-
-        .option-button {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            color: #fff;
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .option-button:hover:not(.selected) {
-            background: rgba(255, 255, 255, 0.08);
-            border-color: rgba(34, 197, 94, 0.5);
-            transform: translateX(4px);
-        }
-
-        .selected {
-            background: rgba(34, 197, 94, 0.2) !important;
-            border-color: #22c55e !important;
-            box-shadow: 0 0 20px rgba(34, 197, 94, 0.2);
-        }
-
-        .action-button {
-            background: #22c55e;
-            color: #000;
-            font-weight: 800;
-            text-transform: uppercase;
-            transition: all 0.2s;
-        }
-        
-        .action-button:disabled {
-            background: rgba(255, 255, 255, 0.1);
-            color: rgba(255, 255, 255, 0.3);
-            cursor: not-allowed;
-        }
-
-        .progress-bar-fill {
-            background: linear-gradient(90deg, #22c55e, #4ade80);
-            box-shadow: 0 0 10px rgba(34, 197, 94, 0.5);
-            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .animate-in {
-            animation: slideUpFade 0.5s ease-out forwards;
-        }
-
-        @keyframes slideUpFade {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .custom-input {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            color: white;
-        }
-
-        .whatsapp-button {
-            background: #25D366;
-            color: #fff;
-            font-weight: 700;
-        }
-
-        .clean-spinner {
-            width: 50px; height: 50px;
-            border: 3px solid rgba(255,255,255,0.1);
-            border-top: 3px solid #22c55e;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin { 100% { transform: rotate(360deg); } }
+        .cycling-text { font-family: monospace; color: #22c55e; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 1rem; }
+        .quiz-container { max-width: 650px; min-height: 550px; }
+        .option-button { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); color: #fff; transition: all 0.2s ease; display: flex; align-items: center; justify-content: space-between; }
+        .option-button:hover { background: rgba(255, 255, 255, 0.08); border-color: rgba(34, 197, 94, 0.5); transform: translateX(4px); }
+        .action-button { background: #22c55e; color: #000; font-weight: 800; text-transform: uppercase; transition: all 0.2s; box-shadow: 0 4px 15px rgba(34, 197, 94, 0.4); }
+        .progress-bar-fill { background: linear-gradient(90deg, #22c55e, #4ade80); transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+        .animate-in { animation: slideUpFade 0.5s ease-out forwards; }
+        @keyframes slideUpFade { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .custom-input { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.15); color: white; }
+        .whatsapp-button { background: #25D366; color: #fff; font-weight: 700; }
     </style>
 </head>
 <body class="flex flex-col items-center justify-center p-4 sm:p-6">
 
     <div id="initial-loader">
-        <div class="loader-content flex flex-col items-center text-center">
-            <h1 class="text-4xl font-black text-white uppercase tracking-tighter italic">DIGITAL CONSULTATION</h1>
-            <div id="loader-pulse-text" class="text-green-500 font-bold text-xl uppercase tracking-widest mt-2">Loading...</div>
-            <div id="loader-sub-text" class="cycling-text">Initializing assessment...</div>
-        </div>
+        <h1 class="text-4xl font-black text-white italic">DIGITAL CONSULTATION</h1>
+        <div id="loader-sub-text" class="cycling-text">Initializing assessment...</div>
     </div>
 
     <div id="quiz-app" class="quiz-container glass-panel w-full rounded-3xl p-6 md:p-10 relative overflow-hidden">
         <div class="absolute top-0 left-0 w-full h-1.5 bg-green-500 shadow-[0_0_15px_rgba(34,197,94,0.8)]"></div>
-
         <div id="branding-block" class="mb-8">
-            <h1 class="text-3xl sm:text-4xl font-black text-white uppercase tracking-tighter leading-none">COACH CHRIS</h1>
-            <div class="flex gap-x-4 mt-2">
-                <p class="text-[10px] font-bold uppercase text-neutral-400 tracking-widest">CIRCULAR ROOTS COACHING</p>
-                <p class="text-[10px] font-bold uppercase text-green-500 tracking-widest">TRAIN UNCNVNTNL</p>
+            <h1 class="text-3xl font-black text-white italic">COACH CHRIS</h1>
+            <div class="flex gap-4 mt-1">
+                <p class="text-[10px] font-bold text-neutral-400 tracking-widest uppercase">Circular Roots Coaching</p>
+                <p class="text-[10px] font-bold text-green-500 tracking-widest uppercase">Train Uncnvntnl</p>
             </div>
         </div>
 
         <div id="progress-anchor" class="mb-10">
-            <div class="flex items-center justify-between mb-2">
-                <p id="progress-text-label" class="text-[10px] font-black uppercase tracking-[0.2em] text-neutral-400">Question 1 of 6</p>
-                <p id="progress-percent" class="text-[10px] font-black text-green-500 tracking-widest">0%</p>
+            <div class="flex justify-between mb-2">
+                <p id="progress-text-label" class="text-[10px] font-black uppercase text-neutral-400 tracking-widest">Question 1 of 5</p>
+                <p id="progress-percent" class="text-[10px] font-black text-green-500">0%</p>
             </div>
-            <div class="h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
+            <div class="h-1 bg-white/10 rounded-full overflow-hidden">
                 <div id="progress-bar-fill" class="progress-bar-fill h-full" style="width: 0%;"></div>
             </div>
         </div>
 
         <div id="content-area"></div>
     </div>
-    
-    <div class="mt-12 w-full max-w-2xl text-center px-4">
-        <p id="disclaimer" class="text-neutral-500 text-[10px] mb-6 leading-relaxed max-w-xl mx-auto uppercase tracking-tighter">
-            General Fitness Disclaimer: Always consult your medical professional or doctor before beginning any new fitness regime. 
-        </p>
-        <p class="text-green-500/50 text-sm italic font-semibold tracking-widest">Fitter. Stronger. Better.</p>
-    </div>
 
     <script>
         const COACH_EMAIL = "circularrootscoaching@gmail.com";
-        const WHATSAPP_NUMBER = "447925116794";
+        const WHATSAPP = "447925116794";
+        
+        let currentStep = 0, userAnswers = [], totalScore = 0, clientName = "";
 
-        // --- NEW LOGIC INTEGRATED WITH ORIGINAL TONE ---
         const quizData = [
-            { id: 1, key: "experience", question: "How would you describe your current training experience?", options: [
-                { text: "I am brand new to structured training", val: "BEGINNER", score: 10 },
-                { text: "I have some experience but lost my way (Rusty)", val: "RETURNING", score: 20 },
-                { text: "I am an experienced trainee looking for a performance edge", val: "EXPERIENCED", score: 30 }
+            { key: "experience", question: "How would you describe your training history?", options: [
+                { text: "Beginner / Returning after a long break", val: "BEGINNER", score: 10 },
+                { text: "Experienced looking for performance", val: "EXPERIENCED", score: 30 }
             ]},
-            { id: 2, key: "barrier", question: "What is your biggest roadblock to progress right now?", options: [
-                { text: "I lack a professional structure or map", val: "STRUCTURE", score: 10 },
-                { text: "I struggle with consistency and accountability", val: "ACCOUNTABILITY", score: 30 },
-                { text: "I have injuries or aches that limit my training", val: "INJURY", score: 100 },
-                { text: "I'm working hard but hitting a plateau", val: "STAGNANT", score: 20 }
+            { key: "barrier", question: "What is the biggest roadblock right now?", options: [
+                { text: "Consistency and Accountability", val: "ACCOUNTABILITY", score: 40 },
+                { text: "Injuries / Specialized needs", val: "INJURY", score: 100 },
+                { text: "I just need a professional map", val: "MAP", score: 10 }
             ]},
-            { id: 3, key: "partnership", question: "What level of coach partnership are you seeking?", options: [
-                { text: "Total Partnership: I want every detail managed for me (£175/mo)", val: "PREMIUM", score: 50 },
-                { text: "Collaborative: Structured app access + Community (£75/mo)", val: "HYBRID", score: 20 },
-                { text: "Independent: I just want the professional blueprints", val: "SELF", score: 5 }
+            { key: "goal", question: "What is the primary target?", options: [
+                { text: "Shedding fat & transforming physique", val: "FATLOSS", score: 20 },
+                { text: "Building muscle & absolute strength", val: "STRENGTH", score: 20 }
+            ]},
+            { key: "partnership", question: "What level of coach access do you need?", options: [
+                { text: "Total Partnership (1-1 Management)", val: "PREMIUM", score: 50 },
+                { text: "Collaborative (Subscription + Community)", val: "HYBRID", score: 20 },
+                { text: "Independent (Self-Guided)", val: "SELF", score: 5 }
             ]}
         ];
 
-        let currentStep = 0, userAnswers = [], totalScore = 0;
+        const transitions = {
+            2: { title: "The Strategy", msg: "Next, let's look at your specific goal and physical readiness." },
+            4: { title: "The Logistics", msg: "Final step: defining your level of investment and support." }
+        };
 
         window.onload = () => {
-            const cycleMessages = ["Configuring logic...", "Mapping your path...", "Ready."];
-            let i = 0;
-            const cycleInterval = setInterval(() => {
-                if (i < cycleMessages.length) document.getElementById('loader-sub-text').textContent = cycleMessages[i++];
-                else clearInterval(cycleInterval);
-            }, 500);
-            setTimeout(() => { document.getElementById('initial-loader').style.opacity = '0'; setTimeout(() => document.getElementById('initial-loader').style.display='none', 500); renderWelcome(); }, 1800);
+            setTimeout(() => {
+                document.getElementById('initial-loader').style.opacity = '0';
+                setTimeout(() => document.getElementById('initial-loader').style.display='none', 500);
+                renderWelcome();
+            }, 1500);
         };
 
         function renderWelcome() {
             document.getElementById('content-area').innerHTML = `
-                <div class="animate-in space-y-8">
-                    <p class="text-neutral-300 text-lg leading-relaxed">Stop guessing. Start training with intent. This digital assessment maps your current baseline against your ultimate goals.</p>
-                    <button onclick="renderQuestion()" class="action-button w-full py-6 rounded-2xl tracking-[0.2em]">INITIALIZE ASSESSMENT</button>
-                </div>
-            `;
+                <div class="animate-in space-y-6">
+                    <p class="text-neutral-300 text-lg">Stop guessing. Map your baseline against your ultimate goals in 2 minutes.</p>
+                    <button onclick="renderQuestion()" class="action-button w-full py-6 rounded-2xl tracking-widest">START CONSULTATION</button>
+                </div>`;
         }
 
         function renderQuestion() {
+            if (transitions[currentStep]) { renderTransition(); return; }
             if (currentStep >= quizData.length) { renderPersonalization(); return; }
+            
             const q = quizData[currentStep];
             updateProgress();
             document.getElementById('content-area').innerHTML = `
                 <div class="animate-in space-y-6">
-                    <h2 class="text-2xl sm:text-3xl font-black uppercase italic tracking-tighter text-white leading-tight">${q.question}</h2>
+                    <h2 class="text-3xl font-black italic uppercase text-white">${q.question}</h2>
                     <div class="space-y-3" id="options"></div>
-                </div>
-            `;
+                </div>`;
             q.options.forEach(opt => {
                 const btn = document.createElement('button');
                 btn.className = "option-button w-full p-5 rounded-2xl text-left font-bold";
-                btn.innerHTML = `<span>${opt.text}</span><span class="text-green-500 opacity-0 group-hover:opacity-100">→</span>`;
-                btn.onclick = () => selectOption(opt);
+                btn.innerHTML = `<span>${opt.text}</span><span class="text-green-500">→</span>`;
+                btn.onclick = () => { userAnswers.push({key: q.key, val: opt.val, text: opt.text}); totalScore += opt.score; currentStep++; renderQuestion(); };
                 document.getElementById('options').appendChild(btn);
             });
         }
 
-        function selectOption(opt) {
-            userAnswers.push({ key: quizData[currentStep].key, val: opt.val, text: opt.text });
-            totalScore += opt.score;
-            currentStep++;
-            renderQuestion();
+        function renderTransition() {
+            const t = transitions[currentStep];
+            delete transitions[currentStep];
+            document.getElementById('content-area').innerHTML = `
+                <div class="animate-in text-center space-y-6 py-10">
+                    <h2 class="text-4xl font-black italic uppercase text-white">${t.title}</h2>
+                    <p class="text-neutral-400">${t.msg}</p>
+                    <button onclick="renderQuestion()" class="action-button px-10 py-4 rounded-2xl text-xs">CONTINUE</button>
+                </div>`;
         }
 
         function updateProgress() {
             const p = (currentStep / quizData.length) * 100;
             document.getElementById('progress-bar-fill').style.width = p + "%";
             document.getElementById('progress-percent').textContent = Math.round(p) + "%";
-            document.getElementById('progress-text-label').textContent = `STEP ${currentStep + 1} OF ${quizData.length}`;
+            document.getElementById('progress-text-label').textContent = `Step ${currentStep + 1} of ${quizData.length}`;
         }
 
         function renderPersonalization() {
             document.getElementById('content-area').innerHTML = `
-                <form onsubmit="handleFinalSubmit(event)" class="animate-in space-y-6">
-                    <h2 class="text-3xl font-black uppercase italic text-white">Review Profile</h2>
-                    <div class="space-y-4">
-                        <input type="text" id="name" placeholder="YOUR NAME" required class="custom-input w-full p-5 rounded-2xl font-bold uppercase tracking-widest text-sm">
-                        <input type="email" id="email" placeholder="YOUR EMAIL" required class="custom-input w-full p-5 rounded-2xl font-bold uppercase tracking-widest text-sm">
-                    </div>
-                    <button type="submit" class="action-button w-full py-6 rounded-2xl tracking-[0.2em]">VIEW ANALYSIS</button>
-                </form>
-            `;
+                <form id="final-form" onsubmit="submitAssessment(event)" class="animate-in space-y-6">
+                    <h2 class="text-3xl font-black italic uppercase text-white">Review Profile</h2>
+                    <input type="text" id="name" placeholder="YOUR NAME" required class="custom-input w-full p-5 rounded-2xl font-bold uppercase tracking-widest">
+                    <input type="email" id="email" placeholder="YOUR EMAIL" required class="custom-input w-full p-5 rounded-2xl font-bold uppercase tracking-widest">
+                    <button type="submit" class="action-button w-full py-6 rounded-2xl">VIEW ANALYSIS</button>
+                </form>`;
         }
 
-        function handleFinalSubmit(e) {
+        async function submitAssessment(e) {
             e.preventDefault();
-            const name = document.getElementById('name').value;
+            clientName = document.getElementById('name').value;
             const email = document.getElementById('email').value;
+            
+            document.getElementById('content-area').innerHTML = `<div class="text-center py-20"><div class="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-green-500"></div><p class="mt-4 text-xs tracking-widest text-green-500">CALCULATING VISION...</p></div>`;
 
-            // --- STRATEGIC LOGIC ENGINE ---
+            const results = calculateResults();
+            
+            // Send Email to Coach
+            const payload = { _subject: `NEW LEAD: ${clientName}`, Name: clientName, Email: email, Result: results.primary.title, Score: totalScore };
+            userAnswers.forEach(a => payload[a.key] = a.text);
+            
+            try { await fetch(`https://formsubmit.co/ajax/${COACH_EMAIL}`, { method: "POST", headers: {'Content-Type': 'application/json'}, body: JSON.stringify(payload)}); } 
+            catch(e) { console.log("Silent fail"); }
+
+            setTimeout(() => renderFinalResults(results), 1500);
+        }
+
+        function calculateResults() {
             const barrier = userAnswers.find(a => a.key === "barrier").val;
-            const partnership = userAnswers.find(a => a.key === "partnership").val;
+            const partner = userAnswers.find(a => a.key === "partnership").val;
             const exp = userAnswers.find(a => a.key === "experience").val;
 
-            let rec = { title: "PROGRAM LIBRARY", url: "https://coachchriscrc.github.io/programs-lp/", color: "text-neutral-400", desc: "Expert-built training blueprints for the independent trainee." };
+            let p = { title: "PROGRAM LIBRARY", url: "https://coachchriscrc.github.io/programs-lp/", color: "text-neutral-400", why: "You thrive on independence and just need the map." };
+            let s = null;
 
-            if (barrier === "INJURY" || partnership === "PREMIUM") {
-                rec = { title: "1-1 ONLINE COACHING", url: "https://coachchriscrc.github.io/oc-lp/", color: "text-green-400", desc: "The ultimate premium partnership. Custom nutrition, daily check-ins, and total management." };
-            } else if (exp === "BEGINNER" || exp === "RETURNING") {
-                rec = { title: "14-DAY FUNDAMENTALS", url: "https://coachchriscrc.github.io/14dayfundamentals-lp/", color: "text-orange-400", desc: "Start with your 14-day software update, leading into our 6-week foundations." };
-            } else if (partnership === "HYBRID" || totalScore >= 50) {
-                rec = { title: "FSB SUBSCRIPTION", url: "https://coachchriscrc.github.io/fsb-lp/", color: "text-blue-400", desc: "Our flagship hybrid model. High-performance app training + monthly coach oversight." };
+            if (barrier === "INJURY" || partner === "PREMIUM") {
+                p = { title: "1-1 ONLINE COACHING", url: "https://coachchriscrc.github.io/oc-lp/", color: "text-green-400", why: "Your needs require elite-level oversight and custom management." };
+                s = { title: "FSB Subscription", url: "https://coachchriscrc.github.io/fsb-lp/" };
+            } else if (exp === "BEGINNER") {
+                p = { title: "14-DAY FUNDAMENTALS", url: "https://coachchriscrc.github.io/14dayfundamentals-lp/", color: "text-orange-400", why: "You need a solid entry point to clear the rust before high intensity." };
+                s = { title: "6-Week Foundations", url: "https://coachchriscrc.github.io/6weekfoundations-lp/" };
+            } else if (partner === "HYBRID" || totalScore > 60) {
+                p = { title: "FSB SUBSCRIPTION", url: "https://coachchriscrc.github.io/fsb-lp/", color: "text-blue-400", why: "You want a professional engine to drive your training every month." };
+                s = { title: "1-1 Online Coaching", url: "https://coachchriscrc.github.io/oc-lp/" };
             }
 
-            renderResults(name, rec);
+            return { primary: p, secondary: s };
         }
 
-        function renderResults(name, rec) {
-            const waMsg = encodeURIComponent(`Hi Chris, it's ${name}. My assessment result was ${rec.title}. Can we discuss the next steps?`);
+        function renderFinalResults(res) {
+            const vision = "In 90 days, you will have replaced 'trying' with 'doing'. Your movement will be fluid, your energy stable, and the guesswork that held you back will be a thing of the past.";
+            const wa = `https://wa.me/${WHATSAPP}?text=Hi Chris, it's ${clientName}. My result was ${res.primary.title}. Let's chat.`;
+            
             document.getElementById('content-area').innerHTML = `
-                <div class="animate-in space-y-8 text-center">
-                    <h2 class="text-4xl font-black uppercase italic tracking-tighter text-white leading-tight">YOUR OPTIMAL PATH</h2>
+                <div class="animate-in space-y-8">
+                    <div class="text-center">
+                        <h2 class="text-4xl font-black italic uppercase text-white">YOUR PATH</h2>
+                        <p class="text-xs text-green-500 tracking-widest mt-2">ANALYSIS COMPLETE FOR ${clientName.toUpperCase()}</p>
+                    </div>
                     <div class="p-8 rounded-3xl bg-white/5 border border-white/10 space-y-6">
-                        <h3 class="text-3xl font-black ${rec.color} uppercase tracking-tighter">${rec.title}</h3>
-                        <p class="text-neutral-300 font-medium leading-relaxed">${rec.desc}</p>
+                        <h3 class="text-3xl font-black ${res.primary.color} uppercase tracking-tighter">${res.primary.title}</h3>
+                        <p class="text-neutral-300 text-sm italic">"${res.primary.why}"</p>
+                        <p class="text-neutral-400 text-xs leading-relaxed">${vision}</p>
                         <div class="flex flex-col gap-4 pt-4">
-                            <a href="${rec.url}" class="action-button block py-6 rounded-2xl no-underline tracking-widest text-sm">CLAIM YOUR SPOT</a>
-                            <a href="https://wa.me/${WHATSAPP_NUMBER}?text=${waMsg}" class="whatsapp-button block py-5 rounded-2xl no-underline text-xs tracking-widest">MESSAGE COACH CHRIS</a>
+                            <a href="${res.primary.url}" target="_blank" class="action-button block py-5 rounded-2xl no-underline text-center text-sm">CLAIM YOUR SPOT</a>
+                            <a href="${wa}" target="_blank" class="whatsapp-button block py-4 rounded-2xl no-underline text-center text-xs">WHATSAPP COACH CHRIS</a>
                         </div>
                     </div>
-                    <button onclick="location.reload()" class="text-[10px] font-black uppercase text-neutral-500 tracking-[0.3em]">RESTART ASSESSMENT</button>
-                </div>
-            `;
+                    ${res.secondary ? `<div class="text-center pt-4"><p class="text-[10px] text-neutral-500 uppercase tracking-widest mb-2">Alternative Option</p><a href="${res.secondary.url}" class="text-xs text-neutral-400 underline uppercase">${res.secondary.title}</a></div>` : ''}
+                </div>`;
         }
     </script>
 </body>
