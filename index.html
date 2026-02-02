@@ -3,11 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Digital Consultation | COACH CHRIS</title>
+    <title>Find your path to #Fitter #Stronger #Better | COACH CHRIS</title>
+    
+    <meta property="og:title" content="Find your path to #Fitter #Stronger #Better">
+    <meta property="og:description" content="Take our short quiz to determine which service is best suited to help you achieve your goals">
+    <meta property="og:image" content="https://placehold.co/1200x630/22c55e/000?text=COACH+CHRIS+Fitness+Assessment">
+    <meta property="og:url" content="YOUR_APP_URL_HERE">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Find your path to #Fitter #Stronger #Better">
+    <meta name="twitter:description" content="Take our short quiz to determine which service is best suited to help you achieve your goals">
+    <meta name="twitter:image" content="https://placehold.co/1200x630/22c55e/000?text=COACH+CHRIS+Fitness+Assessment">
+
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
-        
+
+        /* --- BACKGROUND & GLASSMORPHISM CORE --- */
         body {
             font-family: 'Inter', sans-serif;
             background: radial-gradient(circle at 20% 20%, #1a1a1a 0%, #000 100%);
@@ -17,242 +28,972 @@
             position: relative;
         }
 
-        /* The pulsing background glows from original design */
         body::before, body::after {
-            content: ""; position: fixed; width: 45vw; height: 45vw; border-radius: 50%;
-            background: rgba(34, 197, 94, 0.12); filter: blur(120px); z-index: -1;
-            animation: move 25s infinite alternate ease-in-out;
+            content: "";
+            position: fixed;
+            width: 40vw;
+            height: 40vw;
+            border-radius: 50%;
+            background: rgba(34, 197, 94, 0.15);
+            filter: blur(100px);
+            z-index: -1;
+            animation: move 20s infinite alternate;
         }
-        body::after { background: rgba(34, 197, 94, 0.08); animation-delay: -5s; right: 0; bottom: 0; }
-        @keyframes move { from { transform: translate(-10%, -10%); } to { transform: translate(15%, 15%); } }
+        body::after {
+            background: rgba(34, 197, 94, 0.1);
+            right: -10%;
+            top: 20%;
+            animation-delay: -5s;
+        }
+        @keyframes move {
+            from { transform: translate(-10%, -10%); }
+            to { transform: translate(10%, 10%); }
+        }
 
         .glass-panel {
-            background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
         }
 
         #initial-loader {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000;
-            z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center;
-            transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: #000;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.5s ease-out;
         }
 
-        .cycling-text { font-family: monospace; color: #22c55e; font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; margin-top: 1.5rem; }
-
-        .option-button { 
-            background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.07); 
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
-        }
-        .option-button:hover { 
-            background: rgba(34, 197, 94, 0.05); border-color: rgba(34, 197, 94, 0.4); 
-            transform: scale(1.02); 
-        }
-
-        .action-button { 
-            background: #22c55e; color: #000; font-weight: 900; text-transform: uppercase; 
-            letter-spacing: 0.1em; transition: all 0.3s; 
-        }
-        .action-button:hover { background: #4ade80; box-shadow: 0 0 30px rgba(34, 197, 94, 0.4); }
-
-        .progress-bar-fill { 
-            background: linear-gradient(90deg, #166534, #22c55e); 
-            box-shadow: 0 0 15px rgba(34, 197, 94, 0.3);
-            transition: width 0.7s ease; 
+        .cycling-text {
+            font-family: monospace;
+            color: #22c55e;
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-top: 1rem;
+            min-height: 1.2em;
         }
 
-        .animate-in { animation: slideUpFade 0.6s ease-out forwards; }
-        @keyframes slideUpFade { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        .quiz-container {
+            max-width: 650px;
+            min-height: 550px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .option-button {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #fff;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .option-button:hover:not(.selected) {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(34, 197, 94, 0.5);
+            transform: translateX(4px);
+        }
+
+        .selected {
+            background: rgba(34, 197, 94, 0.2) !important;
+            border-color: #22c55e !important;
+            color: #fff !important;
+            box-shadow: 0 0 20px rgba(34, 197, 94, 0.2);
+        }
+
+        .check-icon {
+            opacity: 0;
+            transform: scale(0.5);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            color: #22c55e;
+        }
+        .selected .check-icon {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .action-button {
+            background: #22c55e;
+            color: #000;
+            font-weight: 800;
+            text-transform: uppercase;
+            transition: all 0.2s;
+            box-shadow: 0 4px 15px rgba(34, 197, 94, 0.4);
+        }
+        
+        .action-button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(34, 197, 94, 0.6);
+            filter: brightness(1.1);
+        }
+        
+        .action-button:disabled {
+            background: rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.3);
+            box-shadow: none;
+            cursor: not-allowed;
+        }
+        
+        .secondary-button {
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        .secondary-button:hover {
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .whatsapp-button {
+            background: #25D366;
+            color: #fff;
+            font-weight: 700;
+            transition: all 0.2s;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.2);
+        }
+        .whatsapp-button:hover {
+            transform: translateY(-1px);
+            filter: brightness(1.05);
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.3);
+        }
+
+        .progress-container {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        .progress-bar-fill {
+            background: linear-gradient(90deg, #22c55e, #4ade80);
+            box-shadow: 0 0 10px rgba(34, 197, 94, 0.5);
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .animate-in {
+            animation: slideUpFade 0.5s ease-out forwards;
+        }
+
+        @keyframes slideUpFade {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .custom-input {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: white;
+            transition: all 0.2s;
+        }
+        .custom-input:focus {
+            outline: none;
+            border-color: #22c55e;
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 15px rgba(34, 197, 94, 0.2);
+        }
+        
+        input[type="checkbox"] {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 1.25rem; height: 1.25rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 4px;
+            cursor: pointer;
+            position: relative;
+        }
+        input[type="checkbox"]:checked {
+            background: #22c55e;
+            border-color: #22c55e;
+        }
+        input[type="checkbox"]:checked::after {
+            content: '✓';
+            position: absolute;
+            color: black;
+            font-weight: bold;
+            font-size: 0.8rem;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        .clean-spinner {
+            width: 50px; height: 50px;
+            border: 3px solid rgba(255,255,255,0.1);
+            border-top: 3px solid #22c55e;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        /* REFINED RESULTS STYLING */
+        .result-content-wrap {
+            border-top: 1px solid rgba(255,255,255,0.08);
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+        }
+
+        .section-header {
+            border-left: 2px solid #22c55e;
+            padding-left: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        .summary-tag {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 12px;
+            padding: 10px;
+        }
     </style>
 </head>
-<body class="flex flex-col items-center justify-center p-4">
+<body class="flex flex-col items-center justify-center p-4 sm:p-6">
 
     <div id="initial-loader">
-        <h1 class="text-4xl font-black text-white italic tracking-tighter">DIGITAL CONSULTATION</h1>
-        <div id="loader-sub-text" class="cycling-text">Initializing...</div>
+        <div class="loader-content flex flex-col items-center text-center">
+            <h1 class="text-4xl font-black text-white uppercase tracking-tighter italic">DIGITAL CONSULTATION</h1>
+            <div id="loader-pulse-text" class="text-green-500 font-bold text-xl uppercase tracking-widest mt-2">Loading...</div>
+            <div id="loader-sub-text" class="cycling-text">Initializing assessment...</div>
+        </div>
     </div>
 
-    <div id="quiz-app" class="glass-panel w-full max-w-[600px] rounded-[2rem] p-8 md:p-12 relative overflow-hidden">
-        <div class="absolute top-0 left-0 w-full h-1 bg-green-500/50"></div>
+    <div id="quiz-app" class="quiz-container glass-panel w-full rounded-3xl p-6 md:p-10 relative overflow-hidden">
         
-        <div id="header" class="mb-10 flex justify-between items-start">
-            <div>
-                <h1 class="text-2xl font-black text-white italic leading-none uppercase">Coach Chris</h1>
-                <p class="text-[9px] font-bold text-green-500 tracking-[0.3em] uppercase mt-1">Train Uncnvntnl</p>
-            </div>
-            <div class="text-right">
-                <p id="progress-percent" class="text-xl font-black text-white/20 italic">0%</p>
+        <div class="absolute top-0 left-0 w-full h-1.5 bg-green-500 shadow-[0_0_15px_rgba(34,197,94,0.8)]"></div>
+
+        <div id="branding-block" class="mb-8 animate-in">
+            <h1 class="text-3xl sm:text-4xl font-black text-white uppercase tracking-tighter leading-none">
+                COACH CHRIS
+            </h1>
+            <div class="flex flex-wrap gap-x-4 gap-y-1 mt-2">
+                <p class="text-xs font-bold uppercase text-neutral-400 tracking-widest">CIRCULAR ROOTS COACHING</p>
+                <p class="text-xs font-bold uppercase text-green-500 tracking-widest">TRAIN UNCNVNTNL</p>
             </div>
         </div>
 
-        <div id="content-area"></div>
-
-        <div id="progress-container" class="mt-12 opacity-0 transition-opacity duration-500">
-            <div class="h-[2px] w-full bg-white/5 rounded-full overflow-hidden">
+        <h2 id="main-title" class="text-2xl sm:text-3xl font-black text-white mb-6 uppercase italic tracking-tight leading-tight">
+            FIND YOUR PATH TO BECOMING 
+            <span class="text-green-500">#FITTER</span> 
+            <span class="text-green-500">#STRONGER</span> 
+            <span class="text-green-500">#BETTER</span>
+        </h2>
+        
+        <div id="progress-anchor" class="mb-10">
+            <div class="flex items-center justify-between mb-2">
+                <p id="progress-text-label" class="text-[10px] font-black uppercase tracking-[0.2em] text-neutral-400">
+                    QUESTION 1 OF 12
+                </p>
+                <p id="progress-percent" class="text-[10px] font-black text-green-500 tracking-widest">
+                    0%
+                </p>
+            </div>
+            <div class="progress-container h-1.5 w-full rounded-full overflow-hidden">
                 <div id="progress-bar-fill" class="progress-bar-fill h-full" style="width: 0%;"></div>
             </div>
         </div>
+
+        <div id="content-area">
+            <div class="text-center font-bold animate-pulse text-neutral-500">LOADING...</div>
+        </div>
+    </div>
+    
+    <div class="mt-12 w-full max-w-2xl text-center px-4">
+        <p id="disclaimer" class="text-neutral-500 text-xs mb-6 leading-relaxed max-w-xl mx-auto">
+            General Fitness Disclaimer: Always consult your medical professional or doctor before beginning any new fitness regime. This site provides general information for educational purposes only. You engage in physical activity at your own risk.
+        </p>
+        <p class="text-neutral-400 font-bold text-[10px] uppercase tracking-[0.25em]">
+            © <span id="current-year">2025</span> COACH CHRIS | CIRCULAR ROOTS COACHING
+        </p>
+        <p class="text-green-500/50 text-sm italic font-semibold mt-2 tracking-widest">
+            Fitter. Stronger. Better.
+        </p>
     </div>
 
     <script>
-        const COACH_EMAIL = "circularrootscoaching@gmail.com";
-        const WHATSAPP = "447925116794";
-        
-        let currentStep = 0, userAnswers = [], totalScore = 0, clientName = "";
+        const COACH_EMAIL = "circularrootscoaching@gmail.com"; 
+
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        window.addEventListener('load', () => {
+            const loader = document.getElementById('initial-loader');
+            const subText = document.getElementById('loader-sub-text');
+            const cycleMessages = ["Loading questions...", "Configuring logic...", "Ready."];
+            let i = 0;
+            const cycleInterval = setInterval(() => {
+                if (i < cycleMessages.length) { subText.textContent = cycleMessages[i++]; }
+                else { clearInterval(cycleInterval); }
+            }, 500);
+            setTimeout(() => {
+                loader.style.opacity = '0';
+                setTimeout(() => { loader.style.display = 'none'; }, 500);
+            }, 1800);
+        });
+
+        function markdownToHtml(text) {
+            if (!text) return "";
+            return text.replace(/\*\*(.*?)\*\*/g, '<strong class="text-white">$1</strong>')
+                       .replace(/\*(.*?)\*/g, '<em class="text-neutral-300 font-medium">$1</em>');
+        }
 
         const quizData = [
-            { key: "experience", question: "Describe your history", options: [
-                { text: "Starting fresh / Returning", val: "BEGINNER", score: 10 },
-                { text: "Consistent but stagnant", val: "INTERMEDIATE", score: 20 },
-                { text: "Experienced / Performance athlete", val: "ADVANCED", score: 30 }
-            ]},
-            { key: "barrier", question: "The main obstacle?", options: [
-                { text: "Consistency / Accountability", val: "ACCOUNTABILITY", score: 40 },
-                { text: "Injury / Rehab Needs", val: "INJURY", score: 100 },
-                { text: "Lack of a professional map", val: "MAP", score: 10 }
-            ]},
-            { key: "partnership", question: "Required support level?", options: [
-                { text: "Total Partnership (1-1)", val: "PREMIUM", score: 50 },
-                { text: "Hybrid (App + Community)", val: "HYBRID", score: 20 },
-                { text: "Independent (Blueprint)", val: "SELF", score: 5 }
-            ]}
+            // PHASE 1: Baseline & Logistics
+            { 
+                id: 1, 
+                section: "Part 1: Your Baseline", 
+                question: "How would you describe your current training experience?", 
+                key: "experience", 
+                summaryLabel: "Experience", 
+                options: [
+                    { text: "I am brand new to structured training", short: "Beginner", score: 5, expId: 'BEGINNER' }, 
+                    { text: "I have some experience but lost my way", short: "Returning", score: 15, expId: 'RETURNING' }, 
+                    { text: "I am an experienced trainee looking for an edge", short: "Experienced", score: 30, expId: 'EXPERIENCED' }
+                ] 
+            },
+            { 
+                id: 2, 
+                question: "What is your biggest barrier to success right now?", 
+                key: "barrier", 
+                summaryLabel: "Main Barrier", 
+                options: [
+                    { text: "I don't have a plan that fits my goals", short: "Lack of Structure", score: 5 }, 
+                    { text: "I struggle with follow-through and need accountability", short: "Accountability", score: 20 }, 
+                    { text: "My diet is my biggest weakness (need a strategy)", short: "Nutrition Strategy", score: 30 }, 
+                    { text: "Staying motivated and finding the time to train", short: "Time & Motivation", score: 10 }
+                ] 
+            },
+            { 
+                id: 3, 
+                question: "What is your #1 primary fitness goal right now?", 
+                key: "primaryGoal", 
+                summaryLabel: "Primary Goal", 
+                options: [
+                    { text: "Shedding fat and transforming my physique", short: "Fat Loss & Physique", score: 30 }, 
+                    { text: "Getting strong and building solid muscle", short: "Strength & Muscle", score: 20 }, 
+                    { text: "Boosting energy and improving my fitness/stamina", short: "Energy & Stamina", score: 10 }, 
+                    { text: "Feeling generally healthier and more consistent", short: "Health & Consistency", score: 5 }
+                ] 
+            },
+            { 
+                id: 4, 
+                question: "Where do you primarily workout?", 
+                key: "location", 
+                options: [
+                    { text: "A fully equipped gym/fitness center", score: 30 }, 
+                    { text: "At home with minimal equipment", score: 10 }, 
+                    { text: "Outdoors or using functional bodyweight training", score: 20 }, 
+                    { text: "It varies (I travel or shift locations often)", score: 5 }
+                ] 
+            },
+
+            // PHASE 2: The Strategy (Commitment & Habits)
+            { 
+                id: 5, 
+                section: "Part 2: The Strategy", 
+                question: "How many days per week can you realistically commit?", 
+                key: "commitment", 
+                summaryLabel: "Commitment", 
+                options: [
+                    { text: "I'm ready for 5+ sessions per week (high commitment)", short: "5+ Days / Week", score: 30 }, 
+                    { text: "I can commit 3-4 days a week easily", short: "3-4 Days / Week", score: 20 }, 
+                    { text: "1-2 days a week is realistic for me right now", short: "1-2 Days / Week", score: 10 }, 
+                    { text: "I need help finding consistency/just starting", short: "Seeking Consistency", score: 5 }
+                ] 
+            },
+            { 
+                id: 6, 
+                question: "What level of support do you need to stay on track?", 
+                key: "support", 
+                options: [
+                    { text: "I need a great plan and I'll handle the rest", score: 5 }, 
+                    { text: "I need weekly guidance and access to a coach", score: 20 }, 
+                    { text: "Maximum accountability, check-ins, and a custom plan", score: 30 }, 
+                    { text: "I learn best in a supportive group environment", score: 10 }
+                ] 
+            },
+            { 
+                id: 7, 
+                question: "How would you describe your nutritional discipline?", 
+                key: "nutrition", 
+                options: [
+                    { text: "I track macros/calories and just need refinement", altText: "I am focused on high-level performance fuel", score: 30 }, 
+                    { text: "I eat generally healthy but focus on consistency", altText: "I aim for balanced meals but want more structure", score: 20 }, 
+                    { text: "My eating is inconsistent; I need a full overhaul", altText: "I struggle with basic nutrition habits", score: 10 }, 
+                    { text: "I haven't focused on nutrition yet", altText: "I'm just starting to look at my diet", score: 5 }
+                ] 
+            },
+            { 
+                id: 8, 
+                question: "What has been your experience with following a structured plan in the past?", 
+                key: "pastExp", 
+                options: [
+                    { text: "I’ve never followed a structured plan before.", score: 5, category: 'NEW' },
+                    { text: "I’ve tried apps/PDFs but struggled to stay consistent.", score: 15, category: 'FRICTION' },
+                    { text: "I’ve worked with a coach before and valued the relationship.", score: 30, category: 'COACHED' },
+                    { text: "I’m currently training but feel I’ve hit a plateau.", score: 20, category: 'PLATEAU' }
+                ] 
+            },
+
+            // PHASE 3: Safety & The Why
+            { 
+                id: 9, 
+                section: "Part 3: Readiness & Impact",
+                question: "Do you have any injuries or medical considerations?", 
+                key: "medical", 
+                summaryLabel: "Medical/Injuries", 
+                options: [
+                    { text: "Yes, I have current injuries requiring specialized training", short: "Specialized Care", score: 100 }, 
+                    { text: "I have minor aches but nothing that stops me from training", short: "Minor Aches", score: 20 }, 
+                    { text: "No, I am generally fit and injury-free", short: "Injury Free", score: 10 }, 
+                    { text: "I'm not sure about my physical limitations yet", short: "Uncertain", score: 5 }
+                ] 
+            },
+            { 
+                id: 10, 
+                question: "What level of partnership are you seeking for your investment?", 
+                key: "budget", 
+                summaryLabel: "Partnership Level", 
+                options: [
+                    { text: "Total Partnership: I need a coach to manage every detail for me", short: "Total Partnership", score: 30, budgetId: 'PREMIUM' }, 
+                    { text: "Collaborative: I want a plan and regular coach guidance", short: "Collaborative", score: 20, budgetId: 'MID' }, 
+                    { text: "Independent: I want the professional tools to do it myself", short: "Independent", score: 10, budgetId: 'ENTRY' }, 
+                    { text: "Show me what fits my needs and goals first", short: "Undecided", score: 25, budgetId: 'FLEX' }
+                ] 
+            },
+            { 
+                id: 11, 
+                question: "If you hit your goal 3 months from now, what changes most for you?", 
+                key: "theWhy", 
+                summaryLabel: "Your 'Why'", 
+                options: [
+                    { text: "My self-confidence and how I feel in my own skin", short: "Self-Confidence", score: 25, whyId: 'CONFIDENCE' }, 
+                    { text: "My energy levels for my kids and family", short: "Family Energy", score: 20, whyId: 'FAMILY' }, 
+                    { text: "My health longevity and long-term vitality", short: "Health Longevity", score: 30, whyId: 'HEALTH' }, 
+                    { text: "My physical performance and absolute strength", short: "Peak Performance", score: 5, whyId: 'PERFORMANCE' }
+                ] 
+            },
+            { 
+                id: 12, 
+                question: "How crucial is guidance on daily habits and stress management?", 
+                key: "lifestyle", 
+                options: [
+                    { text: "Essential (sleep and stress management are priorities)", score: 30 }, 
+                    { text: "Important (I want it included in check-ins)", score: 20 }, 
+                    { text: "Not crucial (I only need the workout programming)", score: 10 }, 
+                    { text: "I am already highly disciplined in these areas", score: 5 }
+                ] 
+            }
         ];
 
-        window.onload = () => {
-            const messages = ["Analyzing Hardware...", "Checking Systems...", "Optimizing Path..."];
-            let i = 0;
-            const cycle = setInterval(() => {
-                document.getElementById('loader-sub-text').innerText = messages[i++];
-                if(i === messages.length) {
-                    clearInterval(cycle);
-                    setTimeout(() => {
-                        document.getElementById('initial-loader').style.opacity = '0';
-                        setTimeout(() => {
-                            document.getElementById('initial-loader').style.display='none';
-                            renderWelcome();
-                        }, 800);
-                    }, 1000);
-                }
-            }, 600);
-        };
+        const phaseTransitions = [
+            { triggerIndex: 4, title: "Vision & Goals", message: "Thanks for that context. Now, let’s define exactly what we are aiming for over the next 12 weeks." },
+            { triggerIndex: 8, title: "Physical Readiness", message: "Understood. Now, let's look at your physical readiness and history to ensure we build a safe path." },
+            { triggerIndex: 11, title: "The Finish Line", message: "Almost there. I just need to understand your investment level and your 'Why' to tailor the final recommendation." }
+        ];
 
-        function renderWelcome() {
-            document.getElementById('content-area').innerHTML = `
-                <div class="animate-in space-y-8">
-                    <h2 class="text-4xl font-black italic uppercase text-white leading-tight">Map Your<br><span class="text-green-500">Body Software</span></h2>
-                    <p class="text-neutral-400 text-sm leading-relaxed tracking-wide">Enter the consultation to determine the optimal integration for your current baseline and ultimate targets.</p>
-                    <button onclick="startQuiz()" class="action-button w-full py-6 rounded-xl">INITIALIZE</button>
-                </div>`;
-        }
-
-        function startQuiz() {
-            document.getElementById('progress-container').classList.remove('opacity-0');
-            renderQuestion();
-        }
-
-        function renderQuestion() {
-            if (currentStep >= quizData.length) { renderPersonalization(); return; }
-            const q = quizData[currentStep];
-            updateProgress();
-            
-            document.getElementById('content-area').innerHTML = `
-                <div class="animate-in space-y-6">
-                    <p class="text-[10px] font-black text-green-500 uppercase tracking-[0.4em]">Step 0${currentStep + 1}</p>
-                    <h2 class="text-3xl font-black italic uppercase text-white">${q.question}</h2>
-                    <div class="space-y-3" id="options"></div>
-                </div>`;
-
-            q.options.forEach(opt => {
-                const btn = document.createElement('button');
-                btn.className = "option-button w-full p-6 rounded-2xl text-left flex justify-between items-center group";
-                btn.innerHTML = `<span class="font-bold text-sm uppercase tracking-widest">${opt.text}</span><span class="text-green-500 opacity-0 group-hover:opacity-100 transition-opacity">→</span>`;
-                btn.onclick = () => {
-                    userAnswers.push({key: q.key, val: opt.val, text: opt.text});
-                    totalScore += opt.score;
-                    currentStep++;
-                    renderQuestion();
+        // UPDATED PRODUCT TITLES
+        const TIER_1_TITLE = "1-1 ONLINE COACHING";
+        const TIER_2_TITLE = "FITTER STRONGER BETTER SUBSCRIPTION";
+        const TIER_3_TITLE = "6-WEEK FOUNDATIONS";
+        const TIER_4_TITLE = "ONLINE PROGRAM LIBRARY";
+        const FOUNDATIONS_START_TITLE = "14-DAY FUNDAMENTALS & 6-WEEK FOUNDATIONS";
+        
+        function getProgramDetailsByTitle(title) {
+            if (title === TIER_1_TITLE) {
+                return {
+                    title: TIER_1_TITLE,
+                    description: "Your goals require maximum accountability and highly specific programming. This is the premium, fully tailored solution designed to adapt to your lifestyle and ensure rapid, consistent progress.",
+                    briefOverview: "Exclusive 1-on-1 coaching offering fully customized training and nutrition programming built specifically for you. Includes weekly in-depth check-ins, unlimited direct messaging with Coach Chris, and dynamic program adjustments.", 
+                    accentColor: "text-green-400",
+                    ctaLink: "https://coachchriscrc.github.io/oc-lp",
+                    requiresCall: true,
+                    priceId: 'PREMIUM'
                 };
-                document.getElementById('options').appendChild(btn);
+            } else if (title === TIER_2_TITLE) {
+                return {
+                    title: TIER_2_TITLE,
+                    description: "You have clear goals and a moderate level of commitment. This service provides structured programming, personalized check-ins, and a perfect blend of accountability and flexibility.",
+                    briefOverview: "Access our Flagship Hybrid program (Strength, Endurance & Conditioning) via our dedicated app. This features custom nutrition targets, monthly progress check-ins with your coach, and ongoing community support.", 
+                    accentColor: "text-blue-400",
+                    ctaLink: "https://coachchriscrc.github.io/fsb-lp",
+                    requiresCall: true,
+                    priceId: 'MID'
+                };
+            } else if (title === FOUNDATIONS_START_TITLE || title === TIER_3_TITLE) {
+                return {
+                    title: FOUNDATIONS_START_TITLE,
+                    description: "You need a clear starting line. This pathway is designed specifically for those starting fresh or returning to training. We start with a free trial to build your confidence before moving into our structured group foundations.",
+                    briefOverview: "Begin with our **Free 14-Day Fundamentals** trial to master the basics. This leads directly into our **6-Week Foundations Program (£99)**—a coach-guided online group experience that builds your absolute base for long-term health.",
+                    accentColor: "text-orange-400",
+                    ctaLink: "https://coachchriscrc.github.io/14dayfundamentals-lp",
+                    requiresCall: false,
+                    priceId: 'MID'
+                };
+            } else {
+                return {
+                    title: TIER_4_TITLE,
+                    description: "You are seeking expert-designed, foundational guidance. Gain instant access to professionally built, self-paced training plans you can execute on your own schedule.",
+                    briefOverview: "Gain self-guided access to a library of diverse programs, including strength cycles, conditioning blocks, and WOD packs. Features full tutorials and movement demos—perfect for the independent trainee.", 
+                    accentColor: "text-neutral-300",
+                    ctaLink: "https://coachchriscrc.github.io/programs-lp",
+                    requiresCall: false,
+                    priceId: 'ENTRY'
+                };
+            }
+        }
+        
+        function getRecommendation(score, answers) {
+            const budgetId = answers.find(a => a.key === 'budget')?.budgetId || 'FLEX';
+            const expId = answers.find(a => a.key === 'experience')?.expId || 'BEGINNER';
+            const medical = answers.find(a => a.key === 'medical')?.answer || '';
+            const pastExp = answers.find(a => a.key === 'pastExp')?.category || 'NEW';
+            
+            // PRIORITY 1: Injury = 1-1 Coaching
+            if (medical.includes("specialized training")) return getProgramDetailsByTitle(TIER_1_TITLE);
+            
+            // PRIORITY 2: High Budget/Premium Preference = 1-1 Coaching
+            if (budgetId === 'PREMIUM') return getProgramDetailsByTitle(TIER_1_TITLE);
+            if (pastExp === 'COACHED' && budgetId === 'FLEX') return getProgramDetailsByTitle(TIER_1_TITLE);
+
+            // PRIORITY 3: Beginners or Returners (Tiers 3/4)
+            if (expId === 'BEGINNER' || expId === 'RETURNING') {
+                // If they want to do it alone, Program Library. Otherwise, Foundations.
+                if (budgetId === 'ENTRY') return getProgramDetailsByTitle(TIER_4_TITLE);
+                return getProgramDetailsByTitle(FOUNDATIONS_START_TITLE);
+            }
+
+            // PRIORITY 4: Experienced but Budget Conscious
+            if (expId === 'EXPERIENCED' && budgetId === 'ENTRY') return getProgramDetailsByTitle(TIER_4_TITLE);
+
+            // PRIORITY 5: Experienced & Collaborative = FSB Subscription
+            return getProgramDetailsByTitle(TIER_2_TITLE);
+        }
+        
+        function getAlternativeRecommendation(primary, score, answers) {
+            const budgetId = answers.find(a => a.key === 'budget')?.budgetId || 'FLEX';
+            const expId = answers.find(a => a.key === 'experience')?.expId || 'BEGINNER';
+
+            if (primary.title === TIER_1_TITLE) {
+                return { ...getProgramDetailsByTitle(TIER_2_TITLE), type: 'DOWNGRADE' };
+            } 
+            if (primary.title === TIER_2_TITLE) {
+                if (budgetId === 'FLEX') return { ...getProgramDetailsByTitle(TIER_1_TITLE), type: 'UPGRADE' };
+                return { ...getProgramDetailsByTitle(TIER_4_TITLE), type: 'DOWNGRADE' };
+            }
+            if (primary.title === FOUNDATIONS_START_TITLE) {
+                return { ...getProgramDetailsByTitle(TIER_4_TITLE), type: 'DOWNGRADE' };
+            }
+            if (primary.title === TIER_4_TITLE) {
+                if (expId === 'BEGINNER') return { ...getProgramDetailsByTitle(FOUNDATIONS_START_TITLE), type: 'UPGRADE' };
+                return { ...getProgramDetailsByTitle(TIER_2_TITLE), type: 'UPGRADE' };
+            }
+            return null;
+        }
+        
+        function generatePersonalizedRationale(answers, recommendationTitle, isCleanText = false) {
+            const rawGoal = answers.find(a => a.key === 'primaryGoal')?.answer || 'an ambitious fitness goal';
+            const rawBarrier = answers.find(a => a.key === 'barrier')?.answer || 'a specific obstacle';
+            const medical = answers.find(a => a.key === 'medical')?.answer || '';
+            const expId = answers.find(a => a.key === 'experience')?.expId || 'BEGINNER';
+            
+            if (medical.includes("specialized training")) {
+                let txt = `Because you reported an injury requiring specialized attention, I have prioritized the 1-1 Coaching path for you. A 'one-size-fits-most' approach is a high-risk strategy when your body is sending these signals. By choosing this 1-1 bridge, we don't just 'work around' your limitations—we build through them.`;
+                return isCleanText ? txt : markdownToHtml(txt);
+            }
+
+            let goalPhrase = rawGoal;
+            if (rawGoal.includes("Shedding fat")) goalPhrase = "fat loss and physique transformation";
+            else if (rawGoal.includes("Getting strong")) goalPhrase = "building muscle and strength";
+            else if (rawGoal.includes("Boosting energy")) goalPhrase = "improved energy and endurance";
+
+            let expText = "";
+            if (expId === 'BEGINNER') expText = "As you are starting fresh, we prioritize building competency over complexity. ";
+            else if (expId === 'RETURNING') expText = "Since you are returning to training, our focus is re-establishing your base safely. ";
+            else expText = "As an experienced trainee, your path focuses on precision and breaking through current plateaus. ";
+
+            let rationale = `${expText}Based on your profile, the **${recommendationTitle}** is the most effective bridge between your current baseline and your goal of **${goalPhrase}**, specifically addressing **${rawGoal.toLowerCase()}**.`;
+            
+            return isCleanText ? rationale : markdownToHtml(rationale);
+        }
+
+        function generateThreeMonthVision(answers) {
+            const rawGoal = answers.find(a => a.key === 'primaryGoal')?.answer || '';
+            const theWhyId = answers.find(a => a.key === 'theWhy')?.whyId || 'HEALTH';
+            
+            let vision = "Three months (90 days) from now, if you remain consistent on this path: ";
+            
+            if (rawGoal.includes("Shedding fat")) {
+                vision += "You will have completed your first successful 12-week transformation cycle. You'll notice clothes fitting significantly better and have locked in the daily nutritional habits that make this change sustainable.";
+            } else if (rawGoal.includes("Getting strong")) {
+                vision += "You will have established a rock-solid foundation of movement mechanics. You'll be lifting with more confidence and intent, and you'll already be seeing the first real signs of physical lean muscle development.";
+            } else {
+                vision += "The 'friction' of starting will be gone. You will have successfully integrated training into your weekly routine, moving from 'trying' to exercise to it being a non-negotiable part of your high-performance lifestyle.";
+            }
+
+            switch(theWhyId) {
+                case 'CONFIDENCE': vision += " Most importantly, you'll have proven to yourself that you can follow through, rebuilding that internal trust and confidence."; break;
+                case 'FAMILY': vision += " You'll feel the difference when playing with your kids or showing up for your partner—you'll simply have more of yourself to give."; break;
+            }
+
+            return vision;
+        }
+
+        function generateAlternativeDescription(primaryRec, altRec, answers) {
+            if (!altRec) return "";
+            if (altRec.type === 'UPGRADE') {
+                return `For **maximum accountability** and total personalization, consider stepping up to **${altRec.title}**. This is the ultimate fast-track for your specific hurdles.`;
+            } else {
+                return `If you prefer a more **budget-conscious, self-guided approach**, the **${altRec.title}** provides our expert training plans at a lower monthly investment.`;
+            }
+        }
+
+        let currentStep = 0, totalScore = 0, selectedOption = null, userAnswers = [], clientName = "Warrior", clientEmail = "", isTransitioning = false, isAtWelcome = true;
+        const contentArea = document.getElementById('content-area');
+        const progressBarFill = document.getElementById('progress-bar-fill');
+        const progressTextLabel = document.getElementById('progress-text-label'); 
+        const progressPercent = document.getElementById('progress-percent'); 
+
+        function updateProgress() {
+            if (isAtWelcome) {
+                progressBarFill.style.width = '0%';
+                progressPercent.textContent = '0%';
+                progressTextLabel.textContent = 'CONSULTATION INITIALIZED';
+                return;
+            }
+            const total = quizData.length;
+            const progress = (currentStep / total) * 100;
+            progressBarFill.style.width = `${progress}%`;
+            progressPercent.textContent = `${Math.round(progress)}%`;
+            if (currentStep < total) progressTextLabel.textContent = `QUESTION ${currentStep + 1} OF ${total}`;
+            else progressTextLabel.textContent = `CONSULTATION COMPLETE`;
+        }
+
+        function scrollToTarget() {
+            const anchor = document.getElementById('progress-anchor');
+            if (anchor) {
+                const offset = 30; 
+                const elementPosition = anchor.getBoundingClientRect().top + window.pageYOffset;
+                window.scrollTo({ top: elementPosition - offset, behavior: 'smooth' });
+            }
+        }
+
+        function renderWelcomeScreen() {
+            isAtWelcome = true;
+            updateProgress();
+            contentArea.innerHTML = `
+                <div class="animate-in space-y-8">
+                    <div class="space-y-4">
+                        <p class="text-neutral-300 text-lg leading-relaxed">
+                            Stop guessing. Start training with intent. 
+                        </p>
+                        <p class="text-neutral-400 text-sm leading-relaxed">
+                            This 2-minute digital assessment is designed to map your current baseline against your ultimate fitness goals. At the end, I will provide you with a tailored roadmap to becoming <strong class="text-white">#Fitter #Stronger #Better</strong>.
+                        </p>
+                    </div>
+
+                    <div class="space-y-4">
+                        <h3 class="text-xs font-black uppercase text-green-500 tracking-widest">What you'll receive:</h3>
+                        <div class="grid gap-3">
+                            <div class="flex items-center gap-4 p-4 rounded-2xl bg-white/5 border border-white/10">
+                                <div class="bg-green-500/20 p-2 rounded-lg">
+                                    <svg class="w-5 h-5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A2 2 0 013 15.382V6m0 0l5.447 2.724m0 0l5.447-2.724m0 0L21 9m-12-3v3.382l5.447 2.724M17 16l4 2m0 0l-4 2m4-2l-4-2M9 3h.01" /></svg>
+                                </div>
+                                <span class="text-xs font-bold text-white uppercase tracking-tight">Personalized Training Path</span>
+                            </div>
+                            <div class="flex items-center gap-4 p-4 rounded-2xl bg-white/5 border border-white/10">
+                                <div class="bg-green-500/20 p-2 rounded-lg">
+                                    <svg class="w-5 h-5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
+                                </div>
+                                <span class="text-xs font-bold text-white uppercase tracking-tight">Your 3-Month Vision Analysis</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pt-4">
+                        <button id="start-btn" class="action-button w-full py-5 rounded-2xl text-sm tracking-widest flex items-center justify-center gap-3 group">
+                            START ASSESSMENT
+                            <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
+                        </button>
+                    </div>
+                </div>
+            `;
+            document.getElementById('start-btn').addEventListener('click', () => {
+                isAtWelcome = false;
+                renderQuestion();
+                scrollToTarget();
             });
         }
 
-        function updateProgress() {
-            const p = (currentStep / quizData.length) * 100;
-            document.getElementById('progress-bar-fill').style.width = p + "%";
-            document.getElementById('progress-percent').textContent = Math.round(p) + "%";
-        }
+        function renderQuestion() {
+            if (isAtWelcome) { renderWelcomeScreen(); return; }
+            if (currentStep >= quizData.length) { renderNameInputScreen(); return; }
+            
+            const stepData = quizData[currentStep];
+            const prev = userAnswers.find(a => a.key === stepData.key);
+            selectedOption = prev ? stepData.options.find(opt => opt.text === prev.answer) : null;
+            contentArea.innerHTML = ''; 
+            const nextText = currentStep === quizData.length - 1 ? 'SUBMIT' : 'CONTINUE';
 
-        function renderPersonalization() {
-            document.getElementById('content-area').innerHTML = `
-                <form onsubmit="submitLead(event)" class="animate-in space-y-6">
-                    <h2 class="text-3xl font-black italic uppercase text-white">Review Profile</h2>
-                    <div class="space-y-4">
-                        <input type="text" id="name" placeholder="NAME" required class="w-full bg-white/5 border border-white/10 p-5 rounded-xl text-white font-bold uppercase tracking-widest outline-none focus:border-green-500/50 transition-colors">
-                        <input type="email" id="email" placeholder="EMAIL" required class="w-full bg-white/5 border border-white/10 p-5 rounded-xl text-white font-bold uppercase tracking-widest outline-none focus:border-green-500/50 transition-colors">
+            let sectionHtml = "";
+            if (stepData.section) {
+                sectionHtml = `
+                    <div class="section-header animate-in">
+                        <p class="text-[10px] font-black uppercase text-green-500 mb-1">New Phase</p>
+                        <h3 class="text-lg font-black uppercase text-white tracking-tight">${stepData.section}</h3>
                     </div>
-                    <button type="submit" class="action-button w-full py-6 rounded-xl">GENERATE ANALYSIS</button>
-                </form>`;
+                `;
+            }
+
+            const div = document.createElement('div');
+            div.className = 'animate-in';
+            div.innerHTML = `
+                ${sectionHtml}
+                <h2 class="text-xl sm:text-2xl font-bold text-white leading-snug mb-8">${stepData.question}</h2>
+                <div id="options-container" class="space-y-3"></div>
+                <div class="flex space-x-4 mt-12">
+                    <button id="back-button" class="secondary-button w-1/3 p-4 text-sm uppercase tracking-widest rounded-2xl">BACK</button>
+                    <button id="next-button" ${selectedOption ? '' : 'disabled'} class="action-button flex-grow p-4 text-sm uppercase tracking-widest rounded-2xl">${nextText}</button>
+                </div>
+            `;
+            contentArea.appendChild(div);
+
+            const container = document.getElementById('options-container');
+            const nextBtn = document.getElementById('next-button');
+            const backBtn = document.getElementById('back-button');
+            
+            backBtn.addEventListener('click', handleBack);
+
+            stepData.options.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = 'option-button w-full text-left p-5 rounded-2xl text-base group';
+                btn.innerHTML = `
+                    <span>${opt.text}</span>
+                    <svg class="check-icon h-5 w-5 shrink-0 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+                    </svg>
+                `;
+                if (selectedOption && opt.text === selectedOption.text) btn.classList.add('selected');
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.option-button').forEach(b => b.classList.remove('selected'));
+                    btn.classList.add('selected');
+                    selectedOption = opt; nextBtn.disabled = false;
+                });
+                container.appendChild(btn);
+            });
+            nextBtn.addEventListener('click', handleNext);
+            updateProgress();
         }
 
-        async function submitLead(e) {
-            e.preventDefault();
-            clientName = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            
-            document.getElementById('content-area').innerHTML = `<div class="text-center py-20 animate-pulse"><p class="text-xs tracking-[0.5em] text-green-500 uppercase">Compiling Data...</p></div>`;
-
-            const results = calculateResults();
-            const payload = { Name: clientName, Email: email, Result: results.primary.title };
-            userAnswers.forEach(a => payload[a.key] = a.text);
-
-            try { await fetch(`https://formsubmit.co/ajax/${COACH_EMAIL}`, { method: "POST", headers: {'Content-Type': 'application/json'}, body: JSON.stringify(payload)}); } catch(e) {}
-
-            setTimeout(() => renderFinal(results), 1200);
+        function renderTransitionScreen(transition) {
+            isTransitioning = true;
+            contentArea.innerHTML = `
+                <div class="text-center animate-in min-h-[350px] flex flex-col items-center justify-center space-y-8">
+                    <div class="inline-block p-4 rounded-full border border-green-500/30 bg-green-500/10 mb-2">
+                        <svg class="h-10 w-10 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="text-[10px] font-black uppercase text-green-500 tracking-[0.3em] mb-2">Milestone Reached</p>
+                        <h2 class="text-3xl font-black uppercase text-white italic tracking-tighter mb-4">${transition.title}</h2>
+                        <p class="text-neutral-400 text-base max-w-sm mx-auto leading-relaxed">${transition.message}</p>
+                    </div>
+                    <button id="continue-milestone" class="action-button px-10 py-4 rounded-2xl text-xs tracking-widest">CONTINUE CONSULTATION</button>
+                </div>
+            `;
+            document.getElementById('continue-milestone').addEventListener('click', () => {
+                isTransitioning = false;
+                renderQuestion();
+                scrollToTarget();
+            });
+        }
+        
+        function renderNameInputScreen() {
+             currentStep = quizData.length; updateProgress();
+             contentArea.innerHTML = `
+                 <div class="text-center animate-in mb-8">
+                     <h2 class="text-2xl sm:text-3xl font-black uppercase italic tracking-tighter text-white">Review Your Profile</h2>
+                     <p class="text-xs text-neutral-400 mt-2 uppercase tracking-widest">Provide your details to see your customized vision</p>
+                 </div>
+                 <div class="animate-in">
+                     <form id="personalization-form" class="space-y-5">
+                         <div>
+                             <label class="block text-[10px] font-black uppercase text-neutral-500 tracking-widest mb-2">First Name</label>
+                             <input type="text" id="client-name-input" name="name" required class="custom-input block w-full p-4 rounded-xl" placeholder="E.G. JANE">
+                         </div>
+                         <div>
+                             <label class="block text-[10px] font-black uppercase text-neutral-500 tracking-widest mb-2">Email Address</label>
+                             <input type="email" id="client-email-input" name="email" required class="custom-input block w-full p-4 rounded-xl" placeholder="EMAIL@DOMAIN.COM">
+                         </div>
+                         <div class="flex items-start py-2">
+                            <input type="checkbox" id="disclaimer-check" required class="mt-1">
+                            <label for="disclaimer-check" class="ml-3 text-xs text-neutral-400 leading-snug">
+                                I agree to the <a href="#disclaimer" class="font-bold underline text-white">fitness disclaimer</a> and wish to receive my analysis.
+                            </label>
+                        </div>
+                         <button type="submit" id="display-button" disabled class="action-button w-full py-5 rounded-2xl text-sm tracking-widest">VIEW ANALYSIS</button>
+                     </form>
+                 </div>
+             `;
+             document.getElementById('personalization-form').addEventListener('submit', handlePersonalize);
+             const nameIn = document.getElementById('client-name-input');
+             const emailIn = document.getElementById('client-email-input');
+             const check = document.getElementById('disclaimer-check');
+             const btn = document.getElementById('display-button');
+             
+             const upd = () => {
+                 const isEmailValid = emailIn.value.includes('@') && emailIn.value.includes('.');
+                 btn.disabled = !(nameIn.value.trim().length > 0 && isEmailValid && check.checked);
+             };
+             nameIn.addEventListener('input', upd); emailIn.addEventListener('input', upd); check.addEventListener('change', upd); 
+             upd(); 
         }
 
-        function calculateResults() {
-            const barrier = userAnswers.find(a => a.key === "barrier").val;
-            const partner = userAnswers.find(a => a.key === "partnership").val;
-            
-            if (barrier === "INJURY" || partner === "PREMIUM") {
-                return { 
-                    primary: { title: "1-1 Online Coaching", url: "https://coachchriscrc.github.io/oc-lp/", color: "text-green-500", why: "Your profile requires ***Elite-Level*** oversight and absolute custom management." },
-                    alt: { title: "FSB Subscription", url: "https://coachchriscrc.github.io/fsb-lp/" }
-                };
-            }
-            if (partner === "HYBRID" || totalScore > 40) {
-                return { 
-                    primary: { title: "FSB Subscription", url: "https://coachchriscrc.github.io/fsb-lp/", color: "text-blue-400", why: "You're ready for our ***Flagship Hybrid*** model—high performance with coach oversight." },
-                    alt: { title: "1-1 Online Coaching", url: "https://coachchriscrc.github.io/oc-lp/" }
-                };
-            }
-            return { 
-                primary: { title: "Program Library", url: "https://coachchriscrc.github.io/programs-lp/", color: "text-neutral-400", why: "The ***Independent Path***. You need the blueprints to execute at your own pace." },
-                alt: { title: "6-Week Foundations", url: "https://coachchriscrc.github.io/6weekfoundations-lp/" }
+        async function triggerAssessmentSubmission(primary, rationale, vision) {
+            const coachData = {
+                _subject: `🔥 NEW ASSESSMENT: ${clientName} (${primary.title})`,
+                _template: "table",
+                _replyto: clientEmail,
+                Name: clientName,
+                Email: clientEmail,
+                Recommended_Path: primary.title,
+                Coach_Rationale: rationale,
+                Three_Month_Vision: vision,
+                Total_Score: totalScore,
+                ...Object.fromEntries(userAnswers.map(a => [a.question.replace(/\s+/g, '_'), a.answer]))
             };
+            try {
+                await fetch(`https://formsubmit.co/ajax/${COACH_EMAIL}`, {
+                    method: "POST", headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(coachData)
+                });
+            } catch (error) { console.error("Submission failed", error); }
         }
 
-        function renderFinal(res) {
-            const wa = `https://wa.me/${WHATSAPP}?text=Hi Chris, it's ${clientName}. My result was ${res.primary.title}.`;
-            document.getElementById('content-area').innerHTML = `
-                <div class="animate-in space-y-8">
+        function renderLoadingScreen() {
+             contentArea.innerHTML = `
+                 <div class="text-center animate-in min-h-[350px] flex flex-col items-center justify-center">
+                     <div class="clean-spinner mb-8"></div> 
+                     <p class="text-2xl font-black uppercase italic tracking-tighter text-white animate-pulse">Analyzing Answers...</p>
+                 </div>
+             `;
+             const primary = getRecommendation(totalScore, userAnswers);
+             const cleanRationale = generatePersonalizedRationale(userAnswers, primary.title, true);
+             const vision = generateThreeMonthVision(userAnswers);
+             triggerAssessmentSubmission(primary, cleanRationale, vision);
+             setTimeout(() => { renderFinalProgramSummary(); window.scrollTo({top: 0, behavior: 'smooth'}); }, 2500);
+        }
+
+        function renderFinalProgramSummary() {
+            progressTextLabel.textContent = `ANALYSIS COMPLETE`;
+            const primary = getRecommendation(totalScore, userAnswers);
+            const alt = getAlternativeRecommendation(primary, totalScore, userAnswers);
+            const rationale = generatePersonalizedRationale(userAnswers, primary.title);
+            const vision = generateThreeMonthVision(userAnswers);
+            const altDesc = alt ? generateAlternativeDescription(primary, alt, userAnswers) : null; 
+            
+            const whatsappNumber = "447925116794"; 
+            const whatsappMsg = encodeURIComponent(`Hi Chris, it's ${clientName}! I just finished the digital consultation and my result was ${primary.title}. I'd like to chat about getting started.`);
+            const whatsappLink = `https://wa.me/${whatsappNumber}?text=${whatsappMsg}`;
+            
+            const showWhatsApp = primary.title.includes(TIER_1_TITLE) || primary.title.includes(TIER_2_TITLE) || primary.title.includes(FOUNDATIONS_START_TITLE);
+
+            contentArea.innerHTML = `
+                <div class="animate-in space-y-10">
                     <div class="text-center">
-                        <h2 class="text-xs font-black text-green-500 tracking-[0.4em] uppercase mb-2">Analysis Complete</h2>
-                        <h3 class="text-4xl font-black italic text-white uppercase tracking-tighter">${res.primary.title}</h3>
+                        <p class="text-[10px] font-black uppercase text-green-500 tracking-[0.3em] mb-2">Recommendation for ${clientName.toUpperCase()}</p>
+                        <h1 class="text-3xl font-black uppercase text-white italic leading-tight">Your Optimal Path</h1>
                     </div>
-                    <div class="bg-white/5 border border-white/10 p-6 rounded-2xl">
-                        <p class="text-neutral-300 text-sm leading-relaxed mb-6 italic">"${res.primary.why.replace(/\*\*\*(.*?)\*\*\*/g, '<b class="text-white">$1</b>')}"</p>
-                        <div class="flex flex-col gap-3">
-                            <a href="${res.primary.url}" target="_blank" class="action-button block py-5 rounded-xl text-center no-underline text-xs">Access Your Path</a>
-                            <a href="${wa}" target="_blank" class="bg-white/5 hover:bg-white/10 text-white py-4 rounded-xl text-center no-underline text-[10px] font-bold uppercase tracking-widest transition-all">Message Coach Chris</a>
+
+                    <div class="result-content-wrap">
+                        <p class="text-[10px] font-black text-neutral-500 uppercase tracking-widest mb-2">Primary Pathway</p>
+                        <h2 class="text-3xl font-black uppercase ${primary.accentColor} mb-4 leading-tight">${primary.title}</h2>
+                        
+                        <div class="space-y-6">
+                            <p class="text-neutral-300 text-sm leading-relaxed">${primary.briefOverview}</p>
+                            <div class="py-4 border-y border-white/5">
+                                <p class="text-xs italic text-neutral-400 leading-relaxed">${rationale}</p>
+                            </div>
+                            <div class="flex flex-col gap-3 pt-2">
+                                <a href="${primary.ctaLink}" target="_blank" class="action-button w-full block py-5 rounded-2xl text-sm text-center no-underline tracking-widest">GET STARTED</a>
+                                ${showWhatsApp ? `<a href="${whatsappLink}" target="_blank" class="whatsapp-button w-full flex items-center justify-center gap-2 py-4 rounded-2xl text-xs text-center no-underline tracking-widest">MESSAGE COACH CHRIS</a>` : ''}
+                            </div>
                         </div>
                     </div>
-                    <div class="text-center">
-                        <p class="text-[10px] text-neutral-500 uppercase tracking-widest mb-2">Alternative Integration</p>
-                        <a href="${res.alt.url}" class="text-xs text-neutral-300 underline uppercase italic font-bold">${res.alt.title}</a>
+
+                    <div class="p-6 rounded-3xl bg-green-500/[0.03] border border-green-500/20">
+                        <p class="text-[10px] font-black uppercase text-green-500 tracking-[0.3em] mb-4">Your 3-Month Vision</p>
+                        <p class="text-sm text-neutral-200 font-medium leading-relaxed italic">"${vision}"</p>
                     </div>
-                </div>`;
+
+                    ${alt ? `
+                    <div class="pt-4 border-t border-white/5">
+                        <h3 class="text-[10px] font-black uppercase text-neutral-500 mb-4 tracking-widest">Alternative Path</h3>
+                        <div>
+                            <span class="block text-xl font-black uppercase tracking-tight ${alt.accentColor} leading-tight">${alt.title}</span>
+                            <span class="block text-xs text-neutral-400 mt-2 leading-relaxed">${altDesc}</span>
+                        </div>
+                        <a href="${alt.ctaLink}" target="_blank" class="secondary-button inline-block mt-4 py-3 px-5 text-[10px] rounded-xl text-center no-underline tracking-widest uppercase">VIEW OPTION</a>
+                    </div>
+                    ` : ''}
+
+                    <div class="pt-8 space-y-4">
+                        <button id="restart-button" class="secondary-button w-full py-4 rounded-2xl text-[10px] tracking-[0.2em] uppercase">RESTART ASSESSMENT</button>
+                    </div>
+                </div>
+            `;
+            document.getElementById('restart-button').addEventListener('click', restartQuiz);
         }
+
+        function handleNext() {
+            if (selectedOption !== null && !isTransitioning) {
+                const key = quizData[currentStep].key;
+                const idx = userAnswers.findIndex(a => a.key === key);
+                if (idx !== -1) { totalScore -= userAnswers[idx].score; userAnswers.splice(idx, 1); } 
+                const answerObj = { 
+                    key, 
+                    question: quizData[currentStep].question, 
+                    answer: selectedOption.text, 
+                    short: selectedOption.short, 
+                    score: selectedOption.score 
+                };
+                if (selectedOption.budgetId) answerObj.budgetId = selectedOption.budgetId;
+                if (selectedOption.expId) answerObj.expId = selectedOption.expId;
+                if (selectedOption.category) answerObj.category = selectedOption.category;
+                userAnswers.push(answerObj);
+                totalScore += selectedOption.score; 
+                currentStep++;
+                const transition = phaseTransitions.find(t => t.triggerIndex === currentStep);
+                if (transition) { renderTransitionScreen(transition); updateProgress(); scrollToTarget(); } 
+                else { renderQuestion(); scrollToTarget(); }
+            }
+        }
+        
+        function handleBack() { 
+            if (currentStep === 0) { isAtWelcome = true; renderWelcomeScreen(); } 
+            else { currentStep = Math.max(0, currentStep - 1); isTransitioning = false; renderQuestion(); }
+            scrollToTarget(); 
+        }
+        
+        function handlePersonalize(e) { 
+            e.preventDefault(); 
+            clientName = document.getElementById('client-name-input').value.trim(); 
+            clientEmail = document.getElementById('client-email-input').value.trim();
+            renderLoadingScreen(); scrollToTarget(); 
+        }
+        
+        function restartQuiz() { currentStep = 0; totalScore = 0; selectedOption = null; userAnswers = []; clientName = "Warrior"; clientEmail = ""; isTransitioning = false; isAtWelcome = true; renderWelcomeScreen(); scrollToTarget(); }
+        document.addEventListener('DOMContentLoaded', () => { renderWelcomeScreen(); });
     </script>
 </body>
 </html>
