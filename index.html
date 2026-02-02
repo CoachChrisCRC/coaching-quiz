@@ -3,16 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Digital Consultation | COACH CHRIS</title>
+    <title>Find your path to #Fitter #Stronger #Better | COACH CHRIS</title>
     
     <meta property="og:title" content="Find your path to #Fitter #Stronger #Better">
-    <meta property="og:description" content="Take the Coach Chris assessment to find your optimal training path.">
-    <meta property="og:image" content="https://placehold.co/1200x630/22c55e/000?text=COACH+CHRIS+Assessment">
+    <meta property="og:description" content="Take our short quiz to determine which service is best suited to help you achieve your goals">
+    <meta property="og:image" content="https://placehold.co/1200x630/22c55e/000?text=COACH+CHRIS+Fitness+Assessment">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
 
+        /* --- THE ORIGINAL DESIGN DNA --- */
         body {
             font-family: 'Inter', sans-serif;
             background: radial-gradient(circle at 20% 20%, #1a1a1a 0%, #000 100%);
@@ -41,6 +42,7 @@
         .glass-panel {
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 255, 255, 0.1);
             box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
         }
@@ -57,17 +59,25 @@
             transition: opacity 0.5s ease-out;
         }
 
+        .cycling-text {
+            font-family: monospace;
+            color: #22c55e;
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-top: 1rem;
+            min-height: 1.2em;
+        }
+
         .quiz-container {
             max-width: 650px;
             min-height: 550px;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         .option-button {
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.08);
             color: #fff;
-            font-weight: 500;
             transition: all 0.2s ease;
             display: flex;
             align-items: center;
@@ -86,40 +96,23 @@
             box-shadow: 0 0 20px rgba(34, 197, 94, 0.2);
         }
 
-        .check-icon {
-            opacity: 0;
-            transform: scale(0.5);
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            color: #22c55e;
-        }
-        .selected .check-icon {
-            opacity: 1;
-            transform: scale(1);
-        }
-
         .action-button {
             background: #22c55e;
             color: #000;
             font-weight: 800;
             text-transform: uppercase;
             transition: all 0.2s;
-            box-shadow: 0 4px 15px rgba(34, 197, 94, 0.4);
         }
         
-        .action-button:hover:not(:disabled) {
-            transform: translateY(-2px);
-            filter: brightness(1.1);
-        }
-        
-        .whatsapp-button {
-            background: #25D366;
-            color: #fff;
-            font-weight: 700;
-            transition: all 0.2s;
+        .action-button:disabled {
+            background: rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.3);
+            cursor: not-allowed;
         }
 
         .progress-bar-fill {
             background: linear-gradient(90deg, #22c55e, #4ade80);
+            box-shadow: 0 0 10px rgba(34, 197, 94, 0.5);
             transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
@@ -137,7 +130,13 @@
             border: 1px solid rgba(255, 255, 255, 0.15);
             color: white;
         }
-        
+
+        .whatsapp-button {
+            background: #25D366;
+            color: #fff;
+            font-weight: 700;
+        }
+
         .clean-spinner {
             width: 50px; height: 50px;
             border: 3px solid rgba(255,255,255,0.1);
@@ -147,27 +146,32 @@
         }
 
         @keyframes spin { 100% { transform: rotate(360deg); } }
-
-        .result-content-wrap {
-            border-top: 1px solid rgba(255,255,255,0.08);
-            margin-top: 1.5rem;
-            padding-top: 1.5rem;
-        }
     </style>
 </head>
 <body class="flex flex-col items-center justify-center p-4 sm:p-6">
 
     <div id="initial-loader">
-        <h1 class="text-3xl font-black text-white uppercase italic">CONSULTATION</h1>
-        <div class="clean-spinner mt-4"></div>
+        <div class="loader-content flex flex-col items-center text-center">
+            <h1 class="text-4xl font-black text-white uppercase tracking-tighter italic">DIGITAL CONSULTATION</h1>
+            <div id="loader-pulse-text" class="text-green-500 font-bold text-xl uppercase tracking-widest mt-2">Loading...</div>
+            <div id="loader-sub-text" class="cycling-text">Initializing assessment...</div>
+        </div>
     </div>
 
     <div id="quiz-app" class="quiz-container glass-panel w-full rounded-3xl p-6 md:p-10 relative overflow-hidden">
         <div class="absolute top-0 left-0 w-full h-1.5 bg-green-500 shadow-[0_0_15px_rgba(34,197,94,0.8)]"></div>
 
+        <div id="branding-block" class="mb-8">
+            <h1 class="text-3xl sm:text-4xl font-black text-white uppercase tracking-tighter leading-none">COACH CHRIS</h1>
+            <div class="flex gap-x-4 mt-2">
+                <p class="text-[10px] font-bold uppercase text-neutral-400 tracking-widest">CIRCULAR ROOTS COACHING</p>
+                <p class="text-[10px] font-bold uppercase text-green-500 tracking-widest">TRAIN UNCNVNTNL</p>
+            </div>
+        </div>
+
         <div id="progress-anchor" class="mb-10">
             <div class="flex items-center justify-between mb-2">
-                <p id="progress-text-label" class="text-[10px] font-black uppercase tracking-[0.2em] text-neutral-400">LOADING ASSESSMENT</p>
+                <p id="progress-text-label" class="text-[10px] font-black uppercase tracking-[0.2em] text-neutral-400">Question 1 of 6</p>
                 <p id="progress-percent" class="text-[10px] font-black text-green-500 tracking-widest">0%</p>
             </div>
             <div class="h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
@@ -179,71 +183,71 @@
     </div>
     
     <div class="mt-12 w-full max-w-2xl text-center px-4">
-        <p class="text-neutral-500 text-xs mb-4">© 2025 COACH CHRIS | CIRCULAR ROOTS COACHING</p>
-        <p class="text-green-500/50 text-sm italic font-semibold tracking-widest">#Fitter #Stronger #Better</p>
+        <p id="disclaimer" class="text-neutral-500 text-[10px] mb-6 leading-relaxed max-w-xl mx-auto uppercase tracking-tighter">
+            General Fitness Disclaimer: Always consult your medical professional or doctor before beginning any new fitness regime. 
+        </p>
+        <p class="text-green-500/50 text-sm italic font-semibold tracking-widest">Fitter. Stronger. Better.</p>
     </div>
 
     <script>
         const COACH_EMAIL = "circularrootscoaching@gmail.com";
         const WHATSAPP_NUMBER = "447925116794";
 
+        // --- NEW LOGIC INTEGRATED WITH ORIGINAL TONE ---
         const quizData = [
-            { id: 1, key: "experience", question: "How would you describe your training experience?", options: [
-                { text: "I'm a beginner or returning after a long break", val: "BEGINNER", score: 10 },
-                { text: "I'm experienced but hit a plateau", val: "EXPERIENCED", score: 30 },
-                { text: "I'm currently training and want to optimize", val: "OPTIMIZER", score: 20 }
+            { id: 1, key: "experience", question: "How would you describe your current training experience?", options: [
+                { text: "I am brand new to structured training", val: "BEGINNER", score: 10 },
+                { text: "I have some experience but lost my way (Rusty)", val: "RETURNING", score: 20 },
+                { text: "I am an experienced trainee looking for a performance edge", val: "EXPERIENCED", score: 30 }
             ]},
-            { id: 2, key: "barrier", question: "What is your biggest barrier to success right now?", options: [
-                { text: "Lack of a professional structure/plan", val: "STRUCTURE", score: 10 },
-                { text: "Struggle with consistency/accountability", val: "ACCOUNTABILITY", score: 30 },
-                { text: "Injuries or joint pain holding me back", val: "INJURY", score: 100 },
-                { text: "I'm doing the work but not seeing results", val: "STAGNANT", score: 20 }
+            { id: 2, key: "barrier", question: "What is your biggest roadblock to progress right now?", options: [
+                { text: "I lack a professional structure or map", val: "STRUCTURE", score: 10 },
+                { text: "I struggle with consistency and accountability", val: "ACCOUNTABILITY", score: 30 },
+                { text: "I have injuries or aches that limit my training", val: "INJURY", score: 100 },
+                { text: "I'm working hard but hitting a plateau", val: "STAGNANT", score: 20 }
             ]},
-            { id: 3, key: "partnership", question: "What level of partnership are you looking for?", options: [
-                { text: "Total Partnership (1-1 Managed for me)", val: "PREMIUM", score: 40 },
-                { text: "Collaborative (Coach oversight + Community)", val: "HYBRID", score: 20 },
-                { text: "Independent (Expert tools to do it myself)", val: "SELF", score: 10 }
+            { id: 3, key: "partnership", question: "What level of coach partnership are you seeking?", options: [
+                { text: "Total Partnership: I want every detail managed for me (£175/mo)", val: "PREMIUM", score: 50 },
+                { text: "Collaborative: Structured app access + Community (£75/mo)", val: "HYBRID", score: 20 },
+                { text: "Independent: I just want the professional blueprints", val: "SELF", score: 5 }
             ]}
         ];
 
         let currentStep = 0, userAnswers = [], totalScore = 0;
 
         window.onload = () => {
-            setTimeout(() => {
-                document.getElementById('initial-loader').style.display = 'none';
-                renderWelcome();
-            }, 1000);
+            const cycleMessages = ["Configuring logic...", "Mapping your path...", "Ready."];
+            let i = 0;
+            const cycleInterval = setInterval(() => {
+                if (i < cycleMessages.length) document.getElementById('loader-sub-text').textContent = cycleMessages[i++];
+                else clearInterval(cycleInterval);
+            }, 500);
+            setTimeout(() => { document.getElementById('initial-loader').style.opacity = '0'; setTimeout(() => document.getElementById('initial-loader').style.display='none', 500); renderWelcome(); }, 1800);
         };
 
         function renderWelcome() {
             document.getElementById('content-area').innerHTML = `
-                <div class="animate-in text-center space-y-6">
-                    <h2 class="text-4xl font-black italic uppercase text-white">Find Your Optimal Path</h2>
-                    <p class="text-neutral-400">Stop guessing. Get a tailored strategy to become the best version of yourself.</p>
-                    <button onclick="startQuiz()" class="action-button w-full py-5 rounded-2xl">Start Assessment</button>
+                <div class="animate-in space-y-8">
+                    <p class="text-neutral-300 text-lg leading-relaxed">Stop guessing. Start training with intent. This digital assessment maps your current baseline against your ultimate goals.</p>
+                    <button onclick="renderQuestion()" class="action-button w-full py-6 rounded-2xl tracking-[0.2em]">INITIALIZE ASSESSMENT</button>
                 </div>
             `;
-        }
-
-        function startQuiz() {
-            renderQuestion();
         }
 
         function renderQuestion() {
             if (currentStep >= quizData.length) { renderPersonalization(); return; }
             const q = quizData[currentStep];
             updateProgress();
-            
             document.getElementById('content-area').innerHTML = `
                 <div class="animate-in space-y-6">
-                    <h2 class="text-2xl font-bold text-white">${q.question}</h2>
+                    <h2 class="text-2xl sm:text-3xl font-black uppercase italic tracking-tighter text-white leading-tight">${q.question}</h2>
                     <div class="space-y-3" id="options"></div>
                 </div>
             `;
             q.options.forEach(opt => {
                 const btn = document.createElement('button');
-                btn.className = "option-button w-full p-5 rounded-2xl text-left";
-                btn.innerHTML = `<span>${opt.text}</span><span class="check-icon">✓</span>`;
+                btn.className = "option-button w-full p-5 rounded-2xl text-left font-bold";
+                btn.innerHTML = `<span>${opt.text}</span><span class="text-green-500 opacity-0 group-hover:opacity-100">→</span>`;
                 btn.onclick = () => selectOption(opt);
                 document.getElementById('options').appendChild(btn);
             });
@@ -260,16 +264,18 @@
             const p = (currentStep / quizData.length) * 100;
             document.getElementById('progress-bar-fill').style.width = p + "%";
             document.getElementById('progress-percent').textContent = Math.round(p) + "%";
-            document.getElementById('progress-text-label').textContent = `QUESTION ${currentStep + 1} OF ${quizData.length}`;
+            document.getElementById('progress-text-label').textContent = `STEP ${currentStep + 1} OF ${quizData.length}`;
         }
 
         function renderPersonalization() {
             document.getElementById('content-area').innerHTML = `
                 <form onsubmit="handleFinalSubmit(event)" class="animate-in space-y-6">
-                    <h2 class="text-2xl font-bold text-white">Where should we send your results?</h2>
-                    <input type="text" id="name" placeholder="First Name" required class="custom-input w-full p-4 rounded-xl">
-                    <input type="email" id="email" placeholder="Email Address" required class="custom-input w-full p-4 rounded-xl">
-                    <button type="submit" class="action-button w-full py-5 rounded-2xl">View My Analysis</button>
+                    <h2 class="text-3xl font-black uppercase italic text-white">Review Profile</h2>
+                    <div class="space-y-4">
+                        <input type="text" id="name" placeholder="YOUR NAME" required class="custom-input w-full p-5 rounded-2xl font-bold uppercase tracking-widest text-sm">
+                        <input type="email" id="email" placeholder="YOUR EMAIL" required class="custom-input w-full p-5 rounded-2xl font-bold uppercase tracking-widest text-sm">
+                    </div>
+                    <button type="submit" class="action-button w-full py-6 rounded-2xl tracking-[0.2em]">VIEW ANALYSIS</button>
                 </form>
             `;
         }
@@ -278,42 +284,39 @@
             e.preventDefault();
             const name = document.getElementById('name').value;
             const email = document.getElementById('email').value;
-            
-            // Logic Bridge
-            let rec = { title: "Program Library", url: "https://coachchriscrc.github.io/programs-lp/", color: "text-neutral-300" };
+
+            // --- STRATEGIC LOGIC ENGINE ---
             const barrier = userAnswers.find(a => a.key === "barrier").val;
             const partnership = userAnswers.find(a => a.key === "partnership").val;
-            const experience = userAnswers.find(a => a.key === "experience").val;
+            const exp = userAnswers.find(a => a.key === "experience").val;
+
+            let rec = { title: "PROGRAM LIBRARY", url: "https://coachchriscrc.github.io/programs-lp/", color: "text-neutral-400", desc: "Expert-built training blueprints for the independent trainee." };
 
             if (barrier === "INJURY" || partnership === "PREMIUM") {
-                rec = { title: "1-1 Online Coaching", url: "https://coachchriscrc.github.io/oc-lp/", color: "text-green-400" };
-            } else if (experience === "BEGINNER") {
-                rec = { title: "14-Day Fundamentals", url: "https://coachchriscrc.github.io/14dayfundamentals-lp/", color: "text-orange-400" };
-            } else if (partnership === "HYBRID" || totalScore > 50) {
-                rec = { title: "FSB Subscription", url: "https://coachchriscrc.github.io/fsb-lp/", color: "text-blue-400" };
+                rec = { title: "1-1 ONLINE COACHING", url: "https://coachchriscrc.github.io/oc-lp/", color: "text-green-400", desc: "The ultimate premium partnership. Custom nutrition, daily check-ins, and total management." };
+            } else if (exp === "BEGINNER" || exp === "RETURNING") {
+                rec = { title: "14-DAY FUNDAMENTALS", url: "https://coachchriscrc.github.io/14dayfundamentals-lp/", color: "text-orange-400", desc: "Start with your 14-day software update, leading into our 6-week foundations." };
+            } else if (partnership === "HYBRID" || totalScore >= 50) {
+                rec = { title: "FSB SUBSCRIPTION", url: "https://coachchriscrc.github.io/fsb-lp/", color: "text-blue-400", desc: "Our flagship hybrid model. High-performance app training + monthly coach oversight." };
             }
 
             renderResults(name, rec);
         }
 
         function renderResults(name, rec) {
-            const waLink = `https://wa.me/${WHATSAPP_NUMBER}?text=Hi Chris, I'm ${name}. My assessment result was ${rec.title}. Can we chat?`;
-            
+            const waMsg = encodeURIComponent(`Hi Chris, it's ${name}. My assessment result was ${rec.title}. Can we discuss the next steps?`);
             document.getElementById('content-area').innerHTML = `
                 <div class="animate-in space-y-8 text-center">
-                    <div>
-                        <p class="text-green-500 font-bold uppercase tracking-widest text-xs">Ready for ${name}</p>
-                        <h2 class="text-3xl font-black italic uppercase text-white mt-2">Your Optimal Path</h2>
-                    </div>
-                    <div class="p-8 rounded-3xl bg-white/5 border border-white/10">
-                        <h3 class="text-3xl font-black ${rec.color} uppercase">${rec.title}</h3>
-                        <p class="text-neutral-400 mt-4 text-sm">Based on your goals and current baseline, this pathway provides the specific structure and support required for you to succeed.</p>
-                        <div class="mt-8 space-y-4">
-                            <a href="${rec.url}" class="action-button block py-5 rounded-2xl no-underline">Get Started Now</a>
-                            <a href="${waLink}" class="whatsapp-button block py-4 rounded-2xl no-underline text-xs">Message Coach Chris</a>
+                    <h2 class="text-4xl font-black uppercase italic tracking-tighter text-white leading-tight">YOUR OPTIMAL PATH</h2>
+                    <div class="p-8 rounded-3xl bg-white/5 border border-white/10 space-y-6">
+                        <h3 class="text-3xl font-black ${rec.color} uppercase tracking-tighter">${rec.title}</h3>
+                        <p class="text-neutral-300 font-medium leading-relaxed">${rec.desc}</p>
+                        <div class="flex flex-col gap-4 pt-4">
+                            <a href="${rec.url}" class="action-button block py-6 rounded-2xl no-underline tracking-widest text-sm">CLAIM YOUR SPOT</a>
+                            <a href="https://wa.me/${WHATSAPP_NUMBER}?text=${waMsg}" class="whatsapp-button block py-5 rounded-2xl no-underline text-xs tracking-widest">MESSAGE COACH CHRIS</a>
                         </div>
                     </div>
-                    <button onclick="location.reload()" class="text-neutral-500 text-xs uppercase tracking-widest">Restart Assessment</button>
+                    <button onclick="location.reload()" class="text-[10px] font-black uppercase text-neutral-500 tracking-[0.3em]">RESTART ASSESSMENT</button>
                 </div>
             `;
         }
