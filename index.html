@@ -7,6 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        
         body {
             font-family: 'Inter', sans-serif;
             background: radial-gradient(circle at 20% 20%, #1a1a1a 0%, #000 100%);
@@ -15,61 +16,82 @@
             overflow-x: hidden;
             position: relative;
         }
+
+        /* The pulsing background glows from original design */
         body::before, body::after {
-            content: ""; position: fixed; width: 40vw; height: 40vw; border-radius: 50%;
-            background: rgba(34, 197, 94, 0.15); filter: blur(100px); z-index: -1;
-            animation: move 20s infinite alternate;
+            content: ""; position: fixed; width: 45vw; height: 45vw; border-radius: 50%;
+            background: rgba(34, 197, 94, 0.12); filter: blur(120px); z-index: -1;
+            animation: move 25s infinite alternate ease-in-out;
         }
-        @keyframes move { from { transform: translate(-10%, -10%); } to { transform: translate(10%, 10%); } }
+        body::after { background: rgba(34, 197, 94, 0.08); animation-delay: -5s; right: 0; bottom: 0; }
+        @keyframes move { from { transform: translate(-10%, -10%); } to { transform: translate(15%, 15%); } }
+
         .glass-panel {
-            background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
         }
+
         #initial-loader {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000;
             z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center;
-            transition: opacity 0.5s ease-out;
+            transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .cycling-text { font-family: monospace; color: #22c55e; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 1rem; }
-        .quiz-container { max-width: 650px; min-height: 550px; }
-        .option-button { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); color: #fff; transition: all 0.2s ease; display: flex; align-items: center; justify-content: space-between; }
-        .option-button:hover { background: rgba(255, 255, 255, 0.08); border-color: rgba(34, 197, 94, 0.5); transform: translateX(4px); }
-        .action-button { background: #22c55e; color: #000; font-weight: 800; text-transform: uppercase; transition: all 0.2s; box-shadow: 0 4px 15px rgba(34, 197, 94, 0.4); }
-        .progress-bar-fill { background: linear-gradient(90deg, #22c55e, #4ade80); transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
-        .animate-in { animation: slideUpFade 0.5s ease-out forwards; }
-        @keyframes slideUpFade { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        .custom-input { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.15); color: white; }
-        .whatsapp-button { background: #25D366; color: #fff; font-weight: 700; }
+
+        .cycling-text { font-family: monospace; color: #22c55e; font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; margin-top: 1.5rem; }
+
+        .option-button { 
+            background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.07); 
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+        }
+        .option-button:hover { 
+            background: rgba(34, 197, 94, 0.05); border-color: rgba(34, 197, 94, 0.4); 
+            transform: scale(1.02); 
+        }
+
+        .action-button { 
+            background: #22c55e; color: #000; font-weight: 900; text-transform: uppercase; 
+            letter-spacing: 0.1em; transition: all 0.3s; 
+        }
+        .action-button:hover { background: #4ade80; box-shadow: 0 0 30px rgba(34, 197, 94, 0.4); }
+
+        .progress-bar-fill { 
+            background: linear-gradient(90deg, #166534, #22c55e); 
+            box-shadow: 0 0 15px rgba(34, 197, 94, 0.3);
+            transition: width 0.7s ease; 
+        }
+
+        .animate-in { animation: slideUpFade 0.6s ease-out forwards; }
+        @keyframes slideUpFade { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
-<body class="flex flex-col items-center justify-center p-4 sm:p-6">
+<body class="flex flex-col items-center justify-center p-4">
 
     <div id="initial-loader">
-        <h1 class="text-4xl font-black text-white italic">DIGITAL CONSULTATION</h1>
-        <div id="loader-sub-text" class="cycling-text">Initializing assessment...</div>
+        <h1 class="text-4xl font-black text-white italic tracking-tighter">DIGITAL CONSULTATION</h1>
+        <div id="loader-sub-text" class="cycling-text">Initializing...</div>
     </div>
 
-    <div id="quiz-app" class="quiz-container glass-panel w-full rounded-3xl p-6 md:p-10 relative overflow-hidden">
-        <div class="absolute top-0 left-0 w-full h-1.5 bg-green-500 shadow-[0_0_15px_rgba(34,197,94,0.8)]"></div>
-        <div id="branding-block" class="mb-8">
-            <h1 class="text-3xl font-black text-white italic">COACH CHRIS</h1>
-            <div class="flex gap-4 mt-1">
-                <p class="text-[10px] font-bold text-neutral-400 tracking-widest uppercase">Circular Roots Coaching</p>
-                <p class="text-[10px] font-bold text-green-500 tracking-widest uppercase">Train Uncnvntnl</p>
+    <div id="quiz-app" class="glass-panel w-full max-w-[600px] rounded-[2rem] p-8 md:p-12 relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-1 bg-green-500/50"></div>
+        
+        <div id="header" class="mb-10 flex justify-between items-start">
+            <div>
+                <h1 class="text-2xl font-black text-white italic leading-none uppercase">Coach Chris</h1>
+                <p class="text-[9px] font-bold text-green-500 tracking-[0.3em] uppercase mt-1">Train Uncnvntnl</p>
             </div>
-        </div>
-
-        <div id="progress-anchor" class="mb-10">
-            <div class="flex justify-between mb-2">
-                <p id="progress-text-label" class="text-[10px] font-black uppercase text-neutral-400 tracking-widest">Question 1 of 5</p>
-                <p id="progress-percent" class="text-[10px] font-black text-green-500">0%</p>
-            </div>
-            <div class="h-1 bg-white/10 rounded-full overflow-hidden">
-                <div id="progress-bar-fill" class="progress-bar-fill h-full" style="width: 0%;"></div>
+            <div class="text-right">
+                <p id="progress-percent" class="text-xl font-black text-white/20 italic">0%</p>
             </div>
         </div>
 
         <div id="content-area"></div>
+
+        <div id="progress-container" class="mt-12 opacity-0 transition-opacity duration-500">
+            <div class="h-[2px] w-full bg-white/5 rounded-full overflow-hidden">
+                <div id="progress-bar-fill" class="progress-bar-fill h-full" style="width: 0%;"></div>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -79,156 +101,156 @@
         let currentStep = 0, userAnswers = [], totalScore = 0, clientName = "";
 
         const quizData = [
-            { key: "experience", question: "How would you describe your training history?", options: [
-                { text: "Beginner / Returning after a long break", val: "BEGINNER", score: 10 },
-                { text: "Experienced looking for performance", val: "EXPERIENCED", score: 30 }
+            { key: "experience", question: "Describe your history", options: [
+                { text: "Starting fresh / Returning", val: "BEGINNER", score: 10 },
+                { text: "Consistent but stagnant", val: "INTERMEDIATE", score: 20 },
+                { text: "Experienced / Performance athlete", val: "ADVANCED", score: 30 }
             ]},
-            { key: "barrier", question: "What is the biggest roadblock right now?", options: [
-                { text: "Consistency and Accountability", val: "ACCOUNTABILITY", score: 40 },
-                { text: "Injuries / Specialized needs", val: "INJURY", score: 100 },
-                { text: "I just need a professional map", val: "MAP", score: 10 }
+            { key: "barrier", question: "The main obstacle?", options: [
+                { text: "Consistency / Accountability", val: "ACCOUNTABILITY", score: 40 },
+                { text: "Injury / Rehab Needs", val: "INJURY", score: 100 },
+                { text: "Lack of a professional map", val: "MAP", score: 10 }
             ]},
-            { key: "goal", question: "What is the primary target?", options: [
-                { text: "Shedding fat & transforming physique", val: "FATLOSS", score: 20 },
-                { text: "Building muscle & absolute strength", val: "STRENGTH", score: 20 }
-            ]},
-            { key: "partnership", question: "What level of coach access do you need?", options: [
-                { text: "Total Partnership (1-1 Management)", val: "PREMIUM", score: 50 },
-                { text: "Collaborative (Subscription + Community)", val: "HYBRID", score: 20 },
-                { text: "Independent (Self-Guided)", val: "SELF", score: 5 }
+            { key: "partnership", question: "Required support level?", options: [
+                { text: "Total Partnership (1-1)", val: "PREMIUM", score: 50 },
+                { text: "Hybrid (App + Community)", val: "HYBRID", score: 20 },
+                { text: "Independent (Blueprint)", val: "SELF", score: 5 }
             ]}
         ];
 
-        const transitions = {
-            2: { title: "The Strategy", msg: "Next, let's look at your specific goal and physical readiness." },
-            4: { title: "The Logistics", msg: "Final step: defining your level of investment and support." }
-        };
-
         window.onload = () => {
-            setTimeout(() => {
-                document.getElementById('initial-loader').style.opacity = '0';
-                setTimeout(() => document.getElementById('initial-loader').style.display='none', 500);
-                renderWelcome();
-            }, 1500);
+            const messages = ["Analyzing Hardware...", "Checking Systems...", "Optimizing Path..."];
+            let i = 0;
+            const cycle = setInterval(() => {
+                document.getElementById('loader-sub-text').innerText = messages[i++];
+                if(i === messages.length) {
+                    clearInterval(cycle);
+                    setTimeout(() => {
+                        document.getElementById('initial-loader').style.opacity = '0';
+                        setTimeout(() => {
+                            document.getElementById('initial-loader').style.display='none';
+                            renderWelcome();
+                        }, 800);
+                    }, 1000);
+                }
+            }, 600);
         };
 
         function renderWelcome() {
             document.getElementById('content-area').innerHTML = `
-                <div class="animate-in space-y-6">
-                    <p class="text-neutral-300 text-lg">Stop guessing. Map your baseline against your ultimate goals in 2 minutes.</p>
-                    <button onclick="renderQuestion()" class="action-button w-full py-6 rounded-2xl tracking-widest">START CONSULTATION</button>
+                <div class="animate-in space-y-8">
+                    <h2 class="text-4xl font-black italic uppercase text-white leading-tight">Map Your<br><span class="text-green-500">Body Software</span></h2>
+                    <p class="text-neutral-400 text-sm leading-relaxed tracking-wide">Enter the consultation to determine the optimal integration for your current baseline and ultimate targets.</p>
+                    <button onclick="startQuiz()" class="action-button w-full py-6 rounded-xl">INITIALIZE</button>
                 </div>`;
+        }
+
+        function startQuiz() {
+            document.getElementById('progress-container').classList.remove('opacity-0');
+            renderQuestion();
         }
 
         function renderQuestion() {
-            if (transitions[currentStep]) { renderTransition(); return; }
             if (currentStep >= quizData.length) { renderPersonalization(); return; }
-            
             const q = quizData[currentStep];
             updateProgress();
+            
             document.getElementById('content-area').innerHTML = `
                 <div class="animate-in space-y-6">
+                    <p class="text-[10px] font-black text-green-500 uppercase tracking-[0.4em]">Step 0${currentStep + 1}</p>
                     <h2 class="text-3xl font-black italic uppercase text-white">${q.question}</h2>
                     <div class="space-y-3" id="options"></div>
                 </div>`;
+
             q.options.forEach(opt => {
                 const btn = document.createElement('button');
-                btn.className = "option-button w-full p-5 rounded-2xl text-left font-bold";
-                btn.innerHTML = `<span>${opt.text}</span><span class="text-green-500">→</span>`;
-                btn.onclick = () => { userAnswers.push({key: q.key, val: opt.val, text: opt.text}); totalScore += opt.score; currentStep++; renderQuestion(); };
+                btn.className = "option-button w-full p-6 rounded-2xl text-left flex justify-between items-center group";
+                btn.innerHTML = `<span class="font-bold text-sm uppercase tracking-widest">${opt.text}</span><span class="text-green-500 opacity-0 group-hover:opacity-100 transition-opacity">→</span>`;
+                btn.onclick = () => {
+                    userAnswers.push({key: q.key, val: opt.val, text: opt.text});
+                    totalScore += opt.score;
+                    currentStep++;
+                    renderQuestion();
+                };
                 document.getElementById('options').appendChild(btn);
             });
-        }
-
-        function renderTransition() {
-            const t = transitions[currentStep];
-            delete transitions[currentStep];
-            document.getElementById('content-area').innerHTML = `
-                <div class="animate-in text-center space-y-6 py-10">
-                    <h2 class="text-4xl font-black italic uppercase text-white">${t.title}</h2>
-                    <p class="text-neutral-400">${t.msg}</p>
-                    <button onclick="renderQuestion()" class="action-button px-10 py-4 rounded-2xl text-xs">CONTINUE</button>
-                </div>`;
         }
 
         function updateProgress() {
             const p = (currentStep / quizData.length) * 100;
             document.getElementById('progress-bar-fill').style.width = p + "%";
             document.getElementById('progress-percent').textContent = Math.round(p) + "%";
-            document.getElementById('progress-text-label').textContent = `Step ${currentStep + 1} of ${quizData.length}`;
         }
 
         function renderPersonalization() {
             document.getElementById('content-area').innerHTML = `
-                <form id="final-form" onsubmit="submitAssessment(event)" class="animate-in space-y-6">
+                <form onsubmit="submitLead(event)" class="animate-in space-y-6">
                     <h2 class="text-3xl font-black italic uppercase text-white">Review Profile</h2>
-                    <input type="text" id="name" placeholder="YOUR NAME" required class="custom-input w-full p-5 rounded-2xl font-bold uppercase tracking-widest">
-                    <input type="email" id="email" placeholder="YOUR EMAIL" required class="custom-input w-full p-5 rounded-2xl font-bold uppercase tracking-widest">
-                    <button type="submit" class="action-button w-full py-6 rounded-2xl">VIEW ANALYSIS</button>
+                    <div class="space-y-4">
+                        <input type="text" id="name" placeholder="NAME" required class="w-full bg-white/5 border border-white/10 p-5 rounded-xl text-white font-bold uppercase tracking-widest outline-none focus:border-green-500/50 transition-colors">
+                        <input type="email" id="email" placeholder="EMAIL" required class="w-full bg-white/5 border border-white/10 p-5 rounded-xl text-white font-bold uppercase tracking-widest outline-none focus:border-green-500/50 transition-colors">
+                    </div>
+                    <button type="submit" class="action-button w-full py-6 rounded-xl">GENERATE ANALYSIS</button>
                 </form>`;
         }
 
-        async function submitAssessment(e) {
+        async function submitLead(e) {
             e.preventDefault();
             clientName = document.getElementById('name').value;
             const email = document.getElementById('email').value;
             
-            document.getElementById('content-area').innerHTML = `<div class="text-center py-20"><div class="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-green-500"></div><p class="mt-4 text-xs tracking-widest text-green-500">CALCULATING VISION...</p></div>`;
+            document.getElementById('content-area').innerHTML = `<div class="text-center py-20 animate-pulse"><p class="text-xs tracking-[0.5em] text-green-500 uppercase">Compiling Data...</p></div>`;
 
             const results = calculateResults();
-            
-            // Send Email to Coach
-            const payload = { _subject: `NEW LEAD: ${clientName}`, Name: clientName, Email: email, Result: results.primary.title, Score: totalScore };
+            const payload = { Name: clientName, Email: email, Result: results.primary.title };
             userAnswers.forEach(a => payload[a.key] = a.text);
-            
-            try { await fetch(`https://formsubmit.co/ajax/${COACH_EMAIL}`, { method: "POST", headers: {'Content-Type': 'application/json'}, body: JSON.stringify(payload)}); } 
-            catch(e) { console.log("Silent fail"); }
 
-            setTimeout(() => renderFinalResults(results), 1500);
+            try { await fetch(`https://formsubmit.co/ajax/${COACH_EMAIL}`, { method: "POST", headers: {'Content-Type': 'application/json'}, body: JSON.stringify(payload)}); } catch(e) {}
+
+            setTimeout(() => renderFinal(results), 1200);
         }
 
         function calculateResults() {
             const barrier = userAnswers.find(a => a.key === "barrier").val;
             const partner = userAnswers.find(a => a.key === "partnership").val;
-            const exp = userAnswers.find(a => a.key === "experience").val;
-
-            let p = { title: "PROGRAM LIBRARY", url: "https://coachchriscrc.github.io/programs-lp/", color: "text-neutral-400", why: "You thrive on independence and just need the map." };
-            let s = null;
-
+            
             if (barrier === "INJURY" || partner === "PREMIUM") {
-                p = { title: "1-1 ONLINE COACHING", url: "https://coachchriscrc.github.io/oc-lp/", color: "text-green-400", why: "Your needs require elite-level oversight and custom management." };
-                s = { title: "FSB Subscription", url: "https://coachchriscrc.github.io/fsb-lp/" };
-            } else if (exp === "BEGINNER") {
-                p = { title: "14-DAY FUNDAMENTALS", url: "https://coachchriscrc.github.io/14dayfundamentals-lp/", color: "text-orange-400", why: "You need a solid entry point to clear the rust before high intensity." };
-                s = { title: "6-Week Foundations", url: "https://coachchriscrc.github.io/6weekfoundations-lp/" };
-            } else if (partner === "HYBRID" || totalScore > 60) {
-                p = { title: "FSB SUBSCRIPTION", url: "https://coachchriscrc.github.io/fsb-lp/", color: "text-blue-400", why: "You want a professional engine to drive your training every month." };
-                s = { title: "1-1 Online Coaching", url: "https://coachchriscrc.github.io/oc-lp/" };
+                return { 
+                    primary: { title: "1-1 Online Coaching", url: "https://coachchriscrc.github.io/oc-lp/", color: "text-green-500", why: "Your profile requires ***Elite-Level*** oversight and absolute custom management." },
+                    alt: { title: "FSB Subscription", url: "https://coachchriscrc.github.io/fsb-lp/" }
+                };
             }
-
-            return { primary: p, secondary: s };
+            if (partner === "HYBRID" || totalScore > 40) {
+                return { 
+                    primary: { title: "FSB Subscription", url: "https://coachchriscrc.github.io/fsb-lp/", color: "text-blue-400", why: "You're ready for our ***Flagship Hybrid*** model—high performance with coach oversight." },
+                    alt: { title: "1-1 Online Coaching", url: "https://coachchriscrc.github.io/oc-lp/" }
+                };
+            }
+            return { 
+                primary: { title: "Program Library", url: "https://coachchriscrc.github.io/programs-lp/", color: "text-neutral-400", why: "The ***Independent Path***. You need the blueprints to execute at your own pace." },
+                alt: { title: "6-Week Foundations", url: "https://coachchriscrc.github.io/6weekfoundations-lp/" }
+            };
         }
 
-        function renderFinalResults(res) {
-            const vision = "In 90 days, you will have replaced 'trying' with 'doing'. Your movement will be fluid, your energy stable, and the guesswork that held you back will be a thing of the past.";
-            const wa = `https://wa.me/${WHATSAPP}?text=Hi Chris, it's ${clientName}. My result was ${res.primary.title}. Let's chat.`;
-            
+        function renderFinal(res) {
+            const wa = `https://wa.me/${WHATSAPP}?text=Hi Chris, it's ${clientName}. My result was ${res.primary.title}.`;
             document.getElementById('content-area').innerHTML = `
                 <div class="animate-in space-y-8">
                     <div class="text-center">
-                        <h2 class="text-4xl font-black italic uppercase text-white">YOUR PATH</h2>
-                        <p class="text-xs text-green-500 tracking-widest mt-2">ANALYSIS COMPLETE FOR ${clientName.toUpperCase()}</p>
+                        <h2 class="text-xs font-black text-green-500 tracking-[0.4em] uppercase mb-2">Analysis Complete</h2>
+                        <h3 class="text-4xl font-black italic text-white uppercase tracking-tighter">${res.primary.title}</h3>
                     </div>
-                    <div class="p-8 rounded-3xl bg-white/5 border border-white/10 space-y-6">
-                        <h3 class="text-3xl font-black ${res.primary.color} uppercase tracking-tighter">${res.primary.title}</h3>
-                        <p class="text-neutral-300 text-sm italic">"${res.primary.why}"</p>
-                        <p class="text-neutral-400 text-xs leading-relaxed">${vision}</p>
-                        <div class="flex flex-col gap-4 pt-4">
-                            <a href="${res.primary.url}" target="_blank" class="action-button block py-5 rounded-2xl no-underline text-center text-sm">CLAIM YOUR SPOT</a>
-                            <a href="${wa}" target="_blank" class="whatsapp-button block py-4 rounded-2xl no-underline text-center text-xs">WHATSAPP COACH CHRIS</a>
+                    <div class="bg-white/5 border border-white/10 p-6 rounded-2xl">
+                        <p class="text-neutral-300 text-sm leading-relaxed mb-6 italic">"${res.primary.why.replace(/\*\*\*(.*?)\*\*\*/g, '<b class="text-white">$1</b>')}"</p>
+                        <div class="flex flex-col gap-3">
+                            <a href="${res.primary.url}" target="_blank" class="action-button block py-5 rounded-xl text-center no-underline text-xs">Access Your Path</a>
+                            <a href="${wa}" target="_blank" class="bg-white/5 hover:bg-white/10 text-white py-4 rounded-xl text-center no-underline text-[10px] font-bold uppercase tracking-widest transition-all">Message Coach Chris</a>
                         </div>
                     </div>
-                    ${res.secondary ? `<div class="text-center pt-4"><p class="text-[10px] text-neutral-500 uppercase tracking-widest mb-2">Alternative Option</p><a href="${res.secondary.url}" class="text-xs text-neutral-400 underline uppercase">${res.secondary.title}</a></div>` : ''}
+                    <div class="text-center">
+                        <p class="text-[10px] text-neutral-500 uppercase tracking-widest mb-2">Alternative Integration</p>
+                        <a href="${res.alt.url}" class="text-xs text-neutral-300 underline uppercase italic font-bold">${res.alt.title}</a>
+                    </div>
                 </div>`;
         }
     </script>
