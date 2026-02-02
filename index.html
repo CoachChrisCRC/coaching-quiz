@@ -356,8 +356,8 @@
                 summaryLabel: "Primary Goal", 
                 options: [
                     { text: "Absolute confidence in how my clothes fit and my body looks", short: "Physique Confidence", score: 30 }, 
-                    { text: "The 'unstoppable' feeling of raw physical strength", short: "Raw Strength", score: 20 }, 
-                    { text: "Waking up with a deep surplus of energy for my family and work", short: "High Energy", score: 10 }, 
+                    { text: "The grounded feeling of being physically capable and strong", short: "Functional Strength", score: 20 }, 
+                    { text: "Waking up with a surplus of energy for my family, work, and social life", short: "High Energy", score: 10 }, 
                     { text: "The peace of mind that comes with a consistent, healthy routine", short: "Consistency & Peace", score: 5 }
                 ] 
             },
@@ -368,9 +368,9 @@
                 summaryLabel: "Your 'Why'", 
                 options: [
                     { text: "I'd stop hiding in the back of photos and lead with confidence", short: "Self-Confidence", score: 25, whyId: 'CONFIDENCE' }, 
-                    { text: "I'd be the parent who actually plays with their kids, not just watches", short: "Family Vitality", score: 20, whyId: 'FAMILY' }, 
+                    { text: "I'd have the energy to be fully present for my kids and family", short: "Family Vitality", score: 20, whyId: 'FAMILY' }, 
                     { text: "I'd know I'm actively extending my healthy years on this planet", short: "Longevity", score: 30, whyId: 'HEALTH' }, 
-                    { text: "I'd finally have the physical edge to match my mental ambition", short: "Peak Performance", score: 5, whyId: 'PERFORMANCE' }
+                    { text: "I'd have the physical capacity to enjoy my social life and hobbies to the fullest", short: "Active Lifestyle", score: 5, whyId: 'SOCIAL' }
                 ] 
             },
 
@@ -378,24 +378,24 @@
             { 
                 id: 3, 
                 section: "Phase 2: The Reality", 
-                question: "Be honest with yourself: why hasn't the 'perfect' version of you arrived yet?", 
+                question: "Be honest: what has been the biggest hurdle in reaching your goals so far?", 
                 key: "barrier", 
                 summaryLabel: "Main Barrier", 
                 options: [
                     { text: "I'm overwhelmed by options and lack a simple, effective plan", short: "Overwhelmed", score: 5 }, 
-                    { text: "I start strong, but fall off when life gets busy (Accountability)", short: "Follow-through", score: 20 }, 
-                    { text: "I'm training hard but my nutrition is a 'black box' I can't solve", short: "Nutrition Friction", score: 30 }, 
-                    { text: "I've hit a plateau and I'm bored with my current results", short: "Plateaued", score: 15 }
+                    { text: "I start strong, but fall off when life gets busy or social", short: "Consistency", score: 20 }, 
+                    { text: "I'm training but my nutrition feels like a 'black box' I can't solve", short: "Nutrition Friction", score: 30 }, 
+                    { text: "I've hit a plateau and I'm bored with my current routine", short: "Boredom/Plateau", score: 15 }
                 ] 
             },
             { 
                 id: 4, 
-                question: "When things get 'busy,' what is the first thing to suffer?", 
+                question: "When life gets 'loud' (work, kids, social events), what usually happens?", 
                 key: "lifestyle", 
                 options: [
-                    { text: "My consistency: I skip sessions until the 'time is right'", score: 30 }, 
-                    { text: "My nutrition: I default to whatever is fast and easy", score: 20 }, 
-                    { text: "My recovery: I sacrifice sleep and stress management", score: 10 }, 
+                    { text: "My consistency: I skip sessions until things 'calm down'", score: 30 }, 
+                    { text: "My nutrition: I default to whatever is fast and convenient", score: 20 }, 
+                    { text: "My recovery: I sacrifice sleep and feel more stressed", score: 10 }, 
                     { text: "Everything: I usually just stop and have to 'start over' later", score: 5 }
                 ] 
             },
@@ -404,25 +404,25 @@
             { 
                 id: 5, 
                 section: "Phase 3: The Philosophy", 
-                question: "Do you believe that 3 focused, full-body sessions are better than 6 'half-hearted' ones?", 
+                question: "Do you believe that 3 focused, efficient sessions are better than 6 'half-hearted' ones?", 
                 key: "commitment", 
                 summaryLabel: "Commitment", 
                 options: [
                     { text: "Absolutely. I value efficiency and 'minimum effective dose'", short: "Efficiency First", score: 20 }, 
-                    { text: "I'm ready to commit to whatever it takes, even high frequency", short: "High Commitment", score: 30 }, 
+                    { text: "I'm ready to commit to a higher frequency if it's the right path", short: "High Commitment", score: 30 }, 
                     { text: "I need to be convinced—I've always been told more is better", short: "Skeptical/New", score: 10 },
-                    { text: "I just need a rhythm I can actually stick to long-term", short: "Sustainable Rhythm", score: 5 }
+                    { text: "I just need a rhythm I can actually stick to alongside real life", short: "Sustainable Rhythm", score: 5 }
                 ] 
             },
             { 
                 id: 6, 
-                question: "How do you feel about the 'Minimalist Full Body' approach—focusing on big moves for big results?", 
+                question: "How do you feel about a 'Minimalist' approach—focusing on big moves for sustainable results?", 
                 key: "experience", 
                 summaryLabel: "Experience", 
                 options: [
                     { text: "I'm a beginner; I need you to show me the way", short: "Beginner", score: 5, expId: 'BEGINNER' }, 
                     { text: "I've done it before and it works—I just need a better plan", short: "Returning", score: 15, expId: 'RETURNING' }, 
-                    { text: "I'm experienced and ready to optimize for elite performance", short: "Experienced", score: 30, expId: 'EXPERIENCED' }
+                    { text: "I'm experienced and ready to optimize my current results", short: "Experienced", score: 30, expId: 'EXPERIENCED' }
                 ] 
             },
             { 
@@ -431,7 +431,7 @@
                 key: "pastExp", 
                 options: [
                     { text: "I’ve never followed a real plan; I just 'wing it'", score: 5, category: 'NEW' },
-                    { text: "I’ve tried PDFs/Apps but they felt robotic and disconnected", score: 15, category: 'FRICTION' },
+                    { text: "I’ve tried PDFs/Apps but they felt disconnected from my life", score: 15, category: 'FRICTION' },
                     { text: "I’ve worked with a coach and know that's where the results are", score: 30, category: 'COACHED' },
                     { text: "I’m currently training but I feel like I'm just spinning my wheels", score: 20, category: 'PLATEAU' }
                 ] 
@@ -441,10 +441,10 @@
                 question: "Which of these best describes your current nutrition status?", 
                 key: "nutrition", 
                 options: [
-                    { text: "I'm ready for a total overhaul and a strict strategy", score: 10 }, 
+                    { text: "I'm ready for a total overhaul and a clear strategy", score: 10 }, 
                     { text: "I eat 'okay' but I'm missing the structure to see real change", score: 20 }, 
-                    { text: "I track everything and just need refinement for performance", score: 30 }, 
-                    { text: "I'm overwhelmed by food and don't know where to start", score: 5 }
+                    { text: "I track everything and just need refinement for better energy", score: 30 }, 
+                    { text: "I'm overwhelmed by food choices and don't know where to start", score: 5 }
                 ] 
             },
 
@@ -452,13 +452,13 @@
             { 
                 id: 9, 
                 section: "Phase 4: The Logistics", 
-                question: "Where will your transformation take place?", 
+                question: "Where will your training take place?", 
                 key: "location", 
                 options: [
                     { text: "A fully equipped commercial or home gym", score: 30 }, 
                     { text: "At home with minimal kit (dumbbells/kettlebells)", score: 10 }, 
                     { text: "Mostly bodyweight or outdoor training", score: 20 }, 
-                    { text: "It's a mix: I travel often or move around", score: 5 }
+                    { text: "It's a mix: I travel often or move around for work/pleasure", score: 5 }
                 ] 
             },
             { 
@@ -482,7 +482,7 @@
                     { text: "Total Partnership: 1-1 access to manage every variable", short: "1-1 Premium", score: 30, budgetId: 'PREMIUM' }, 
                     { text: "Collaborative: Group accountability and expert programming", short: "Collaborative", score: 20, budgetId: 'MID' }, 
                     { text: "Independent: Just give me the tools and I'll do the work", short: "Independent", score: 10, budgetId: 'ENTRY' }, 
-                    { text: "I want to see what you recommend based on my goals", short: "Flexible", score: 25, budgetId: 'FLEX' }
+                    { text: "I want to see what you recommend based on my life", short: "Flexible", score: 25, budgetId: 'FLEX' }
                 ] 
             },
             { 
@@ -502,17 +502,17 @@
             { 
                 triggerIndex: 2, 
                 title: "Reality Check", 
-                message: "Powerful vision. Now, let’s get honest about what has been standing in your way so we can tear those walls down for good." 
+                message: "Great vision. Now, let’s get honest about the hurdles so we can build a path that actually fits your lifestyle." 
             },
             { 
                 triggerIndex: 4, 
                 title: "The Pivot", 
-                message: "Understood. It's time to shift our focus. Let's see if you're ready to embrace a smarter, more minimalist way of training." 
+                message: "Understood. Let's look at how we can train smarter, not just longer, to get you where you want to be." 
             },
             { 
                 triggerIndex: 8, 
                 title: "Final Details", 
-                message: "Almost there. I just need a few logistical details to determine exactly where you fit in the #FSB hierarchy." 
+                message: "Almost there. Just a few logistical details to see which #FSB path suits you best." 
             }
         ];
 
@@ -525,8 +525,8 @@
             if (title.includes(TIER_1_TITLE)) {
                 return {
                     title: TIER_1_TITLE,
-                    description: "Your goals require maximum accountability and highly specific programming. This is the premium, fully tailored solution designed to adapt to your lifestyle and ensure rapid, consistent progress.",
-                    briefOverview: "Exclusive 1-on-1 coaching offering fully customized training and nutrition programming built specifically for you. Includes weekly in-depth check-ins, unlimited direct messaging with Coach Chris, and dynamic program adjustments.", 
+                    description: "Your goals require maximum accountability and a highly personalized approach. This is the premium solution designed to adapt to your specific lifestyle, whether you're juggling a career, family, or a busy social life.",
+                    briefOverview: "Exclusive 1-on-1 coaching offering fully customized training and nutrition programming. Includes weekly in-depth check-ins, unlimited direct messaging with Coach Chris, and dynamic adjustments based on your real-world progress.", 
                     accentColor: "text-green-400",
                     ctaLink: "https://coachchriscrc.github.io/oc-lp",
                     requiresCall: true,
@@ -535,8 +535,8 @@
             } else if (title.includes(FOUNDATIONS_TITLE)) {
                 return {
                     title: FOUNDATIONS_TITLE,
-                    description: "You need a clear starting line. This pathway is designed specifically for those starting fresh or returning to training. We start with a free trial to build your confidence before moving into our structured group foundations.",
-                    briefOverview: "Begin with our **Free 14-Day Fundamentals** trial to master the basics. This leads directly into our **6-Week Foundations Program (£99)**—a coach-guided online group experience that builds your absolute base for long-term health.",
+                    description: "You need a clear, sustainable starting line. This pathway is designed for those starting fresh or returning after a break. We build your confidence first, then move into a structured routine.",
+                    briefOverview: "Begin with our **Free 14-Day Fundamentals** to master the basics. This leads directly into our **6-Week Foundations Program (£99)**—a coach-guided experience that builds a lasting base for your health and strength.",
                     accentColor: "text-orange-400",
                     ctaLink: "https://coachchriscrc.github.io/14dayfundamentals-lp",
                     requiresCall: false,
@@ -545,8 +545,8 @@
             } else if (title.includes(TIER_2_TITLE)) {
                 return {
                     title: TIER_2_TITLE,
-                    description: "You have clear goals and a moderate level of commitment. This service provides structured programming, personalized check-ins, and a perfect blend of accountability and flexibility.",
-                    briefOverview: "Access our Flagship Hybrid program (Strength, Endurance & Conditioning) via our dedicated app. This features custom nutrition targets, monthly progress check-ins with your coach, and ongoing community support.", 
+                    description: "You have clear goals and are ready for a structured rhythm. This service provides expert programming and group accountability, offering the perfect balance of flexibility and results.",
+                    briefOverview: "Access our Flagship Hybrid program (Strength, Endurance & Conditioning) via our dedicated app. Includes nutrition targets, monthly progress check-ins, and ongoing community support to keep you motivated.", 
                     accentColor: "text-blue-400",
                     ctaLink: "https://coachchriscrc.github.io/fsb-lp",
                     requiresCall: true,
@@ -555,8 +555,8 @@
             } else {
                 return {
                     title: TIER_3_TITLE,
-                    description: "You are seeking expert-designed, foundational guidance. Gain instant access to professionally built, self-paced training plans you can execute on your own schedule.",
-                    briefOverview: "Gain self-guided access to a library of diverse programs, including strength cycles, conditioning blocks, and WOD packs. Features full tutorials and movement demos—perfect for the independent trainee.", 
+                    description: "You are looking for expert-designed, foundational guidance you can follow at your own pace. Gain instant access to professionally built plans that fit your schedule.",
+                    briefOverview: "Gain self-guided access to a library of diverse programs, including strength and conditioning blocks. Features full tutorials and movement demos—perfect for the independent trainee who wants a proven plan.", 
                     accentColor: "text-neutral-300",
                     ctaLink: "https://coachchriscrc.github.io/programs-lp",
                     requiresCall: false,
@@ -583,7 +583,7 @@
 
             const primaryGoal = answers.find(a => a.key === 'primaryGoal')?.answer || '';
             const theWhy = answers.find(a => a.key === 'theWhy')?.answer || '';
-            const isHybridIntent = (primaryGoal.includes("raw physical strength") || primaryGoal.includes("surplus of energy")) && theWhy.includes("extending my healthy years");
+            const isHybridIntent = (primaryGoal.includes("functional strength") || primaryGoal.includes("surplus of energy")) && theWhy.includes("extending my healthy years");
 
             if (isHybridIntent && (budgetId === 'ENTRY' || supportPref.includes("trust"))) return getProgramDetailsByTitle(TIER_3_TITLE);
 
@@ -628,31 +628,31 @@
             const pastExp = answers.find(a => a.key === 'pastExp')?.answer || '';
             
             if (medical.includes("specialized attention")) {
-                let txt = `Because you reported an injury requiring specialized attention, I have prioritized the 1-1 Coaching path for you. A 'one-size-fits-most' approach is a high-risk strategy when your body is sending these signals. By choosing this 1-1 bridge, we don't just 'work around' your limitations—we build through them. This allows me to provide the bio-individual feedback and regressions necessary to ensure you stay in the game for the long run, turning a temporary hurdle into a bulletproof foundation.`;
+                let txt = `Because you reported an injury requiring specialized attention, I have prioritized the 1-1 Coaching path for you. A 'one-size-fits-most' approach is a high-risk strategy when your body is sending these signals. By choosing this 1-1 bridge, we don't just 'work around' your limitations—we build through them. This allows me to provide the specific feedback and regressions necessary to ensure you stay in the game for the long run.`;
                 return isCleanText ? txt : markdownToHtml(txt);
             }
 
             let goalPhrase = rawGoal;
             if (rawGoal.includes("clothes fit")) goalPhrase = "physique confidence and feeling good in your skin";
-            else if (rawGoal.includes("raw physical strength")) goalPhrase = "raw, functional strength";
-            else if (rawGoal.includes("surplus of energy")) goalPhrase = "reclaiming your energy levels";
-            else if (rawGoal.includes("peace of mind")) goalPhrase = "establishing a non-negotiable routine";
+            else if (rawGoal.includes("functional strength")) goalPhrase = "reliable, functional strength";
+            else if (rawGoal.includes("surplus of energy")) goalPhrase = "reclaiming your daily energy levels";
+            else if (rawGoal.includes("peace of mind")) goalPhrase = "establishing a sustainable, healthy routine";
 
             let barrierPhrase = rawBarrier;
-            if (rawBarrier.includes("overwhelmed by options")) barrierPhrase = "cutting through the noise of analysis paralysis";
-            else if (rawBarrier.includes("fall off when life gets busy")) barrierPhrase = "the accountability gap that breaks your momentum";
-            else if (rawBarrier.includes("nutrition is a 'black box'")) barrierPhrase = "the nutritional friction that stalls your progress";
-            else if (rawBarrier.includes("spinning my wheels")) barrierPhrase = "the plateau that comes from 'winging it'";
+            if (rawBarrier.includes("overwhelmed by options")) barrierPhrase = "cutting through the noise of too many choices";
+            else if (rawBarrier.includes("busy or social")) barrierPhrase = "the consistency gap that happens when life gets busy";
+            else if (rawBarrier.includes("nutrition is a 'black box'")) barrierPhrase = "the nutritional confusion that stalls your progress";
+            else if (rawBarrier.includes("spinning my wheels")) barrierPhrase = "the plateau that comes from lacking a clear plan";
 
             let expText = "";
-            if (expId === 'BEGINNER') expText = "As you are brand new to the full-body approach, we prioritize building competency over complexity. ";
-            else if (expId === 'RETURNING') expText = "Since you are returning to training, our focus is re-establishing your base without burnout. ";
-            else expText = "As an experienced trainee, your path focuses on refined precision to bypass your current plateau. ";
+            if (expId === 'BEGINNER') expText = "As you are brand new to this approach, we prioritize building confidence over complexity. ";
+            else if (expId === 'RETURNING') expText = "Since you are returning to training, our focus is re-establishing your base sustainably. ";
+            else expText = "As an experienced trainee, your path focuses on refined precision to move past your current plateau. ";
 
-            let rationale = `${expText}Based on your profile, we aren't just looking for a workout plan; we are specifically looking to solve **${barrierPhrase}**. The **${recommendationTitle}** path is strategically designed to bridge the gap between where you are and your goal of **${goalPhrase}**. By focusing on efficiency rather than just 'doing more,' we ensure your progress is sustainable.`;
+            let rationale = `${expText}Based on your profile, we aren't just looking for a workout plan; we are looking to solve **${barrierPhrase}**. The **${recommendationTitle}** path is strategically designed to bridge the gap between where you are and your goal of **${goalPhrase}**. By focusing on efficiency, we ensure your progress fits into your life rather than taking it over.`;
             
             if (pastExp.includes("struggled to stay consistent")) {
-                rationale += ` Since you've found consistency difficult in the past, this pathway includes the specific support layers required to break that cycle once and for all.`;
+                rationale += ` Since you've found consistency difficult in the past, this pathway includes the specific support layers required to help you stay on track.`;
             }
 
             return isCleanText ? rationale : markdownToHtml(rationale);
@@ -665,20 +665,20 @@
             let vision = "Three months (90 days) from now, if you remain consistent on this path: ";
             
             if (rawGoal.includes("clothes fit")) {
-                vision += "You will have completed your first successful 12-week transformation. You'll notice clothes fitting significantly better and have locked in the minimalist habits that make this change permanent, not a quick fix.";
-            } else if (rawGoal.includes("raw physical strength")) {
-                vision += "You will have established a rock-solid foundation of movement mechanics. You'll be lifting with more confidence and intent, and you'll already be seeing the first real signs of physical lean muscle development.";
+                vision += "You'll be finishing your first 12-week transformation. You'll notice your clothes fitting significantly better and you'll have locked in the habits that make this change lasting, not a quick fix.";
+            } else if (rawGoal.includes("functional strength")) {
+                vision += "You'll have a rock-solid foundation of movement. You'll be lifting with more confidence and intent, and you'll feel more physically capable in your day-to-day life.";
             } else if (rawGoal.includes("surplus of energy")) {
-                vision += "Your daily energy levels will have stabilized. You'll notice that you no longer need that afternoon crash to get through the day, and your capacity for work—both inside and outside the gym—will have noticeably increased.";
+                vision += "Your daily energy levels will be stabilized. You'll notice you're more productive at work and have plenty of 'gas in the tank' for your evenings and weekends.";
             } else {
-                vision += "The 'friction' of starting will be gone. You will have successfully integrated training into your weekly routine, moving from 'trying' to exercise to it being a non-negotiable part of your lifestyle.";
+                vision += "The 'friction' of starting will be gone. Training will be a natural, non-negotiable part of your weekly rhythm, giving you back a sense of control over your health.";
             }
 
             switch(theWhyId) {
-                case 'CONFIDENCE': vision += " Most importantly, you'll have proven to yourself that you can follow through, rebuilding that internal trust and confidence."; break;
+                case 'CONFIDENCE': vision += " Most importantly, you'll have proven to yourself that you can follow through, rebuilding that internal trust."; break;
                 case 'FAMILY': vision += " You'll feel the difference when playing with your kids or showing up for your partner—you'll simply have more of yourself to give."; break;
-                case 'HEALTH': vision += " You'll have successfully completed the most important quarter of your health journey: the one where you started."; break;
-                case 'PERFORMANCE': vision += " You'll be measuring progress in numbers and PRs, having built the momentum required for elite results."; break;
+                case 'HEALTH': vision += " You'll have successfully completed the most important phase of your health journey: the one where you started."; break;
+                case 'SOCIAL': vision += " You'll have the physical capacity to enjoy your social life and hobbies without feeling sluggish or held back."; break;
             }
 
             return vision;
@@ -691,19 +691,19 @@
             let d = '';
             
             if (medical.includes("specialized attention")) {
-                d = `If 1-1 Coaching is not feasible right now, the **${altRec.title}** pathway offers a structured starting point. However, this route requires you to be extra diligent with our movement tutorials and prioritize slow, controlled progression.`;
+                d = `If 1-1 Coaching is not feasible right now, the **${altRec.title}** pathway offers a structured starting point. However, this route requires you to be extra diligent with our movement tutorials and prioritize slow progression.`;
                 return markdownToHtml(d);
             }
 
             if (altRec.type === 'UPGRADE') {
-                if (altRec.priceId === 'PREMIUM') d = `For **maximum accountability** and total personalization, consider stepping up to **1-1 Coaching**. This is the ultimate fast-track for your specific hurdles.`;
+                if (altRec.priceId === 'PREMIUM') d = `For **maximum accountability** and total personalization, consider stepping up to **1-1 Coaching**. This is the most effective way to address your specific hurdles.`;
                 else if (altRec.title.includes(FOUNDATIONS_TITLE)) d = `If you prefer **guided coach support** and a risk-free trial, consider the **Foundations** path instead of self-guided training.`;
-                else d = `Once you've mastered the fundamentals, the **FSB Subscription** is the long-term home for hybrid strength and conditioning.`;
+                else d = `Once you've mastered the fundamentals, the **FSB Subscription** is the long-term home for consistent strength and conditioning.`;
             } else {
                 if (altRec.priceId === 'ENTRY') {
                     if (altRec.title.includes(FOUNDATIONS_TITLE)) d = `For a more **guided entry** back into fitness, start with our **Free 14-Day Fundamentals**.`;
-                    else if (expId === 'BEGINNER' || expId === 'RETURNING') d = `If you prefer a **self-paced, independent approach**, the **Program Library** offers expert-built beginner plans without the live intakes.`;
-                    else d = `If you prefer a more **budget-conscious, self-guided approach**, the **Program Library** provides our expert training plans at a lower monthly investment.`;
+                    else if (expId === 'BEGINNER' || expId === 'RETURNING') d = `If you prefer a **self-paced, independent approach**, the **Program Library** offers expert-built plans without the live intakes.`;
+                    else d = `If you prefer a more **budget-conscious, self-guided approach**, the **Program Library** provides our expert training plans at a lower investment.`;
                 } else d = `The **FSB Subscription** offers a balance of coach access and structure without the full premium investment of 1-1 coaching.`;
             }
             return markdownToHtml(d);
@@ -772,7 +772,7 @@
                                 <div class="bg-green-500/20 p-2 rounded-lg">
                                     <svg class="w-5 h-5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
                                 </div>
-                                <span class="text-xs font-bold text-white uppercase tracking-tight">Direct Performance Strategy</span>
+                                <span class="text-xs font-bold text-white uppercase tracking-tight">Sustainable Lifestyle Strategy</span>
                             </div>
                         </div>
                     </div>
@@ -1096,7 +1096,7 @@
 
                     ${alt ? `
                     <div class="pt-4 border-t border-white/5">
-                        <h3 class="text-[10px] font-black uppercase text-neutral-500 mb-4 tracking-widest">${alt.type === 'UPGRADE' ? 'Step Up For Better Results' : 'A More Affordable Alternative'}</h3>
+                        <h3 class="text-[10px] font-black uppercase text-neutral-500 mb-4 tracking-widest">${alt.type === 'UPGRADE' ? 'Step Up For Faster Results' : 'A More Affordable Alternative'}</h3>
                         <div class="flex flex-col gap-4">
                             <div>
                                 <span class="block text-xl font-black uppercase tracking-tight ${alt.accentColor} leading-tight">${alt.title}</span>
@@ -1114,7 +1114,7 @@
                                 <span class="w-6 h-6 flex items-center justify-center rounded-full text-[10px] font-black text-green-500 border border-green-500/30 bg-green-500/10 shrink-0">1</span>
                                 <div>
                                     <span class="text-white font-bold uppercase text-xs tracking-tight">Review your Recommendations</span>
-                                    <span class="block text-neutral-400 text-sm mt-1">Use the buttons above to learn more about your Recommended Path & reach out to Coach Chris if you have any questions.</span>
+                                    <span class="block text-neutral-400 text-sm mt-1">Use the buttons above to learn more about your path & reach out to Coach Chris if you have any questions.</span>
                                 </div>
                             </li>
                             <li class="flex gap-4">
@@ -1123,7 +1123,7 @@
                             </li>
                             <li class="flex gap-4">
                                 <span class="w-6 h-6 flex items-center justify-center rounded-full text-[10px] font-black text-green-500 border border-green-500/30 bg-green-500/10 shrink-0">3</span>
-                                <div><span class="text-white font-bold uppercase text-xs tracking-tight">Health Screening</span><span class="block text-neutral-400 text-sm mt-1">To ensure your safety, you'll complete a **Par-Q** inside the training app before we start.</span></div>
+                                <div><span class="text-white font-bold uppercase text-xs tracking-tight">Health Screening</span><span class="block text-neutral-400 text-sm mt-1">To ensure your safety, you'll complete a brief **Par-Q** screening before we start training.</span></div>
                             </li>
                         </ol>
                     </div>
